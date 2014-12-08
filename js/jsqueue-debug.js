@@ -1,3 +1,6 @@
+/**
+ *  jsqueue-debug.js (c) 2014 richard@nautoguide.com
+ */
 
 
 (function ($) {

@@ -1,3 +1,7 @@
+/**
+ *  jsqueue.js (c) 2014 richard@nautoguide.com
+ */
+
 function jsqueue() {
 
     this.construct = function () {
@@ -32,7 +36,7 @@ function jsqueue() {
 
 
     /**
-     *  Cleans any old items in the queue. These will be chained events that have not recieved a response after being
+     *  Cleans any old items in the queue. These will be chained events that have not received a response after being
      *  triggered
      */
     this.clean_queue = function () {

@@ -1,3 +1,7 @@
+/**
+ *  jsqueue-tools.js (c) 2014 richard@nautoguide.com
+ */
+
 (function ($) {
 
     "use strict";
