@@ -16,6 +16,8 @@
             "command": function (event, cmd, data) {
                 if (cmd == "TOOLS_REST_API")
                     self.call_api(data);
+                if (cmd == "TOOLS_UPDATE_VALUE")
+                    self.update_value(data);
             }
         });
         jsqueue.activate('TOOLS');
@@ -24,6 +26,11 @@
 
     jsTools.prototype = {
         constructor: jsTools,
+        update_value: function(data) {
+            $(data.element).val(JSON.stringify(data));
+            jsqueue.finished(data.PID);
+        },
+
         call_api: function (data) {
             var senddata = JSON.stringify(data.json);
             $.ajax({
