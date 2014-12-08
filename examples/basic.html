@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+    <title>Basic Example</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type='text/javascript' src='../js/jsqueue.js'></script>
+    <script type='text/javascript' src='../js/jsqueue-debug.js'></script>
+</head>
+<body>
+    <!-- Include our debug plugin -->
+    <div class="debug"></div>
+    <script>
+        /**
+         * Make a jsqueue object
+         */
+        jsqueue=new jsqueue();
+        /**
+         *  On load register the debug function then start all componenets
+         */
+        $(window).on('load', function () {
+            jsqueue.register('DEBUG','plugin','.debug','jsQueueDebug');
+            jsqueue.start_components();
+            jsqueue.add(
+                    {
+                        'component': 'DEBUG',
+                        'command': 'DEBUG_MSG',
+                        'data': {
+                            'caller': 'onload',
+                            'msg': 'Hello World',
+                            'state': 'info'
+                        },
+                        'chain': [
+                            {
+                                'component': 'DEBUG',
+                                'command': 'DEBUG_MSG',
+                                'data': {
+                                    'caller': 'chain1',
+                                    'msg': 'This is second',
+                                    'state': 'info'
+                                }
+                            },
+                            {
+                                'component': 'DEBUG',
+                                'command': 'DEBUG_MSG',
+                                'data': {
+                                    'caller': 'chain1',
+                                    'msg': 'This is third',
+                                    'state': 'info'
+                                }
+                            }
+
+                        ]
+                    }
+            )
+        });
+    </script>
+</body>
