@@ -45,7 +45,7 @@
             }
             if(typeof data.msg=='object') {
                 $(self.window.document.body).append('<span style="color: ' + color + '">' + data.caller + ':</span><br/>');
-                $(self.window.document.body).append(prettyPrint(data.msg));
+                $(self.window.document.body).append(JSON.stringify(data.msg));
             }
             else
                 $(self.window.document.body).append('<span style="color: ' + color + '">' + data.caller + '('+ $.now()+'):</span>' + data.msg + '<br/>');

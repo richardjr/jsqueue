@@ -22,6 +22,15 @@
             jsqueue.register('DEBUG','plugin','.debug','jsQueueDebug');
             jsqueue.register('TOOLS','plugin','.tools','jsTools');
             jsqueue.start_components();
+            /**
+             *  Add a simple queue
+             *
+             *  Display a debug message then call
+             *  an API endpoint
+             *
+             *  The Tools component provides a simple API endpoint AJAX call
+             *  that places any information on the stack
+             */
             jsqueue.add(
                     {
                         'component': 'DEBUG',
@@ -36,22 +45,10 @@
                                 'component': 'TOOLS',
                                 'command': 'TOOLS_REST_API',
                                 'data': {
-                                    'uri':'http://locahost/fail',
-                                    'data' : {
-                                        'foo':'bar'
-                                    }
-                                }
-                            },
-                            {
-                                'component': 'DEBUG',
-                                'command': 'DEBUG_MSG',
-                                'data': {
-                                    'caller': 'chain1',
-                                    'msg': 'This is third',
-                                    'state': 'info'
+                                    'uri':'http://jsonplaceholder.typicode.com/posts',
+                                    'data' : {}
                                 }
                             }
-
                         ]
                     }
             )

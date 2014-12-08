@@ -27,25 +27,22 @@
         call_api: function (data) {
             var senddata = JSON.stringify(data.json);
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: data.uri,
                 dataType: 'JSON',
                 data: senddata,
-                traditional: false,
                 async: true,
-                processData: false,
-                contentType: false,
-                success: function (data) {
+                success: function (rdata) {
                     jsqueue.push(data.PID, rdata);
                     jsqueue.finished(data.PID);
                     jsqueue.add({
                         'component': 'DEBUG',
                         'command': 'DEBUG_MSG',
-                        'data': {'caller': 'jsTools->call_api', 'msg': 'API Success', 'state': 'info'}
+                        'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
                     });
 
                 },
-                error: function (data) {
+                error: function (rdata) {
                     jsqueue.add({
                         'component': 'DEBUG',
                         'command': 'DEBUG_MSG',
