@@ -4,10 +4,12 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type='text/javascript' src='../js/jsqueue.js'></script>
     <script type='text/javascript' src='../js/jsqueue-debug.js'></script>
+    <script type='text/javascript' src='../js/jsqueue-tools.js'></script>
 </head>
 <body>
     <!-- Include our debug plugin -->
     <div class="debug"></div>
+    <div class="tools"></div>
     <script>
         /**
          * Make a jsqueue object
@@ -18,6 +20,7 @@
          */
         $(window).on('load', function () {
             jsqueue.register('DEBUG','plugin','.debug','jsQueueDebug');
+            jsqueue.register('TOOLS','plugin','.tools','jsTools');
             jsqueue.start_components();
             jsqueue.add(
                     {
@@ -30,12 +33,13 @@
                         },
                         'chain': [
                             {
-                                'component': 'DEBUG',
-                                'command': 'DEBUG_MSG',
+                                'component': 'TOOLS',
+                                'command': 'TOOLS_REST_API',
                                 'data': {
-                                    'caller': 'chain1',
-                                    'msg': 'This is second',
-                                    'state': 'info'
+                                    'uri':'http://locahost/fail',
+                                    'data' : {
+                                        'foo':'bar'
+                                    }
                                 }
                             },
                             {

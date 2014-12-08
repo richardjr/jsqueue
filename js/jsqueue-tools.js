@@ -10,8 +10,8 @@
         // Commands
         $(element).on({
             "command": function (event, cmd, data) {
-                if (cmd == "TOOL_REST_API")
-                    self.(data);
+                if (cmd == "TOOLS_REST_API")
+                    self.call_api(data);
             }
         });
         jsqueue.activate('TOOLS');
@@ -21,7 +21,6 @@
     jsTools.prototype = {
         constructor: jsTools,
         call_api: function (data) {
-            var self = this;
             var senddata = JSON.stringify(data.json);
             $.ajax({
                 type: 'POST',
