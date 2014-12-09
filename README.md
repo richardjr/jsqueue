@@ -1,20 +1,19 @@
-jsqueue
-=======
+# jsqueue
+
 
 Javascript Event Queue
 
 IMPORTANT: This is an alpha release, documentation and extra tools are on their way shortly.
 
-features
-========
+## features
 
 1. Queues are non-blocking giving control back to the UI making your application much more responsive
 2. Functions in the queue can be chained and pass data down the queue
 3. Queues can await a components ready state to prevent dependency issues
 4. Queues can request execution delays (same as timeout)
 
-Details
-=======
+## Details
+
 
 UI event queue chain developed by Nautoguide Ltd http://nautoguide.com to support our need for a responsive UI and complex event queues
 which are dependant on events and things that may or may not have happened. I spent a lot of time coding the same thing over and over in ajax based
@@ -35,13 +34,13 @@ the component is active at which point its forwarded the request. If the functio
 
 This way we just chuck everything that needs to happen in a queue and when it can happen it will.
 
-```
+```javascript
 // Make a REST API call and pass the data to a draw function
 
 jsqueue.add(
             {
-                'component': 'API',
-                'command': 'ID_CALL_API',
+                'component': 'TOOLS',
+                'command': 'TOOLS_REST_API',
                 'data': {
                     "json": {
 
@@ -54,7 +53,7 @@ jsqueue.add(
                 'chain': [
                     {
                         'component': 'MAP',
-                        'command': 'ID_REPORTS_DRAW_LIST',
+                        'command': 'TOOLS_UPDATE_VALUE',
                         'datamode': 'stack'
                     }
                 ]
