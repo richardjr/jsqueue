@@ -16,8 +16,7 @@
         // Commands
         $(element).on({
             "command": function (event, cmd, data) {
-                if (cmd == "DEBUG_MSG")
-                    self.msg(data);
+                self[cmd](data);
             }
         });
         jsqueue.activate('DEBUG');
@@ -26,7 +25,7 @@
 
     jsQueueDebug.prototype = {
         constructor: jsQueueDebug,
-        msg: function (data) {
+        DEBUG_MSG: function (data) {
             var self = this;
             var color = 'green';
             if (data.hasOwnProperty('state')) {

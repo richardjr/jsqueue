@@ -14,10 +14,7 @@
         // Commands
         $(element).on({
             "command": function (event, cmd, data) {
-                if (cmd == "TOOLS_REST_API")
-                    self.call_api(data);
-                if (cmd == "TOOLS_UPDATE_VALUE")
-                    self.update_value(data);
+                self[cmd](data);
             }
         });
         jsqueue.activate('TOOLS');
@@ -26,12 +23,12 @@
 
     jsTools.prototype = {
         constructor: jsTools,
-        update_value: function(data) {
+        TOOLS_UPDATE_VALUE: function(data) {
             $(data.element).val(JSON.stringify(data));
             jsqueue.finished(data.PID);
         },
 
-        call_api: function (data) {
+        TOOLS_REST_API: function (data) {
             var senddata = JSON.stringify(data.json);
             $.ajax({
                 type: 'GET',
