@@ -31,11 +31,14 @@
         TOOLS_REST_API: function (data) {
             var senddata = JSON.stringify(data.json);
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: data.uri,
                 dataType: 'JSON',
                 data: senddata,
                 async: true,
+                processData: false,
+                contentType: false,
+                traditional: false,
                 success: function (rdata) {
                     jsqueue.push(data.PID, rdata);
                     jsqueue.finished(data.PID);
