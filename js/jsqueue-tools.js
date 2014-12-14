@@ -10,6 +10,7 @@
         var self = this;
         self.options = options;
         self.$element = $(element);
+        self.token='INVALID';
 
         // Commands
         $(element).on({
@@ -29,7 +30,9 @@
         },
 
         TOOLS_REST_API: function (data) {
+            var self=this;
             var senddata={};
+            senddata['_token']=self.token;
 
             if(data.form) {
                 $(data.form+' .rest-field').each(function(i,ptr){
@@ -52,11 +55,14 @@
             $.ajax({
                 type: 'POST',
                 url: data.uri,
-                dataType: 'JSON',
                 data: senddata,
                 async: true,
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+                },
                 processData: false,
-                contentType: false,
+                contentType: "application/x-www-form-urlencoded",
                 traditional: false,
                 success: function (rdata) {
                     jsqueue.push(data.PID, rdata);
