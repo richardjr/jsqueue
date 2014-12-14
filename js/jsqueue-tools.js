@@ -10,7 +10,6 @@
         var self = this;
         self.options = options;
         self.$element = $(element);
-        self.token='INVALID';
 
         // Commands
         $(element).on({
@@ -32,7 +31,6 @@
         TOOLS_REST_API: function (data) {
             var self=this;
             var senddata={};
-            senddata['_token']=self.token;
 
             if(data.form) {
                 $(data.form+' .rest-field').each(function(i,ptr){
@@ -72,6 +70,7 @@
                         'command': 'DEBUG_MSG',
                         'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
                     });
+
 
                 },
                 error: function (rdata) {
