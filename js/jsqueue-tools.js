@@ -29,7 +29,26 @@
         },
 
         TOOLS_REST_API: function (data) {
-            var senddata = JSON.stringify(data.json);
+            var senddata={};
+
+            if(data.form) {
+                $(data.form+' .rest-field').each(function(i,ptr){
+                    var path=$(this).attr('data-send').split('.');
+                    var obj=senddata;
+                    for(var i=0;i<path.length;i++) {
+                        if(!obj[path[i]]&&path.length!=(i+1)) {
+                            obj[path[i]] = {};
+                            obj = obj[path[i]];
+                        }
+                        if(path.length==(i+1)) {
+                            obj[path[i]] = $(this).val();
+                        }
+                    }
+                });
+                senddata= JSON.stringify(senddata);
+            } else {
+                senddata = JSON.stringify(data.json);
+            }
             $.ajax({
                 type: 'POST',
                 url: data.uri,
