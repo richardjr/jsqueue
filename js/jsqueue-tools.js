@@ -37,16 +37,20 @@
                     var path=$(this).attr('data-send').split('.');
                     var obj=senddata;
                     for(var i=0;i<path.length;i++) {
-                        if(!obj[path[i]]&&path.length!=(i+1)) {
+                        if(!obj[path[i]]) {
                             obj[path[i]] = {};
-                            obj = obj[path[i]];
                         }
-                        if(path.length==(i+1)) {
-                            obj[path[i]] = $(this).val();
+                        if(path.length!=(i+1))
+                            obj = obj[path[i]];
+                        else {
+                            obj[path[i]]=$(this).val();
+                            break;
                         }
                     }
                 });
+                console.log(senddata);
                 senddata= JSON.stringify(senddata);
+
             } else {
                 senddata = JSON.stringify(data.json);
             }
