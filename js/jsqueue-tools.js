@@ -29,7 +29,8 @@
         },
 
         TOOLS_DISPLAY_TEMPLATE: function(data) {
-
+            $(data.element).html($(data.template).render(data));
+            jsqueue.finished(data.PID);
         },
 
         TOOLS_REST_API: function (data) {
