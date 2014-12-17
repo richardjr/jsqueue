@@ -78,7 +78,7 @@ function jsqueue() {
 
         $('.jsqueue').each(function(i,ptr){
             var data=$(this).data();
-            self.components[data.name]={'mode':'plugin','aclass':'.'+data.name,'afunction':data.plugin,'state':'inactive'};
+            self.components[data['jsq_name']]={'mode':'plugin','aclass':'.'+data['jsq_name'],'afunction':data['jsq_plugin'],'state':'inactive'};
         });
 
         /**
