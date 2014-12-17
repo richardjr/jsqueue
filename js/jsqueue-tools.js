@@ -33,6 +33,13 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_ADD_EVENTS: function(data) {
+            for(var i=0;i<data.triggers.length;i++) {
+                $(data.triggers[i].aclass)[data.triggers[i].atrigger](data.triggers[i].afunction);
+            }
+            jsqueue.finished(data.PID);
+        },
+
         TOOLS_REST_API: function (data) {
             var self=this;
             var senddata={};
