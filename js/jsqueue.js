@@ -71,6 +71,19 @@ function jsqueue() {
      */
     this.start_components = function () {
         var self = this;
+
+        /**
+         *  Find any with the jsqueue class to add
+         */
+
+        $('.jsqueue').each(function(i,ptr){
+            var data=$(this).data();
+            self.components[data.name]={'mode':'plugin','aclass':'.'+data.name,'afunction':data.plugin,'state':'inactive'};
+        });
+
+        /**
+         *  Now start them all up
+         */
         for (var i in self.components) {
             if(self.components[i].mode!='object')
                 $(self.components[i].aclass)[self.components[i].afunction]($(self.components[i].aclass).data());

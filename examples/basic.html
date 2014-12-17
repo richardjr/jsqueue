@@ -8,8 +8,8 @@
 </head>
 <body>
     <!-- Include our debug & tools plugin -->
-    <div class="debug"></div>
-    <div class="tools"></div>
+    <div class="DEBUG jsqueue" data-name="DEBUG" data-plugin="jsQueueDebug"></div>
+    <div class="TOOLS jsqueue" data-name="TOOLS" data-plugin="jsTools"></div>
     <h1>jqueue Example 1</h1>
     <h2>Results of stack output to textbox after api call</h2>
     <textarea id="results" cols="120" rows="60">
@@ -24,8 +24,6 @@
          *  On load register the debug function then start all componenets
          */
         $(window).on('load', function () {
-            jsqueue.register('DEBUG','plugin','.debug','jsQueueDebug');
-            jsqueue.register('TOOLS','plugin','.tools','jsTools');
             jsqueue.start_components();
             /**
              *  Add a simple queue

@@ -28,6 +28,10 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_DISPLAY_TEMPLATE: function(data) {
+
+        },
+
         TOOLS_REST_API: function (data) {
             var self=this;
             var senddata={};
