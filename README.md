@@ -12,6 +12,17 @@ IMPORTANT: This is an alpha release, documentation and extra tools are on their 
 3. Queues can await a components ready state to prevent dependency issues
 4. Queues can request execution delays (same as timeout)
 
+## Requirements
+
+jquery - https://jquery.com/ (not included in this distro, the example link to code hosted versions)
+> because js isn't fun without it
+
+prettyPrint - https://github.com/padolsey/prettyPrint.js/tree/master (included)
+> we use this in the debugger for pretty output
+
+jsrender - https://github.com/BorisMoore/jsrender (included)
+> We use this for templating html. Great lib, if you haven't used it before I suggest taking a look
+
 ## Details
 
 
