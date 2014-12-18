@@ -85,7 +85,7 @@ function jsqueue() {
          *  Now start them all up
          */
         for (var i in self.components) {
-            if(self.components[i].mode!='object')
+            if(self.components[i].mode=='plugin')
                 $(self.components[i].aclass)[self.components[i].afunction]($(self.components[i].aclass).data());
         }
     }
