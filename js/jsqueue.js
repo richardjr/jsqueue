@@ -169,24 +169,23 @@ function jsqueue() {
      */
     this.add = function (data) {
         var self = this;
-        data.state = 'queued';
-        data.time = $.now();
-        if (!data.stack)
-            data.stack = [];
-        if (!data.data)
-            data.data = {};
-        self.queue.push(data);
-
+        var ddata= $.extend({},data);
+        ddata.state = 'queued';
+        ddata.time = $.now();
+        if (!ddata.stack)
+            ddata.stack = [];
+        if (!ddata.data)
+            ddata.data = {};
+        self.queue.push(ddata);
         self.process();
-        self.clean_queue();
+
 
     }
     /**
      *  Run the current queue
      */
-    this.process = function () {
+    this.process = function (self) {
         var self = this;
-
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].component == 'BROADCAST') {
                 self.queue[i].state = 'running';
@@ -216,6 +215,7 @@ function jsqueue() {
                      */
                     self.queue[i].state = 'running';
                     self.queue[i].data.PID = self.pid;
+
                     var myqueue = self.queue[i];
                     self.pid++;
                     var timeout = myqueue.data.timer || 10;
@@ -225,16 +225,8 @@ function jsqueue() {
                     if (myqueue.datamode == 'allstack') {
                         myqueue.data.stack = myqueue.stack;
                     }
-                    if (self.components[myqueue.component].mode != 'object')
-                        setTimeout(function () {
-                            $(self.components[myqueue.component].aclass).trigger('command', [myqueue.command, myqueue.data])
-                        }, timeout);
-                    else {
-                        var ptrobj = self.components[myqueue.component].object;
-                        setTimeout(function () {
-                            ptrobj[myqueue.command](myqueue.data)
-                        }, timeout);
-                    }
+
+                    self.launch_queue_item(myqueue.mode,myqueue.component,myqueue.command,myqueue.data,timeout);
                     if (myqueue.hasOwnProperty('chain')) {
                         myqueue.state = 'triggered';
                         if (myqueue.component != 'DEBUG')
@@ -264,7 +256,25 @@ function jsqueue() {
                 }
             }
         }
+        self.clean_queue();
     }
+    /**
+     *  We use an intermedia function to launch as timeout will use the variable state in a loop
+     */
+    this.launch_queue_item =function (mode,component,command,data,timeout) {
+        var self=this;
+        if (mode != 'object') {
+            setTimeout(function () {
+                $(self.components[component].aclass).trigger('command', [command, data])
+            }, timeout);
+        } else {
+            var ptrobj = self.components[component].object;
+            setTimeout(function () {
+                ptrobj[command](data)
+            }, timeout);
+        }
+    }
+
     this.set_by_pid = function (pid, qdata) {
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].data.PID == pid) {
@@ -330,12 +340,12 @@ function jsqueue() {
         /**
          *  Force a queue proccess to send out any commands that are waiting by adding a debug into the queue
          */
-        self.process();
         self.add({
             'component': 'DEBUG',
             'command': 'DEBUG_MSG',
             'data': {'caller': 'jsqueue>activate', 'msg': 'Component ' + component + ' Reports Active', 'state': 'info'}
         });
+
     }
 
     this.construct();
