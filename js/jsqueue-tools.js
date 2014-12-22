@@ -37,6 +37,7 @@
             for(var i=0;i<data.triggers.length;i++) {
                 $(data.triggers[i].aclass)[data.triggers[i].atrigger](data.triggers[i].afunction);
             }
+            data.global();
             jsqueue.finished(data.PID);
         },
 
