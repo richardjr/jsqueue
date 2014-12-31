@@ -225,8 +225,7 @@ function jsqueue() {
                     if (myqueue.datamode == 'allstack') {
                         myqueue.data.stack = myqueue.stack;
                     }
-
-                    self.launch_queue_item(myqueue.mode,myqueue.component,myqueue.command,myqueue.data,timeout);
+                    self.launch_queue_item(myqueue.component,myqueue.command,myqueue.data,timeout);
                     if (myqueue.hasOwnProperty('chain')) {
                         myqueue.state = 'triggered';
                         if (myqueue.component != 'DEBUG')
@@ -261,13 +260,14 @@ function jsqueue() {
     /**
      *  We use an intermedia function to launch as timeout will use the variable state in a loop
      */
-    this.launch_queue_item =function (mode,component,command,data,timeout) {
+    this.launch_queue_item =function (component,command,data,timeout) {
         var self=this;
-        if (mode != 'object') {
+        if (self.components[component].mode != 'object') {
             setTimeout(function () {
                 $(self.components[component].aclass).trigger('command', [command, data])
             }, timeout);
         } else {
+            console.log('object launch');
             var ptrobj = self.components[component].object;
             setTimeout(function () {
                 ptrobj[command](data)
