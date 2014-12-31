@@ -41,6 +41,8 @@
             jsqueue.finished(data.PID);
         },
 
+       // TOOLS_RELOAD_PAGE:
+
         TOOLS_REST_API: function (data) {
             var self=this;
             var senddata={};
