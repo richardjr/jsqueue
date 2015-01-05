@@ -267,7 +267,6 @@ function jsqueue() {
                 $(self.components[component].aclass).trigger('command', [command, data])
             }, timeout);
         } else {
-            console.log('object launch');
             var ptrobj = self.components[component].object;
             setTimeout(function () {
                 ptrobj[command](data)

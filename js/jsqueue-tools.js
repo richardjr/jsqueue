@@ -63,7 +63,6 @@
                         }
                     }
                 });
-                console.log(senddata);
                 senddata= JSON.stringify(senddata);
 
             } else {
