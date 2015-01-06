@@ -27,7 +27,20 @@
             $(data.element).val(JSON.stringify(data));
             jsqueue.finished(data.PID);
         },
+        /**
+         * Taking input data and put some into registers for later use maybe oin another queue
+         * @param data
+         * @constructor
+         */
+        TOOLS_REG_DATA: function(data) {
 
+        },
+
+        /**
+         * Display a
+         * @param data
+         * @constructor
+         */
         TOOLS_DISPLAY_TEMPLATE: function(data) {
             $(data.element).html($(data.template).render(data));
             jsqueue.finished(data.PID);

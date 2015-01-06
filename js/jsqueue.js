@@ -61,6 +61,21 @@ function jsqueue() {
     }
 
     /**
+     *  Get a global register with option to clear (true)
+     * @param name
+     * @param mode
+     * @returns {*}
+     */
+    this.get_reg = function (name,mode) {
+        var self = this;
+        mode=mode||false;
+        var ret=self.registers[name];
+        if(mode)
+            delete self.registers[name];
+        return ret;
+    }
+
+    /**
      *  Clear a global register
      * @param name
      */
