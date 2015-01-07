@@ -21,10 +21,17 @@
 
     }
 
+
     jsTools.prototype = {
         constructor: jsTools,
+
+        /**
+         * Update a form value
+         * @param data
+         * @constructor
+         */
         TOOLS_UPDATE_VALUE: function(data) {
-            $(data.element).val(JSON.stringify(data));
+            $(data.element).val(data.value);
             jsqueue.finished(data.PID);
         },
         /**
@@ -34,6 +41,17 @@
          */
         TOOLS_REG_DATA: function(data) {
 
+        },
+
+        /**
+         * Give a list of elements(toggle their hidden class)
+         * @param data
+         * @constructor
+         */
+        TOOLS_TOGGLE_HIDDEN: function(data) {
+            for(var i=0;i<data.elements.length;i++)
+                $(data.elements[i]).toggleClass('hidden');
+            jsqueue.finished(data.PID);
         },
 
         /**
@@ -61,6 +79,11 @@
             var senddata={};
 
             if(data.form) {
+                if(data.validatefunction) {
+                    if(!window[data['validatefunction']](data.form)) {
+                        return;
+                    }
+                }
                 $(data.form+' .rest-field').each(function(i,ptr){
                     var path=$(this).attr('data-send').split('.');
                     var obj=senddata;
