@@ -39,8 +39,9 @@
          * @param data
          * @constructor
          */
-        TOOLS_REG_DATA: function(data) {
-
+        TOOLS_SET_REG: function(data) {
+            jsqueue.set_reg(data.reg,data.value);
+            jsqueue.finished(data.PID);
         },
 
         /**
