@@ -69,7 +69,8 @@
             for(var i=0;i<data.triggers.length;i++) {
                 $(data.triggers[i].aclass)[data.triggers[i].atrigger](data.triggers[i].afunction);
             }
-            data.global();
+            if(data.global)
+                data.global();
             jsqueue.finished(data.PID);
         },
 
@@ -125,8 +126,6 @@
                         'command': 'DEBUG_MSG',
                         'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
                     });
-
-
                 },
                 error: function (rdata) {
                     jsqueue.add({
