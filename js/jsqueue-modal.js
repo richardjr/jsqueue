@@ -9,7 +9,7 @@
     function jsModal(element, options) {
         var self = this;
         self.options = options;
-        self.$element = $(element);
+        self.div = element;
 
         // Commands
         $(element).on({
@@ -17,8 +17,8 @@
                 self[cmd](data);
             }
         });
+        self.MODAL_INIT();
         jsqueue.activate('MODAL');
-
     }
 
 
@@ -33,8 +33,15 @@
          * @constructor
          */
         MODAL_DISPLAY: function(data) {
-            $(data.element).html($(data.template).render(data));
+            var self=this;
+            $(self.div).html($(data.template).render(data));
+            $(self.div).modal('show');
             jsqueue.finished(data.PID);
+        },
+
+        MODAL_INIT: function(data) {
+            var self=this;
+            $(self.div).addClass('modal fade')
         }
 
     };
