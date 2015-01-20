@@ -11,6 +11,13 @@
         var self = this;
         self.options = options;
         self.$element = $(element);
+        /**
+         *  IE9 is broken for debugging so we bottle it
+         */
+        if(navigator.appVersion.indexOf("MSIE 9")!=-1) {
+            jsqueue.activate('DEBUG');
+            return;
+        }
         self.window = window.open('', "debugwin", "width=1024,height=600,scrollbars=1,resizeable=1");
         $(self.window.document.body).html('Debugger Online<br/><br/>');
         // Commands
