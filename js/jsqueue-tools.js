@@ -118,36 +118,68 @@
             } else {
                 senddata = JSON.stringify(data.json);
             }
-            $.ajax({
-                type: 'POST',
-                url: data.uri,
-                data: senddata,
-                async: true,
-                crossDomain: true,
-                xhrFields: {
-                    withCredentials: true
-                },
-                processData: false,
-                contentType: "application/x-www-form-urlencoded",
-                traditional: false,
-                success: function (rdata) {
-                    jsqueue.push(data.PID, rdata);
-                    jsqueue.finished(data.PID);
-                    jsqueue.add({
-                        'component': 'DEBUG',
-                        'command': 'DEBUG_MSG',
-                        'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
-                    });
-                },
-                error: function (rdata) {
-                    jsqueue.add({
-                        'component': 'DEBUG',
-                        'command': 'DEBUG_MSG',
-                        'data': {'caller': 'jsTools->call_api', 'msg': 'API Fail', 'state': 'info'}
-                    });
+            /**
+             *  IE8/9 CORS support is broken so we can't use it. 
+             */
+            if(navigator.appVersion.indexOf("MSIE 9")!=-1||navigator.appVersion.indexOf("MSIE 8")!=-1) {
+                $.ajax({
+                    type: 'POST',
+                    url: data.uri,
+                    data: senddata,
+                    async: true,
+                    contentType: "application/x-www-form-urlencoded",
+                    processData: false,
+                    traditional: false,
+                    success: function (rdata) {
+                        jsqueue.push(data.PID, rdata);
+                        jsqueue.finished(data.PID);
+                        jsqueue.add({
+                            'component': 'DEBUG',
+                            'command': 'DEBUG_MSG',
+                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
+                        });
+                    },
+                    error: function (rdata) {
+                        jsqueue.add({
+                            'component': 'DEBUG',
+                            'command': 'DEBUG_MSG',
+                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'warn'}
+                        });
 
-                }
-            });
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: data.uri,
+                    data: senddata,
+                    async: true,
+                    crossDomain: true,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    processData: false,
+                    contentType: "application/x-www-form-urlencoded",
+                    traditional: false,
+                    success: function (rdata) {
+                        jsqueue.push(data.PID, rdata);
+                        jsqueue.finished(data.PID);
+                        jsqueue.add({
+                            'component': 'DEBUG',
+                            'command': 'DEBUG_MSG',
+                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
+                        });
+                    },
+                    error: function (rdata) {
+                        jsqueue.add({
+                            'component': 'DEBUG',
+                            'command': 'DEBUG_MSG',
+                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'warn'}
+                        });
+
+                    }
+                });
+            }
         }
     };
 
