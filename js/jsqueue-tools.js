@@ -65,6 +65,18 @@
             jsqueue.finished(data.PID);
         },
 
+        /**
+         *  Takes a template and renders the data to data.body on the stack
+         * @param data
+         * @constructor
+         */
+        TOOLS_RENDER_TEMPLATE: function(data) {
+            var rdata={};
+            rdata.body=$(data.template).render(data);
+            jsqueue.push(data.PID, rdata);
+            jsqueue.finished(data.PID);
+        },
+
         TOOLS_ADD_EVENTS: function(data) {
             for(var i=0;i<data.triggers.length;i++) {
                 $(data.triggers[i].aclass)[data.triggers[i].atrigger](data.triggers[i].afunction);
