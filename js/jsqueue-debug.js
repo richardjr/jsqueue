@@ -55,7 +55,7 @@
             }
             else
                 $(self.window.document.body).append('<span style="color: ' + color + '">' + data.caller + '('+ $.now()+'):</span>' + data.msg + '<br/>');
-            self.window.scrollTo(0,self.window.document.body.scrollHeight);
+            //self.window.scrollTo(0,self.window.document.body.scrollHeight);
             jsqueue.finished(data.PID);
         }
     };

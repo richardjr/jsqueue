@@ -119,7 +119,7 @@
                 senddata = JSON.stringify(data.json);
             }
             /**
-             *  IE8/9 CORS support is broken so we can't use it. 
+             *  IE8/9 CORS support is broken so we can't use it.
              */
             if(navigator.appVersion.indexOf("MSIE 9")!=-1||navigator.appVersion.indexOf("MSIE 8")!=-1) {
                 $.ajax({
