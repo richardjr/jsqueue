@@ -77,8 +77,18 @@
             jsqueue.finished(data.PID);
         },
 
+        /**
+         *  Bind events to triggers from a json structure
+         * @param data
+         * @constructor
+         */
         TOOLS_ADD_EVENTS: function(data) {
             for(var i=0;i<data.triggers.length;i++) {
+                /**
+                 *  Unbind the event first to prevent the old double click if
+                 *  we happen to have to re-run
+                 */
+                $(data.triggers[i].aclass).unbind(data.triggers[i].atrigger);
                 $(data.triggers[i].aclass)[data.triggers[i].atrigger](data.triggers[i].afunction);
             }
             if(data.global)
