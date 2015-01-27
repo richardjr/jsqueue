@@ -39,6 +39,41 @@
             jsqueue.finished(data.PID);
         },
 
+        MODAL_TEXT_HELPER: function(data) {
+            $(data.aclass).focus(function(){
+                var form_ptr=this;
+                jsqueue.add(
+                    {
+                        "component":"MODAL",
+                        "command":"MODAL_DISPLAY",
+                        "data": {
+                            "template":data.template,
+                            "form_value": $(form_ptr).val()
+                        },
+                        "chain":[
+                            {
+                                "component":"TOOLS",
+                                "command":"TOOLS_ADD_EVENTS",
+                                "data": {
+                                    "triggers":[
+                                        {
+                                            "aclass": "#modal-save",
+                                            "atrigger": "click",
+                                            "afunction": function() {
+                                                $(form_ptr).val($("#modal_text_helper").val());
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+
+                );
+                console.log('focus');
+            });
+        },
+
         MODAL_INIT: function(data) {
             var self=this;
             $(self.div).addClass('modal fade')
