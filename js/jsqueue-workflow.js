@@ -30,7 +30,14 @@
             $('.js-workflow-onload').each(function () {
                 self.ng_workflow_build(this);
             });
+
+            /**
+             *  Kill any events to prevent the old double down
+             */
+            $('.js-workflow').unbind(data.mobile ? 'touchend' : 'click');
+
             $('.js-workflow').on(data.mobile ? 'touchend' : 'click', function (e) {
+                e.stopPropagation();
                 self.ng_workflow_build(this);
                 return false;
             });
