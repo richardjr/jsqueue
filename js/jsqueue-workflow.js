@@ -26,10 +26,11 @@
 
         WORKFLOW_START: function(data) {
             var self=this;
+            data.mobile=data.mobile||false;
             $('.js-workflow-onload').each(function () {
                 self.ng_workflow_build(this);
             });
-            $('.js-workflow').click(function (e) {
+            $('.js-workflow').on(data.mobile ? 'touchend' : 'click', function (e) {
                 self.ng_workflow_build(this);
                 return false;
             });
