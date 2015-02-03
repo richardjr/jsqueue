@@ -128,6 +128,13 @@
             } else {
                 senddata = JSON.stringify(data.json);
             }
+
+            senddata = senddata.replace(/"\%(.*?)\%"/,
+                function (match, contents) {
+                    if (data[contents])
+                        return JSON.stringify(data[contents]);
+                    return null;
+                });
             /**
              *  IE8/9 CORS support is broken so we can't use it.
              */
