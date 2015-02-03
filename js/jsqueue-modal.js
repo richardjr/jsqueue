@@ -35,6 +35,10 @@
         MODAL_DISPLAY: function(data) {
             var self=this;
             $(self.div).html($(data.template).render(data));
+            $(self.div).off('shown.bs.modal');
+            $(self.div).on('shown.bs.modal', function (e) {
+                $("#modal_text_helper").focus();
+            })
             $(self.div).modal('show');
             jsqueue.finished(data.PID);
         },
@@ -70,7 +74,6 @@
                     }
 
                 );
-                console.log('focus');
             });
         },
 
