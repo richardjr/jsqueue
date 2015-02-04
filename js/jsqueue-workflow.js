@@ -85,7 +85,7 @@
                     return {
                         'component': action.component,
                         'command': action.command,
-                        'data': action.data,
+                        'data': $.extend({},action.data,action.merge),
                         'datamode': action.mode ? action.mode : false
                     }
                 case 'post-form':
