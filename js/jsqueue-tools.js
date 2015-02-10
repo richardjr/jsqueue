@@ -118,7 +118,15 @@
                         if(path.length!=(i+1))
                             obj = obj[path[i]];
                         else {
-                            obj[path[i]]=$(this).val();
+                            if($(this).is(':checkbox')) {
+                                if($(this).is(':checked')) {
+                                    obj[path[i]] = $(this).val();
+                                } else {
+                                    obj[path[i]] = $(this).attr('data-off');
+                                }
+                            } else {
+                                obj[path[i]] = $(this).val();
+                            }
                             break;
                         }
                     }
