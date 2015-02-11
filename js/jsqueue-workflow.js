@@ -34,13 +34,16 @@
             /**
              *  Kill any events to prevent the old double down
              */
-            $('.js-workflow').unbind(data.mobile ? 'touchend' : 'click');
+            $('.js-workflow').unbind('touchend');
+            $('.js-workflow').unbind('click');
 
-            $('.js-workflow').on(data.mobile ? 'touchend' : 'click', function (e) {
+            $('.js-workflow').on( 'click touchend', function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
                 return false;
             });
+
+
             jsqueue.finished(data.PID);
         },
 
