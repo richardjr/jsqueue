@@ -219,6 +219,7 @@ function jsqueue() {
                  *  is queued as oposed to running in which case we need to jump over it.
                  */
                 if (
+                    self.components[self.queue[i].component] &&
                     self.components[self.queue[i].component].state == 'active' &&
                     self.queue[i].state == 'queued' &&
                     ( !self.queue[i].reg || self.registers[self.queue[i].reg])
