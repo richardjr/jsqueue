@@ -101,6 +101,36 @@
 
        // TOOLS_RELOAD_PAGE:
 
+        helper_replace_value: function(key,val,data,to) {
+            var self=this;
+                if (val instanceof Object) {
+                    $.each(val, function(mkey, mval) {
+                        self.helper_replace_value(mkey, mval,data,to[key])
+                    });
+                } else {
+                    var matches;
+                    if(matches=val.match(/%(.*?)%/)) {
+                        var path=matches[1].split(".");
+                        var obj=data;
+
+                        for(var i=0;i<path.length;i++) {
+                            if(!obj[path[i]]) {
+                                obj[path[i]] = {};
+                            }
+                            if(path.length!=(i+1))
+                                obj = obj[path[i]];
+                            else {
+                                to[key] = obj[path[i]];
+                                break;
+
+                            }
+                        }
+                    }
+                }
+
+        },
+
+
         TOOLS_REST_API: function (data) {
             var self=this;
             var senddata={};
@@ -139,15 +169,16 @@
                 senddata= JSON.stringify(senddata);
 
             } else {
+                $.each(data.json, function(key, val) { self.helper_replace_value(key, val,data,data.json) });
                 senddata = JSON.stringify(data.json);
             }
 
-            senddata = senddata.replace(/"\%(.*?)\%"/,
+            /*senddata = senddata.replace(/"\%(.*?)\%"/,
                 function (match, contents) {
                     if (data[contents])
                         return JSON.stringify(data[contents]);
                     return null;
-                });
+                });*/
             /**
              *  IE8/9 CORS support is broken so we can't use it.
              */
