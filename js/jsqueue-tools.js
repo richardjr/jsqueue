@@ -104,6 +104,8 @@
         TOOLS_REST_API: function (data) {
             var self=this;
             var senddata={};
+            if(!data.uri)
+                data.uri=self.options.uri;
 
             if(data.form) {
                 if(data.validatefunction) {
