@@ -109,7 +109,7 @@
                     });
                 } else {
                     var matches;
-                    if(matches=val.match(/%(.*?)%/)) {
+                    if(typeof val=="string"&&(matches=val.match(/%(.*?)%/))) {
                         var path=matches[1].split(".");
                         var obj=data;
 
