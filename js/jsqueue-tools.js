@@ -160,7 +160,10 @@
                                     obj[path[i]] = $(this).attr('data-off');
                                 }
                             } else {
-                                obj[path[i]] = $(this).val();
+                                if($(this).attr('data-encode')=='json')
+                                    obj[path[i]] = JSON.parse($(this).val());
+                                else
+                                    obj[path[i]] = $(this).val();
                             }
                             break;
                         }
