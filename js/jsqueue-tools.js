@@ -90,9 +90,9 @@
                  */
                 $(data.triggers[i].aclass).unbind(data.triggers[i].atrigger);
                 if(typeof data.triggers[i].afunction=="string")
-                    $(data.triggers[i].aclass)[data.triggers[i].atrigger](window[data.triggers[i].afunction]);
+                    $(data.triggers[i].aclass).on(data.triggers[i].atrigger,window[data.triggers[i].afunction]);
                 else
-                    $(data.triggers[i].aclass)[data.triggers[i].atrigger](data.triggers[i].afunction);
+                    $(data.triggers[i].aclass).on(data.triggers[i].atrigger,data.triggers[i].afunction);
             }
             if(data.global)
                 data.global();
