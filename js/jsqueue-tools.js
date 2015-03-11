@@ -222,10 +222,13 @@
 
             }
 
-            $.each(data.json, function (key, val) {
-                self.helper_replace_value(key, val, data, data.json)
-            });
-            senddata = $.expand({},data.json,senddata);
+            if (data.json) {
+                $.each(data.json, function(key, val) {
+                    self.helper_replace_value(key, val, data, data.json);
+                });
+            }
+
+            senddata = $.extend(data.json, senddata);
 
             senddata = JSON.stringify(senddata);
 
