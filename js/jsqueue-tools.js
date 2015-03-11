@@ -219,14 +219,16 @@
                         }
                     }
                 });
-                senddata = JSON.stringify(senddata);
 
-            } else {
-                $.each(data.json, function (key, val) {
-                    self.helper_replace_value(key, val, data, data.json)
-                });
-                senddata = JSON.stringify(data.json);
             }
+
+            $.each(data.json, function (key, val) {
+                self.helper_replace_value(key, val, data, data.json)
+            });
+            senddata = $.expand({},data.json,senddata);
+
+            senddata = JSON.stringify(senddata);
+
 
             /*senddata = senddata.replace(/"\%(.*?)\%"/,
              function (match, contents) {
