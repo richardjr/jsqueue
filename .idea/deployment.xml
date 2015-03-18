@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="Yaxi" promptOnLocalOverwrite="false" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="jsqueue libs" promptOnLocalOverwrite="false" autoUploadExternalChanges="true">
     <serverData>
+      <paths name="jsqueue libs">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="jsqueue yaxi">
         <serverdata>
           <mappings>

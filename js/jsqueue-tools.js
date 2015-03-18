@@ -133,6 +133,11 @@
 
             if (data.button) {
                 $(data.button).prop('disabled', true);
+                if(data.aclass) {
+                    $(data.button).attr('data-oldclass',$(data.button).attr('class'));
+                    $(data.button).removeClass($(data.button).attr('class'));
+                    $(data.button).addClass(data.aclass);
+                }
             }
 
             jsqueue.finished(data.PID);
@@ -143,6 +148,10 @@
 
             if (data.button) {
                 $(data.button).prop('disabled', false);
+                if($(data.button).attr('data-oldclass')) {
+                    $(data.button).removeClass($(data.button).attr('class'));
+                    $(data.button).addClass($(data.button).attr('data-oldclass'));
+                }
             }
 
             jsqueue.finished(data.PID);
