@@ -132,12 +132,22 @@
             var self = this;
 
             if (data.button) {
-                $(data.button).prop('disabled', true);
-                if(data.aclass) {
-                    $(data.button).attr('data-oldclass',$(data.button).attr('class'));
+                if (data.text) {
+                    $(data.button).attr('data-oldtext', $(data.button).text());
+                    $(data.button).text(data.text);
+                }
+
+                if (data.aclass) {
+                    $(data.button).attr('data-oldclass', $(data.button).attr('class'));
                     $(data.button).removeClass($(data.button).attr('class'));
                     $(data.button).addClass(data.aclass);
                 }
+
+                if (data.displayLoadAnimation == true) {
+                    $(data.button).append("<span class='glyphicon glyphicon-refresh spinning'></span>");
+                }
+
+                $(data.button).prop('disabled', true);
             }
 
             jsqueue.finished(data.PID);
@@ -148,7 +158,18 @@
 
             if (data.button) {
                 $(data.button).prop('disabled', false);
-                if($(data.button).attr('data-oldclass')) {
+
+                if (data.text) {
+                    $(data.button).text(data.text);
+                }
+
+                if (data.revert) {
+                    if (data.revert == true) {
+                        $(data.button).text($(data.button).attr('data-oldtext'));
+                    }
+                }
+
+                if ($(data.button).attr('data-oldclass')) {
                     $(data.button).removeClass($(data.button).attr('class'));
                     $(data.button).addClass($(data.button).attr('data-oldclass'));
                 }
@@ -170,6 +191,14 @@
 
             if (data.button && data.toAdd && data.toRemove) {
                 $(data.button).addClass(data.toAdd).removeClass(data.toRemove());
+            }
+
+            jsqueue.finished(data.PID);
+        },
+
+        TOOLS_DISPLAY_LOAD_ANIMATION: function (data) {
+            if (data.element) {
+                $(data.element).append("<span class='glyphicon glyphicon-refresh spinning'></span>");
             }
 
             jsqueue.finished(data.PID);
