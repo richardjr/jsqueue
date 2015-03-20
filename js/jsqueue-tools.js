@@ -128,6 +128,11 @@
 
         },
 
+        /**
+         * Disable a button by giving it the disabled attribute. Optionally change the text and class as well as displaying a loading animation.
+         * @param data
+         * @constructor
+         */
         TOOLS_DISABLE_BUTTON: function (data) {
             var self = this;
 
@@ -153,6 +158,11 @@
             jsqueue.finished(data.PID);
         },
 
+        /**
+         * Enable a button by removing the disabled attribute. Optionally change the text and class as well as reverting the text back to what it was before.
+         * @param data
+         * @constructor
+         */
         TOOLS_ENABLE_BUTTON: function (data) {
             var self = this;
 
@@ -178,6 +188,11 @@
             jsqueue.finished(data.PID);
         },
 
+        /**
+         * Change the text of a button.
+         * @param data
+         * @constructor
+         */
         TOOLS_CHANGE_BUTTON_TEXT: function (data) {
             var self = this;
 
@@ -186,6 +201,11 @@
             jsqueue.finished(data.PID);
         },
 
+        /**
+         * Change the class of a button to change the colour.
+         * @param data
+         * @constructor
+         */
         TOOLS_CHANGE_BUTTON_COLOUR: function (data) {
             var self = this;
 
@@ -196,6 +216,11 @@
             jsqueue.finished(data.PID);
         },
 
+        /**
+         * Display a loading animation to signify that a process is happening.
+         * @param data
+         * @constructor
+         */
         TOOLS_DISPLAY_LOAD_ANIMATION: function (data) {
             if (data.element) {
                 $(data.element).append("<span class='glyphicon glyphicon-refresh spinning'></span>");
@@ -204,6 +229,11 @@
             jsqueue.finished(data.PID);
         },
 
+        /**
+         * Schedule a JSQueue action to happen after a delay in seconds.
+         * @param data
+         * @constructor
+         */
         TOOLS_DELAY_ACTION: function (data) {
             if (data.component && data.command && data.data && data.delay) {
                window.setTimeout(
