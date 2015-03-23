@@ -46,6 +46,9 @@
                 },
                 'eventDrop': function(event) {
                     window[data.update](event);
+                },
+                drop: function(date,jsEvent,ui) {
+                    window[data.drop](date,jsEvent,ui,this);
                 }
             });
             jsqueue.finished(data.PID);
@@ -53,6 +56,7 @@
 
         CALENDAR_ADD_EVENTS: function(data) {
             var self=this;
+            $(self.cal).fullCalendar( 'removeEvents');
             $(self.cal).fullCalendar( 'addEventSource', data.data );
             $(self.cal).fullCalendar( 'render' );
             jsqueue.finished(data.PID);
