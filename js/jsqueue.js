@@ -216,7 +216,7 @@ function jsqueue() {
             } else {
                 /**
                  *  Check if the queued item has a matching component that is active and also that the item
-                 *  is queued as oposed to running in which case we need to jump over it.
+                 *  is queued as opposed to running in which case we need to jump over it.
                  */
                 if (
                     self.components[self.queue[i].component] &&
@@ -342,7 +342,7 @@ function jsqueue() {
     }
 
     /**
-     * componets call this function to declair they are active and ready to recieve commands
+     * components call this function to declare they are active and ready to receive commands
      *
      *
      * @param component
@@ -353,7 +353,7 @@ function jsqueue() {
         if (object)
             self.components[component].object = object;
         /**
-         *  Force a queue proccess to send out any commands that are waiting by adding a debug into the queue
+         *  Force a queue process to send out any commands that are waiting by adding a debug into the queue
          */
         self.add({
             'component': 'DEBUG',
