@@ -77,6 +77,11 @@
             jsqueue.finished(data.PID);
         },
 
+
+        TOOLS_RUN_FUNCTION: function(data) {
+            window[data.afunction]();
+            jsqueue.finished(data.PID);
+        },
         /**
          *  Bind events to triggers from a json structure
          * @param data
