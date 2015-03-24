@@ -215,7 +215,7 @@
             var self = this;
 
             if (data.button && data.toAdd && data.toRemove) {
-                $(data.button).addClass(data.toAdd).removeClass(data.toRemove());
+                $(data.button).addClass(data.toAdd).removeClass(data.toRemove);
             }
 
             jsqueue.finished(data.PID);
@@ -252,6 +252,8 @@
                        );
                    }, data.delay);
             }
+
+            jsqueue.finished(data.PID);
         },
 
         TOOLS_REST_API: function (data) {
