@@ -95,7 +95,15 @@ function jsqueue() {
 
     }
 
-
+    this.killtag = function (tag) {
+        var self = this;
+        for (var i = 0; i < self.queue.length; i++) {
+            if (self.queue[i].tag == tag) {
+                self.queue.splice(i, 1);
+                break;
+            }
+        }
+    }
     /**
      *  Cleans any old items in the queue. These will be chained events that have not received a response after being
      *  triggered
@@ -187,6 +195,7 @@ function jsqueue() {
         var ddata= $.extend({},data);
         ddata.state = 'queued';
         ddata.time = $.now();
+        ddate.tag=ddate.tag||'untagged';
         if (!ddata.stack)
             ddata.stack = [];
         if (!ddata.data)
