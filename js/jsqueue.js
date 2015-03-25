@@ -195,7 +195,14 @@ function jsqueue() {
         var ddata= $.extend({},data);
         ddata.state = 'queued';
         ddata.time = $.now();
-        ddate.tag=ddate.tag||'untagged';
+        /**
+         *  If a queue is tagged we check for an exisiting queue
+         *  of the same tag and kill it, tagged queues are unique
+         */
+        if(ddata.tag)
+            self.killtag(ddata.tag);
+        else
+            ddata.tag='untagged';
         if (!ddata.stack)
             ddata.stack = [];
         if (!ddata.data)
