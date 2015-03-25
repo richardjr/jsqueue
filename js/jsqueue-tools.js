@@ -77,11 +77,16 @@
             jsqueue.finished(data.PID);
         },
 
-
+        /**
+         * Runs a JavaScript function that's defined in data.afunction
+         * @param data
+         * @constructor
+         */
         TOOLS_RUN_FUNCTION: function(data) {
             window[data.afunction]();
             jsqueue.finished(data.PID);
         },
+
         /**
          *  Bind events to triggers from a json structure
          * @param data
@@ -125,7 +130,6 @@
                         else {
                             to[key] = obj[path[i]];
                             break;
-
                         }
                     }
                 }
