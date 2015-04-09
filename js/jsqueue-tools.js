@@ -338,6 +338,9 @@
                             'command': 'DEBUG_MSG',
                             'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
                         });
+                        if(data.success)
+                            data.success(rdata);
+
                     },
                     error: function (rdata) {
                         jsqueue.add({
@@ -369,6 +372,8 @@
                             'command': 'DEBUG_MSG',
                             'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
                         });
+                        if(data.success)
+                            data.success(rdata);
                     },
                     error: function (rdata) {
                         jsqueue.add({
