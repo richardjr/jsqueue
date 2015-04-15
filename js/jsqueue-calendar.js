@@ -39,6 +39,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
+                dragRevertDuration: 0,
                 editable: true,
                 droppable: true,
                 'eventDragStop': function(event,jsEvent) {
