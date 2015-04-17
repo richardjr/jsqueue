@@ -164,6 +164,12 @@
                 $(data.button).prop('disabled', true);
             }
 
+            if (data.buttons) {
+                for (var i = 0; i < data.buttons.length; i++) {
+                    $(data.buttons[i]).prop('disabled', true);
+                }
+            }
+
             jsqueue.finished(data.PID);
         },
 
@@ -191,6 +197,12 @@
                 if ($(data.button).attr('data-oldclass')) {
                     $(data.button).removeClass($(data.button).attr('class'));
                     $(data.button).addClass($(data.button).attr('data-oldclass'));
+                }
+            }
+
+            if (data.buttons) {
+                for (var i = 0; i < data.buttons.length; i++) {
+                    $(data.buttons[i]).prop('disabled', false);
                 }
             }
 
@@ -247,15 +259,55 @@
             if (data.component && data.command && data.data && data.delay) {
                window.setTimeout(
                    function() {
-                       jsqueue.add(
-                           {
-                               'component': data.component,
-                               'command': data.command,
-                               'data': data.data
-                           }
-                       );
+                       if (data.chain) {
+                           jsqueue.add(
+                               {
+                                   'component': data.component,
+                                   'command': data.command,
+                                   'data': data.data,
+                                   'chain': data.chain
+                               }
+                           );
+                       }
+                       else {
+                           jsqueue.add(
+                               {
+                                   'component': data.component,
+                                   'command': data.command,
+                                   'data': data.data
+                               }
+                           );
+                       }
                    }, data.delay);
             }
+
+            jsqueue.finished(data.PID);
+        },
+
+        /**
+         * Display a progress bar in a given element.
+         * @param data
+         * @constructor
+         */
+        TOOLS_PROGRESS_DISPLAY: function (data) {
+            if (data.element && data.name) {
+                $(data.element).html('<div class="progress progress-striped active"><div class="progress-bar progress-bar-danger" id="' + data.name + '" style="width: 0%;"></div></div>');
+            }
+
+            jsqueue.finished(data.PID);
+        },
+
+        /**
+         * Change the progress of a progress bar by changing it's percentage width.
+         * @param data
+         * @constructor
+         */
+        TOOLS_PROGRESS_UPDATE: function (data) {
+            if (data.element && data.progress) {
+                $(data.element).css("width", data.progress);
+            }
+
+            console.log(data.element + ": " + data.progress);
 
             jsqueue.finished(data.PID);
         },
