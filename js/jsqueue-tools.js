@@ -324,33 +324,7 @@
                         return;
                     }
                 }
-                $(data.form + ' .rest-field').each(function (i, ptr) {
-                    var path = $(this).attr('data-send').split('.');
-                    var obj = senddata;
-                    for (var i = 0; i < path.length; i++) {
-                        if (!obj[path[i]]) {
-                            obj[path[i]] = {};
-                        }
-                        if (path.length != (i + 1))
-                            obj = obj[path[i]];
-                        else {
-                            if ($(this).is(':checkbox')) {
-                                if ($(this).is(':checked')) {
-                                    obj[path[i]] = $(this).val();
-                                } else {
-                                    obj[path[i]] = $(this).attr('data-off');
-                                }
-                            } else {
-                                if ($(this).attr('data-encode') == 'json')
-                                    obj[path[i]] = JSON.parse($(this).val());
-                                else
-                                    obj[path[i]] = $(this).val();
-                            }
-                            break;
-                        }
-                    }
-                });
-
+                core.forms.encode(action.form,data);
             }
 
             if (data.json) {
