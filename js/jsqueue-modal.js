@@ -43,6 +43,12 @@
             jsqueue.finished(data.PID);
         },
 
+        MODAL_CLOSE: function(data) {
+            var self=this;
+            $(self.div).modal('hide');
+            jsqueue.finished(data.PID);
+        },
+
         MODAL_TEXT_HELPER: function(data) {
             $(data.aclass).focus(function(){
                 var form_ptr=this;
