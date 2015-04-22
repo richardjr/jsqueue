@@ -324,7 +324,7 @@
                         return;
                     }
                 }
-                core.forms.encode(action.form,data);
+                core.forms.encode(data.form,senddata);
             }
 
             if (data.json) {
