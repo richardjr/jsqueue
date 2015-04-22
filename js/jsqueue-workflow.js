@@ -85,10 +85,16 @@
             var self = this;
             switch (action.action) {
                 case 'queue':
+                    var data={};
+                    if(action.form) {
+                        core.forms.encode(action.form,data);
+                    } else {
+                        data=$.extend({},action.data,action.merge);
+                    }
                     return {
                         'component': action.component,
                         'command': action.command,
-                        'data': $.extend({},action.data,action.merge),
+                        'data':data,
                         'datamode': action.mode ? action.mode : false
                     }
                 case 'post-form':
