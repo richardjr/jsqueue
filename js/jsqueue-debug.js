@@ -19,14 +19,20 @@
             return;
         }
         self.window = window.open('', "debugwin", "width=1024,height=600,scrollbars=1,resizeable=1");
-        $(self.window.document.body).html('Debugger Online<br/><br/>');
+        if(self.window) {
+            $(self.window.document.body).html('Debugger Online<br/><br/>');
+            $(element).on({
+                "command": function (event, cmd, data) {
+                    self[cmd](data);
+                }
+            });
+            jsqueue.activate('DEBUG');
+
+        } else {
+            console.log('Debugger failed to start, Popup blocked?');
+        }
+
         // Commands
-        $(element).on({
-            "command": function (event, cmd, data) {
-                self[cmd](data);
-            }
-        });
-        jsqueue.activate('DEBUG');
 
     }
 

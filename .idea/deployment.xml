@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="On explicit save action" promptOnLocalOverwrite="false" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="app jsqueue" promptOnLocalOverwrite="false" autoUploadExternalChanges="true">
     <serverData>
       <paths name="app jsqueue">
         <serverdata>
