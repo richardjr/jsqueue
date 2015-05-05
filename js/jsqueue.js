@@ -19,7 +19,12 @@ function jsqueue_main() {
 
         self.queue = [];
         self.registers = {};
-        self.maxlife = 50000;
+
+        self.config = {
+            "auto-start": "true",
+            "maxlife": 50000,
+            "timeout": 10
+        };
     };
 
     /**
@@ -120,7 +125,7 @@ function jsqueue_main() {
                     iswork = true;
                     break;
                 }
-                if ($.now() > (self.queue[i].time + self.maxlife)) {
+                if ($.now() > (self.queue[i].time + self.config.maxlife)) {
                     cleaned_list.push(self.queue[i]);
                     self.queue.splice(i, 1);
                     cleaned++;
@@ -249,7 +254,7 @@ function jsqueue_main() {
 
                     var myqueue = self.queue[i];
                     self.pid++;
-                    var timeout = myqueue.data.timer || 10;
+                    var timeout = myqueue.data.timer || self.config.timeout;
                     if (myqueue.datamode == 'stack') {
                         myqueue.data = $.extend({}, myqueue.data, myqueue.stack.pop());
                     }
@@ -387,17 +392,22 @@ $(window).load(function() {
     var config = JSON.parse($('#jsqueue').attr("data-config"));
 
     jsqueue = new jsqueue_main();
+    var self = jsqueue;
 
-    if (isNull(config.auto_start)) {
+    self.config = $.extend(self.config, config);
+
+    console.log(self.config);
+
+    if (isNull(self.config.auto_start)) {
         jsqueue.start_components();
     }
     else {
-        if (config.auto_start == 'true') {
+        if (self.config.auto_start == 'true') {
             jsqueue.start_components();
         }
     }
 
-    if(!isNull(window.loadFnc)) {
+    if (!isNull(window.loadFnc)) {
         window.loadFnc();
     }
 });
