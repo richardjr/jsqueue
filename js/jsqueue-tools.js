@@ -284,6 +284,50 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_SCHEDULE_ACTION: function (data) {
+            if (data.chain) {
+                jsqueue.add(
+                    {
+                        'component': data.component,
+                        'command': data.command,
+                        'data': data.data,
+                        'chain': data.chain
+                    });
+            }
+            else {
+                jsqueue.add(
+                    {
+                        'component': data.component,
+                        'command': data.command,
+                        'data': data.data
+                    });
+            }
+
+            setInterval(
+                function () {
+                    if (data.chain) {
+                        jsqueue.add(
+                            {
+                                'component': data.component,
+                                'command': data.command,
+                                'data': data.data,
+                                'chain': data.chain
+                            });
+                    }
+                    else {
+                        jsqueue.add(
+                            {
+                                'component': data.component,
+                                'command': data.command,
+                                'data': data.data
+                            });
+                    }
+                }
+            , 10000);
+
+            jsqueue.finished(data.PID);
+        },
+
         /**
          * Display a progress bar in a given element.
          * @param data

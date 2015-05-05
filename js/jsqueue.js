@@ -2,7 +2,7 @@
  *  jsqueue.js (c) 2014 richard@nautoguide.com
  */
 
-function jsqueue() {
+function jsqueue_main() {
 
     this.construct = function () {
         var self = this;
@@ -20,7 +20,6 @@ function jsqueue() {
         self.queue = [];
         self.registers = {};
         self.maxlife = 50000;
-
     };
 
     /**
@@ -38,7 +37,7 @@ function jsqueue() {
             'afunction': afunction || '',
             'state': 'inactive'
         };
-    }
+    };
 
     /**
      *  Set a global register
@@ -58,7 +57,7 @@ function jsqueue() {
                     'state': 'info'
                 }
             });
-    }
+    };
 
     /**
      *  Get a global register with option to clear (true)
@@ -73,7 +72,7 @@ function jsqueue() {
         if(mode)
             delete self.registers[name];
         return ret;
-    }
+    };
 
     /**
      *  Clear a global register
@@ -93,7 +92,7 @@ function jsqueue() {
                 }
             });
 
-    }
+    };
 
     this.killtag = function (tag) {
         var self = this;
@@ -103,7 +102,7 @@ function jsqueue() {
                 break;
             }
         }
-    }
+    };
     /**
      *  Cleans any old items in the queue. These will be chained events that have not received a response after being
      *  triggered
@@ -155,7 +154,7 @@ function jsqueue() {
         }
 
 
-    }
+    };
 
     /**
      *  Start up the components
@@ -184,7 +183,7 @@ function jsqueue() {
             if (self.components[i].mode == 'plugin')
                 $(self.components[i].aclass)[self.components[i].afunction]($(self.components[i].aclass).data());
         }
-    }
+    };
 
     /**
      * Add an item to the queue
@@ -211,7 +210,7 @@ function jsqueue() {
         self.process();
 
 
-    }
+    };
     /**
      *  Run the current queue
      */
@@ -288,7 +287,7 @@ function jsqueue() {
             }
         }
         self.clean_queue();
-    }
+    };
     /**
      *  We use an intermedia function to launch as timeout will use the variable state in a loop
      */
@@ -304,7 +303,7 @@ function jsqueue() {
                 ptrobj[command](data)
             }, timeout);
         }
-    }
+    };
 
     this.set_by_pid = function (pid, qdata) {
         for (var i = 0; i < self.queue.length; i++) {
@@ -312,7 +311,7 @@ function jsqueue() {
                 self.queue[i] = qdata;
             }
         }
-    }
+    };
 
     /**
      *  Add some data to the stack for use by any future functions in the chain
@@ -330,7 +329,7 @@ function jsqueue() {
                 });
             }
         }
-    }
+    };
 
     this.finished = function (pid) {
         var self = this;
@@ -355,7 +354,7 @@ function jsqueue() {
                 return;
             }
         }
-    }
+    };
 
     /**
      * components call this function to declare they are active and ready to receive commands
@@ -377,9 +376,32 @@ function jsqueue() {
             'data': {'caller': 'jsqueue>activate', 'msg': 'Component ' + component + ' Reports Active', 'state': 'info'}
         });
 
-    }
+    };
 
     this.construct();
 }
 
+var jsqueue = null;
 
+$(window).load(function() {
+    var config = JSON.parse($('#jsqueue').attr("data-config"));
+
+    jsqueue = new jsqueue_main();
+
+    if (isNull(config.auto_start)) {
+        jsqueue.start_components();
+    }
+    else {
+        if (config.auto_start == 'true') {
+            jsqueue.start_components();
+        }
+    }
+
+    if(!isNull(window.loadFnc)) {
+        window.loadFnc();
+    }
+});
+
+function isNull(object) {
+    return !(typeof object !== 'undefined' && object);
+}
