@@ -396,8 +396,6 @@ $(window).load(function() {
 
     self.config = $.extend(self.config, config);
 
-    console.log(self.config);
-
     if (isNull(self.config.auto_start)) {
         jsqueue.start_components();
     }
