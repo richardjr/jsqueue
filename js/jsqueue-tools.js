@@ -348,10 +348,8 @@
          */
         TOOLS_PROGRESS_UPDATE: function (data) {
             if (data.element && data.progress) {
-                $(data.element).css("width", data.progress);
+                $(data.element).css("width", data.progress + "%");
             }
-
-            console.log(data.element + ": " + data.progress);
 
             jsqueue.finished(data.PID);
         },
