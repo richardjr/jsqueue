@@ -389,7 +389,10 @@ function jsqueue_main() {
 var jsqueue = null;
 
 $(window).load(function() {
-    var config = JSON.parse($('#jsqueue').attr("data-config"));
+
+    var config = {};
+    if($('#jsqueue').length>0)
+        config=JSON.parse($('#jsqueue').attr("data-config"));
 
     jsqueue = new jsqueue_main();
     var self = jsqueue;
