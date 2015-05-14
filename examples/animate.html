@@ -8,11 +8,13 @@
     <script type='text/javascript' src='../js/jsqueue.js'></script>
     <style>
         .slide {
-            transition: all 0.6s ease-in 0.3s;
-            -webkit-transition: all 0.6s ease-in 0.3s;
             opacity: 0;
             position: absolute;
+        }
 
+        .transition {
+            transition: all 1.0s ease-in 0.6s;
+            -webkit-transition: all 1.0s ease-in 0.6s;
         }
     </style>
 </head>
@@ -23,20 +25,13 @@
 <button class="js-workflow" data-action="queue" data-component="ANIMATE" data-command='PLAY_ANIMATION' data-data='{"anim":"#anim1"}'>Start 1</button>
 
 <h1>Animation 1</h1>
-<div class="animation" id="anim1">
-    <img class="slide" data-slide="0" src="http://blokk.co/mvplus/preview/images/screen_layers/layer1.png">
-    <img class="slide" data-slide="1" src="http://blokk.co/mvplus/preview/images/screen_layers/layer1b.png">
-    <img class="slide" data-slide="2" src="http://blokk.co/mvplus/preview/images/screen_layers/layer2.png" data-frame='[{"0":{"opacity":"0"}},{"1":{"opacity":"0"}}]'>
-    <img class="slide" data-slide="3" src="http://blokk.co/mvplus/preview/images/screen_layers/layer2b.png">
-    <img class="slide" data-slide="4" src="http://blokk.co/mvplus/preview/images/screen_layers/layer2c.png">
-    <img class="slide" data-slide="5" src="http://blokk.co/mvplus/preview/images/screen_layers/layer3.png" data-frame='[{"4":{"top":"200px"}},{"4":{"left":"200px"}}]'>
-    <img class="slide" data-slide="6" src="http://blokk.co/mvplus/preview/images/screen_layers/layer3b.png" >
-    <img class="slide" data-slide="7" src="http://blokk.co/mvplus/preview/images/screen_layers/layer3c.png" >
-    <img class="slide" data-slide="8" src="http://blokk.co/mvplus/preview/images/screen_layers/layer4.png">
-    <img class="slide" data-slide="9" src="http://blokk.co/mvplus/preview/images/screen_layers/layer4b.png">
-    <img class="slide" data-slide="10" src="http://blokk.co/mvplus/preview/images/screen_layers/layer5.png">
-    <img class="slide" data-slide="11" src="http://blokk.co/mvplus/preview/images/screen_layers/layer5b.png">
-    <img class="slide" data-slide="12" src="http://blokk.co/mvplus/preview/images/screen_layers/layer5c.png">
+<div class="animation" id="anim1" style="position:relative">
+    <img class="slide" data-slide="0" src="img/drag1.png" style="z-index: 10">
+    <img class="slide" data-slide="1" src="img/cursor.png" style="z-index: 50;top:20px;left:20px;">
+    <img class="slide" data-slide="2" src="img/blank.png" style="z-index: 1;top:20px;left:20px;" data-frame='[{"1":{"top":"90px","left":"150px"}}]'>
+    <img class="slide" data-slide="3" src="img/blank.png" style="z-index: 1" data-frame='[{"1":{"top":"20px","left":"20px"}}]'>
+    <img class="slide" data-slide="4" src="img/drop1.png" style="z-index: 20;top:20px;left:20px;" data-frame='[{"1":{"top":"140px","left":"130px"}}]'>
+    <img class="slide" data-slide="5" src="img/loupe.png" style="z-index: 10;" data-frame='[{"0":{"opacity":"0"}},{"4":{"opacity":"0"}}]'>
 </div>
 
 </body>
