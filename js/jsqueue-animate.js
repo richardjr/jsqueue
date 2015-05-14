@@ -35,13 +35,19 @@
          */
         PLAY_ANIMATION: function(data) {
             var self=this;
+            self.RESET_FRAMES(data);
+            $(data.anim+' .intro-slide').css('opacity','0');
+
+            self.anims[data.anim]={"position":0,"frames":data.frames};
+            self.PLAY_FRAME({'anim':data.anim,'frame':$(data.anim+' .slide[data-slide='+self.anims[data.anim].position+']').attr('data-frame')});
+            jsqueue.finished(data.PID);
+        },
+
+        RESET_FRAMES: function(data) {
+            var self=this;
             $(data.anim+' .slide').removeClass('transition');
             $(data.anim+' .slide').css('opacity','0');
             $(data.anim+' .slide').addClass('transition');
-
-            self.anims[data.anim]={"position":0};
-            self.PLAY_FRAME({'anim':data.anim,'frame':$(data.anim+' .slide[data-slide='+self.anims[data.anim].position+']').attr('data-frame')});
-            jsqueue.finished(data.PID);
         },
 
         PLAY_FRAME: function(data) {
@@ -52,8 +58,6 @@
                 data.frame=JSON.parse(data.frame);
                 for(var i=0;i<data.frame.length;i++) {
                     for (var property in data.frame[i]) {
-                        console.log(data.frame[i][property]);
-
                         $(data.anim + ' .slide[data-slide=' + property + ']').css(data.frame[i][property]);
                     }
                 }
@@ -61,6 +65,10 @@
             $(data.anim+' .slide[data-slide='+self.anims[data.anim].position+']').addClass('active');
             $(data.anim+' .slide[data-slide='+self.anims[data.anim].position+']').css('opacity','1');
             self.anims[data.anim].position++;
+            if(self.anims[data.anim].position>self.anims[data.anim].frames) {
+                $(data.anim+' .intro-slide').css('opacity','1');
+                self.RESET_FRAMES(data);
+            }
         },
 
         INIT_ANIMS: function(data) {

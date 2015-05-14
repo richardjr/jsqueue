@@ -12,9 +12,17 @@
             position: absolute;
         }
 
+        .intro-slide {
+            position: absolute;
+        }
+
         .transition {
             transition: all 1.0s ease-in 0.6s;
             -webkit-transition: all 1.0s ease-in 0.6s;
+        }
+        .transition-slow {
+            transition: all 3.0s ease-in 0.6s;
+            -webkit-transition: all 3.0s ease-in 0.6s;
         }
     </style>
 </head>
@@ -22,10 +30,10 @@
 <!-- Include our debug & tools plugin -->
 <div class="WORKFLOW jsqueue" data-jsq_name="WORKFLOW" data-jsq_plugin="jsWorkflow" data-auto="true"></div>
 <div class="ANIMATE jsqueue" data-jsq_name="ANIMATE" data-jsq_plugin="jsAnimate" ></div>
-<button class="js-workflow" data-action="queue" data-component="ANIMATE" data-command='PLAY_ANIMATION' data-data='{"anim":"#anim1"}'>Start 1</button>
 
 <h1>Animation 1</h1>
 <div class="animation" id="anim1" style="position:relative">
+    <img class="intro-slide transition js-workflow" src="img/play.png" style="z-index: 100" data-action="queue" data-component="ANIMATE" data-command='PLAY_ANIMATION' data-data='{"anim":"#anim1","frames":6}'>
     <img class="slide" data-slide="0" src="img/drag1.png" style="z-index: 10">
     <img class="slide" data-slide="1" src="img/cursor.png" style="z-index: 50;top:20px;left:20px;">
     <img class="slide" data-slide="2" src="img/blank.png" style="z-index: 1;top:20px;left:20px;" data-frame='[{"1":{"top":"90px","left":"150px"}}]'>
