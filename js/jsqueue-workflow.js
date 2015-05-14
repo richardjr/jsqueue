@@ -10,7 +10,6 @@
         var self = this;
         self.options = options;
         self.div = element;
-
         // Commands
         $(element).on({
             "command": function (event, cmd, data) {
@@ -18,6 +17,10 @@
             }
         });
         jsqueue.activate('WORKFLOW');
+        if(self.options.auto==true) {
+            self.WORKFLOW_START({});
+        }
+
     }
 
 
