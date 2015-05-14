@@ -32,8 +32,19 @@
 <div class="ANIMATE jsqueue" data-jsq_name="ANIMATE" data-jsq_plugin="jsAnimate" ></div>
 
 <h1>Animation 1</h1>
-<div class="animation" id="anim1" style="position:relative">
+<div class="animation" id="anim1" style="position:relative;width:300px;height:300px;">
     <img class="intro-slide transition js-workflow" src="img/play.png" style="z-index: 100" data-action="queue" data-component="ANIMATE" data-command='PLAY_ANIMATION' data-data='{"anim":"#anim1","frames":6}'>
+    <img class="slide" data-slide="0" src="img/drag1.png" style="z-index: 10">
+    <img class="slide" data-slide="1" src="img/cursor.png" style="z-index: 50;top:20px;left:20px;">
+    <img class="slide" data-slide="2" src="img/blank.png" style="z-index: 1;top:20px;left:20px;" data-frame='[{"1":{"top":"90px","left":"150px"}}]'>
+    <img class="slide" data-slide="3" src="img/blank.png" style="z-index: 1" data-frame='[{"1":{"top":"20px","left":"20px"}}]'>
+    <img class="slide" data-slide="4" src="img/drop1.png" style="z-index: 20;top:20px;left:20px;" data-frame='[{"1":{"top":"140px","left":"130px"}},{"0":{"opacity":"0"}},{"4":{"opacity":"0"}}]'>
+    <img class="slide" data-slide="5" src="img/loupe.png" style="z-index: 10;">
+</div>
+
+<h1>Animation 2</h1>
+<div class="animation" id="anim2" style="position:relative">
+    <img class="intro-slide transition js-workflow" src="img/play.png" style="z-index: 100" data-action="queue" data-component="ANIMATE" data-command='PLAY_ANIMATION' data-data='{"anim":"#anim2","frames":6}'>
     <img class="slide" data-slide="0" src="img/drag1.png" style="z-index: 10">
     <img class="slide" data-slide="1" src="img/cursor.png" style="z-index: 50;top:20px;left:20px;">
     <img class="slide" data-slide="2" src="img/blank.png" style="z-index: 1;top:20px;left:20px;" data-frame='[{"1":{"top":"90px","left":"150px"}}]'>
