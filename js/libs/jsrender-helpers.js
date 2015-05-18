@@ -29,6 +29,9 @@ jQuery.views.helpers({
     toJSON: function(key) {
         return JSON.stringify(key).replace(/'/g);
     },
+    toJSONF: function(key) {
+        return JSON.stringify(key,null,4).replace(/'/g);
+    },
 
     featureIgnore: function(key) {
         if(jsr_ignore_attr.indexOf(key)!=-1)
