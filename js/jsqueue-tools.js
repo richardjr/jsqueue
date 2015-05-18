@@ -132,6 +132,8 @@
                             break;
                         }
                     }
+                } else if (typeof val == "string" && (matches = val.match(/^#(.*?)/))) {
+                    to[key]=jQuery(val).val();
                 }
             }
 
@@ -369,11 +371,14 @@
                 core.forms.encode(data.form,senddata);
             }
 
+
             if (data.json) {
+                data.json=$.extend({},data.json);
                 $.each(data.json, function(key, val) {
                     self.helper_replace_value(key, val, data, data.json);
                 });
             }
+
 
             senddata = $.extend(data.json, senddata);
 
