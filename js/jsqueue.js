@@ -125,7 +125,7 @@ function jsqueue_main() {
                     iswork = true;
                     break;
                 }
-                if ($.now() > (self.queue[i].time + self.config.maxlife)) {
+                if (jQuery.now() > (self.queue[i].time + self.config.maxlife)) {
                     cleaned_list.push(self.queue[i]);
                     self.queue.splice(i, 1);
                     cleaned++;
@@ -171,8 +171,8 @@ function jsqueue_main() {
          *  Find any with the jsqueue class to add
          */
 
-        $('.jsqueue').each(function (i, ptr) {
-            var data = $(this).data();
+        jQuery('.jsqueue').each(function (i, ptr) {
+            var data = jQuery(this).data();
             self.components[data['jsq_name']] = {
                 'mode': 'plugin',
                 'aclass': '.' + data['jsq_name'],
@@ -186,7 +186,7 @@ function jsqueue_main() {
          */
         for (var i in self.components) {
             if (self.components[i].mode == 'plugin')
-                $(self.components[i].aclass)[self.components[i].afunction]($(self.components[i].aclass).data());
+                jQuery(self.components[i].aclass)[self.components[i].afunction](jQuery(self.components[i].aclass).data());
         }
     };
 
@@ -196,9 +196,9 @@ function jsqueue_main() {
      */
     this.add = function (data) {
         var self = this;
-        var ddata= $.extend({},data);
+        var ddata= jQuery.extend({},data);
         ddata.state = 'queued';
-        ddata.time = $.now();
+        ddata.time = jQuery.now();
         /**
          *  If a queue is tagged we check for an exisiting queue
          *  of the same tag and kill it, tagged queues are unique
@@ -229,7 +229,7 @@ function jsqueue_main() {
                  *  BROADCAST items can't have chained events so they will just be dumped
                  */
                 for (var c = 0; c < self.components.length; c++) {
-                    $(self.components[c].aclass).trigger('command', [self.queue[i].command, self.queue[i].data]);
+                    jQuery(self.components[c].aclass).trigger('command', [self.queue[i].command, self.queue[i].data]);
                 }
                 self.queue[i].state = 'finished';
 
@@ -256,7 +256,7 @@ function jsqueue_main() {
                     self.pid++;
                     var timeout = myqueue.data.timer || self.config.timeout;
                     if (myqueue.datamode == 'stack') {
-                        myqueue.data = $.extend({}, myqueue.data, myqueue.stack.pop());
+                        myqueue.data = jQuery.extend({}, myqueue.data, myqueue.stack.pop());
                     }
                     if (myqueue.datamode == 'allstack') {
                         myqueue.data.stack = myqueue.stack;
@@ -300,7 +300,7 @@ function jsqueue_main() {
         var self=this;
         if (self.components[component].mode != 'object') {
             setTimeout(function () {
-                $(self.components[component].aclass).trigger('command', [command, data])
+                jQuery(self.components[component].aclass).trigger('command', [command, data])
             }, timeout);
         } else {
             var ptrobj = self.components[component].object;
@@ -388,16 +388,16 @@ function jsqueue_main() {
 
 var jsqueue = null;
 
-$(window).load(function() {
+jQuery(window).load(function() {
 
     var config = {};
-    if($('#jsqueue').length>0)
-        config=JSON.parse($('#jsqueue').attr("data-config"));
+    if(jQuery('#jsqueue').length>0)
+        config=JSON.parse(jQuery('#jsqueue').attr("data-config"));
 
     jsqueue = new jsqueue_main();
     var self = jsqueue;
 
-    self.config = $.extend(self.config, config);
+    self.config = jQuery.extend(self.config, config);
 
     if (isNull(self.config.auto_start)) {
         jsqueue.start_components();
