@@ -359,60 +359,54 @@
         TOOLS_REST_API: function (data) {
             var self = this;
             var senddata = {};
-            if (!data.uri)
-                data.uri = self.options.uri;
+            var ldata=$.extend(true,{},data);
+            if (!ldata.uri)
+                ldata.uri = self.options.uri;
 
-            if (data.form) {
-                if (data.validatefunction) {
-                    if (!window[data['validatefunction']](data.form)) {
+            if (ldata.form) {
+                if (ldata.validatefunction) {
+                    if (!window[ldata['validatefunction']](ldata.form)) {
                         return;
                     }
                 }
-                core.forms.encode(data.form,senddata);
+                core.forms.encode(ldata.form,senddata);
             }
 
 
-            if (data.json) {
-                data.json=$.extend({},data.json);
+            if (ldata.json) {
                 $.each(data.json, function(key, val) {
-                    self.helper_replace_value(key, val, data, data.json);
+                    self.helper_replace_value(key, val, ldata,ldata.json);
                 });
             }
 
 
-            senddata = $.extend(data.json, senddata);
+            senddata = $.extend({},ldata.json, senddata);
 
             senddata = JSON.stringify(senddata);
 
 
-            /*senddata = senddata.replace(/"\%(.*?)\%"/,
-             function (match, contents) {
-             if (data[contents])
-             return JSON.stringify(data[contents]);
-             return null;
-             });*/
             /**
              *  IE8/9 CORS support is broken so we can't use it.
              */
             if (navigator.appVersion.indexOf("MSIE 9") != -1 || navigator.appVersion.indexOf("MSIE 8") != -1) {
                 $.ajax({
                     type: 'POST',
-                    url: data.uri,
+                    url: ldata.uri,
                     data: senddata,
                     async: true,
                     contentType: "application/x-www-form-urlencoded",
                     processData: false,
                     traditional: false,
                     success: function (rdata) {
-                        jsqueue.push(data.PID, rdata);
-                        jsqueue.finished(data.PID);
+                        jsqueue.push(ldata.PID, rdata);
+                        jsqueue.finished(ldata.PID);
                         jsqueue.add({
                             'component': 'DEBUG',
                             'command': 'DEBUG_MSG',
                             'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
                         });
-                        if(data.success)
-                            data.success(rdata);
+                        if(ldata.success)
+                            ldata.success(rdata);
 
                     },
                     error: function (rdata) {
@@ -427,7 +421,7 @@
             } else {
                 $.ajax({
                     type: 'POST',
-                    url: data.uri,
+                    url: ldata.uri,
                     data: senddata,
                     async: true,
                     crossDomain: true,
@@ -438,15 +432,15 @@
                     contentType: "application/x-www-form-urlencoded",
                     traditional: false,
                     success: function (rdata) {
-                        jsqueue.push(data.PID, rdata);
-                        jsqueue.finished(data.PID);
+                        jsqueue.push(ldata.PID, rdata);
+                        jsqueue.finished(ldata.PID);
                         jsqueue.add({
                             'component': 'DEBUG',
                             'command': 'DEBUG_MSG',
                             'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
                         });
-                        if(data.success)
-                            data.success(rdata);
+                        if(ldata.success)
+                            ldata.success(rdata);
                     },
                     error: function (rdata) {
                         jsqueue.add({
