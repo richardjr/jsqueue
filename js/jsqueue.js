@@ -51,7 +51,7 @@ function jsqueue_main() {
      */
     this.set_reg = function (name, data) {
         var self = this;
-        self.registers[name] = data;
+        self.registers[name] = $.extend({},data);
         self.add(
             {
                 'component': 'DEBUG',
@@ -73,7 +73,7 @@ function jsqueue_main() {
     this.get_reg = function (name,mode) {
         var self = this;
         mode=mode||false;
-        var ret=self.registers[name];
+        var ret= $.extend({},self.registers[name]);
         if(mode)
             delete self.registers[name];
         return ret;
