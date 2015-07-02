@@ -128,7 +128,9 @@
                         if (path.length != (i + 1))
                             obj = obj[path[i]];
                         else {
-                            to[key] = obj[path[i]];
+                            // Set the value
+                            //to[key] = obj[path[i]];
+                            to[key] =to[key].replace(/%.*?%/, obj[path[i]]);
                             break;
                         }
                     }
@@ -327,6 +329,18 @@
                 }
             , 10000);
 
+            jsqueue.finished(data.PID);
+        },
+
+        TOOLS_REDIRECT: function(data) {
+            var self=this;
+            if (data) {
+                $.each(data, function(key, val) {
+                    self.helper_replace_value(key, val, data,data);
+                });
+            }
+            console.log(data);
+            window.location=data.location;
             jsqueue.finished(data.PID);
         },
 
