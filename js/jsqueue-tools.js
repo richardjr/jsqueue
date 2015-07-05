@@ -129,8 +129,12 @@
                             obj = obj[path[i]];
                         else {
                             // Set the value
-                            //to[key] = obj[path[i]];
-                            to[key] =to[key].replace(/%.*?%/, obj[path[i]]);
+                            // If its an object the regex replace will break the object so we overwrite
+                            // but there is no case where you would drop in an object mid replace
+                            if(typeof obj[path[i]] == 'object')
+                                to[key] = obj[path[i]];
+                            else
+                                to[key] =to[key].replace(/%.*?%/, obj[path[i]]);
                             break;
                         }
                     }
