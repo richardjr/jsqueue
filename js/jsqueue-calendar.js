@@ -43,7 +43,7 @@
                 editable: true,
                 droppable: true,
                 'eventDragStop': function(event,jsEvent) {
-                    window[data.delete](event,jsEvent);
+                    window[data['delete']](event,jsEvent);
                 },
                 'eventResize': function(event) {
                     window[data.update](event);
