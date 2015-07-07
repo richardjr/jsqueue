@@ -128,7 +128,13 @@
                         if (path.length != (i + 1))
                             obj = obj[path[i]];
                         else {
-                            to[key] = obj[path[i]];
+                            // Set the value
+                            // If its an object the regex replace will break the object so we overwrite
+                            // but there is no case where you would drop in an object mid replace
+                            if(typeof obj[path[i]] == 'object')
+                                to[key] = obj[path[i]];
+                            else
+                                to[key] =to[key].replace(/%.*?%/, obj[path[i]]);
                             break;
                         }
                     }
@@ -327,6 +333,18 @@
                 }
             , 10000);
 
+            jsqueue.finished(data.PID);
+        },
+
+        TOOLS_REDIRECT: function(data) {
+            var self=this;
+            if (data) {
+                $.each(data, function(key, val) {
+                    self.helper_replace_value(key, val, data,data);
+                });
+            }
+            console.log(data);
+            window.location=data.location;
             jsqueue.finished(data.PID);
         },
 
