@@ -138,8 +138,13 @@
                             break;
                         }
                     }
-                } else if (typeof val == "string" && (matches = val.match(/^#(.*?)/))) {
-                    to[key]=jQuery(val).val();
+                } else if (typeof val == "string" && (matches = val.match(/^(#.*?)/))) {
+                    if(val.match(/^(#.*?)\&array/)) {
+                        var matches = val.match(/^(#.*?)\&array/);
+                        to[key] = [jQuery(matches[1]).val()];
+                    }
+                    else
+                        to[key]=jQuery(val).val();
                 }
             }
 
