@@ -46,6 +46,16 @@
                 return false;
             });
 
+            $('.js-workflow[data-enter]').each(function () {
+                var parent_object=this;
+                var identifier= $(this).attr('data-enter');
+                $(identifier).on('keypress', function (e) {
+                    if (e && e.keyCode == 13) {
+                        self.ng_workflow_build(parent_object);
+                        return false;
+                    }
+                });
+            });
 
             jsqueue.finished(data.PID);
         },
