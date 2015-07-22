@@ -56,6 +56,26 @@
         },
 
         /**
+         * Set hidden to a given class
+         * @param data
+         * @constructor
+         */
+        TOOLS_SET_HIDDEN: function (data) {
+            $(data.element).addClass('hidden');
+            jsqueue.finished(data.PID);
+        },
+
+        /**
+         * Remove hidden from a given class
+         * @param data
+         * @constructor
+         */
+        TOOLS_REMOVE_HIDDEN: function (data) {
+            $(data.element).removeClass('hidden');
+            jsqueue.finished(data.PID);
+        },
+
+        /**
          * Display a
          * @param data
          * @constructor
