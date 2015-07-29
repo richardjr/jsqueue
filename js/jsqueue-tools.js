@@ -373,6 +373,15 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_JS_SCROLL: function(data) {
+            var self=this;
+            $(data.element).each(function(){
+                $(this).height($(window).height());
+            });
+
+            jsqueue.finished(data.PID);
+        },
+
         /**
          * Display a progress bar in a given element.
          * @param data
