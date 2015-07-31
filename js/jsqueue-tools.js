@@ -436,7 +436,6 @@
 
             senddata = JSON.stringify(senddata);
 
-
             /**
              *  IE8/9 CORS support is broken so we can't use it.
              */
@@ -450,7 +449,11 @@
                     processData: false,
                     traditional: false,
                     success: function (rdata) {
-                        jsqueue.push(ldata.PID, rdata);
+                        if(data.json.ignoredata) {
+                            jsqueue.push(ldata.PID, rdata.data);
+                        } else {
+                            jsqueue.push(ldata.PID, rdata);
+                        }
                         jsqueue.finished(ldata.PID);
                         jsqueue.add({
                             'component': 'DEBUG',
@@ -484,7 +487,11 @@
                     contentType: "application/x-www-form-urlencoded",
                     traditional: false,
                     success: function (rdata) {
-                        jsqueue.push(ldata.PID, rdata);
+                        if(data.json.ignoredata) {
+                            jsqueue.push(ldata.PID, rdata.data);
+                        } else {
+                            jsqueue.push(ldata.PID, rdata);
+                        }
                         jsqueue.finished(ldata.PID);
                         jsqueue.add({
                             'component': 'DEBUG',
