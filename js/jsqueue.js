@@ -211,9 +211,10 @@ function jsqueue_main() {
             ddata.stack = [];
         if (!ddata.data)
             ddata.data = {};
+        var qid=self.pid;
         self.queue.push(ddata);
         self.process();
-
+        return qid;
 
     };
     /**

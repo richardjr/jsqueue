@@ -449,7 +449,7 @@
                     processData: false,
                     traditional: false,
                     success: function (rdata) {
-                        if(data.json.ignoredata) {
+                        if(ldata.json&&ldata.json.ignoredata) {
                             jsqueue.push(ldata.PID, rdata.data);
                         } else {
                             jsqueue.push(ldata.PID, rdata);
@@ -487,7 +487,7 @@
                     contentType: "application/x-www-form-urlencoded",
                     traditional: false,
                     success: function (rdata) {
-                        if(data.json.ignoredata) {
+                        if(ldata.json&&ldata.json.ignoredata) {
                             jsqueue.push(ldata.PID, rdata.data);
                         } else {
                             jsqueue.push(ldata.PID, rdata);
