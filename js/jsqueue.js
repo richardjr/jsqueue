@@ -305,9 +305,13 @@ function jsqueue_main() {
             }, timeout);
         } else {
             var ptrobj = self.components[component].object;
-            setTimeout(function () {
-                ptrobj[command](data)
-            }, timeout);
+            if(ptrobj[command]) {
+                setTimeout(function () {
+                    ptrobj[command](data)
+                }, timeout);
+            } else {
+                console.log(component+':'+command+' is not a valid object!');
+            }
         }
     };
 
