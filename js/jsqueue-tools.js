@@ -81,6 +81,12 @@
          * @constructor
          */
         TOOLS_DISPLAY_TEMPLATE: function (data) {
+            if(($(data.element).length) <= 0) {
+                console.log("Element does not exist:"+data.element);
+            }
+            if(($(data.template).length) <= 0) {
+                console.log("Template does not exist"+data.template);
+            }
             $(data.element).html($(data.template).render(data));
             jsqueue.finished(data.PID);
         },
