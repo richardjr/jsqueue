@@ -76,6 +76,42 @@
         },
 
         /**
+         * If help class is found, add it as a popover
+         * @param data
+         * @constructor
+         */
+        TOOLS_FIND_HELP: function (data) {
+            $('.helper').each(function() {
+                var $this = $(this);
+                var element_data=$this.data();
+
+                $this.popover({
+                    trigger: 'click',
+                    placement: 'right',
+                    html: true,
+                    title: element_data.title,
+                    content: function() {
+                        if (element_data.templateDisplay) {
+                            return $(element_data.templateDisplay).html();
+                        } else {
+                            return element_data.helptext;
+                        }
+                    }
+                }).click(function(e){
+                    e.preventDefault();
+                    jsqueue.add(
+                        {
+                            "component":"WORKFLOW",
+                            "command":"WORKFLOW_START"
+                        }
+                    );
+                });
+            });
+
+            jsqueue.finished(data.PID);
+        },
+
+        /**
          * Display a
          * @param data
          * @constructor
