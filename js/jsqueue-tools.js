@@ -14,7 +14,10 @@
         // Commands
         $(element).on({
             "command": function (event, cmd, data) {
-                self[cmd](data);
+                if(self[cmd])
+                    self[cmd](data);
+                else
+                    console.log('Error no cmd:'+cmd);
             }
         });
         jsqueue.activate('TOOLS');
