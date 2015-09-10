@@ -21,7 +21,7 @@ function jsqueue_main() {
         self.registers = {};
 
         self.config = {
-            "auto-start": "true",
+            "auto_start": "true",
             "maxlife": 50000,
             "timeout": 10
         };
