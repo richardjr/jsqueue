@@ -256,11 +256,16 @@ function jsqueue_main() {
                     var myqueue = self.queue[i];
                     self.pid++;
                     var timeout = myqueue.data.timer || self.config.timeout;
-                    if (myqueue.datamode == 'stack') {
-                        myqueue.data = jQuery.extend({}, myqueue.data, myqueue.stack.pop());
-                    }
-                    if (myqueue.datamode == 'allstack') {
-                        myqueue.data.stack = myqueue.stack;
+                    switch(myqueue.datamode) {
+                        case 'stack':
+                            myqueue.data = jQuery.extend({}, myqueue.data, myqueue.stack.pop());
+                            break;
+                        case 'allstack':
+                            myqueue.data.stack = myqueue.stack;
+                            break;
+                        case 'listen':
+                            myqueue.data = jQuery.extend({}, myqueue.data, myqueue.stack[myqueue.stack.length-1]);
+                            break;
                     }
                     self.launch_queue_item(myqueue.component,myqueue.command,myqueue.data,timeout);
                     if (myqueue.hasOwnProperty('chain')) {
