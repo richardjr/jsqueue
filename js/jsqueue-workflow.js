@@ -30,7 +30,7 @@
         WORKFLOW_START: function(data) {
             var self=this;
             data.mobile=data.mobile||false;
-            $('.js-workflow-onload').each(function () {
+            $('.js-workflow-onload,.js-workflow-onrun').each(function () {
                 self.ng_workflow_build(this);
             });
 
