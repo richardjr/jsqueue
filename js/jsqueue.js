@@ -342,11 +342,6 @@ function jsqueue_main() {
                     'command': 'DEBUG_MSG',
                     'data': {'caller': 'jsqueue', 'msg': 'PID(' + pid + ') updated the stack', 'state': 'info'}
                 });
-                self.add({
-                    'component': 'DEBUG',
-                    'command': 'DEBUG_MSG',
-                    'data': {'caller': 'jsqueue', 'msg': data, 'state': 'info'}
-                });
             }
         }
     };

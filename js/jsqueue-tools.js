@@ -183,7 +183,13 @@
             } else {
                 var matches;
                 if (typeof val == "string" && (matches = val.match(/%(.*?)%/))) {
-                    var path = matches[1].split(/(?<!\.)\.(?!\.)/);
+                    /**
+                     * Warning voodoo
+                     *
+                     * This is basically a split of . and not ..
+                     *
+                    **/
+                    var path = matches[1].match(/[^\.]+(?:\.\.[^\.]+)*/g);
                     var obj = data;
 
                     for (var i = 0; i < path.length; i++) {
