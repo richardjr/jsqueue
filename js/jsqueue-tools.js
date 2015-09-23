@@ -479,7 +479,7 @@
 
             senddata = $.extend({},ldata.json, senddata);
 
-            senddata = JSON.stringify(senddata);
+            senddata = encodeURIComponent(JSON.stringify(senddata));
 
             /**
              *  IE8/9 CORS support is broken so we can't use it.
