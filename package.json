@@ -1,0 +1,17 @@
+{
+    "name":"jsqueue",
+    "version":"1.0.0",
+    "description":"JSQueue",
+    "scripts":{
+        "build": "nodejs scripts/minify.js",
+        "deploydebug": "echo debug ----"
+    },
+    "devDependencies": {
+        "node-minify": "1.2.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nautoguide/jsqueue"
+    }
+
+}
