@@ -183,10 +183,11 @@
             } else {
                 var matches;
                 if (typeof val == "string" && (matches = val.match(/%(.*?)%/))) {
-                    var path = matches[1].split(".");
+                    var path = matches[1].split(/(?<!\.)\.(?!\.)/);
                     var obj = data;
 
                     for (var i = 0; i < path.length; i++) {
+                        path[i]=path[i].replace(/\.\./,'.')
                         if (!obj[path[i]]) {
                             obj[path[i]] = {};
                         }
