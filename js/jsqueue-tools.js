@@ -425,6 +425,12 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_ANIMSCROLL: function(data) {
+            $(data.element).animate({
+                scrollLeft: data.offset
+            });
+        },
+
         TOOLS_JS_SCROLL: function(data) {
             var self=this;
             $(data.element).each(function(){
