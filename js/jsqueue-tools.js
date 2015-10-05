@@ -59,6 +59,17 @@
         },
 
         /**
+         * Give a list of elements(toggle their hidden class)
+         * @param data
+         * @constructor
+         */
+        TOOLS_TOGGLE_CLASS: function (data) {
+            $(data.clear).removeClass(data.class);
+            $(data.set).addClass(data.class);
+            jsqueue.finished(data.PID);
+        },
+
+        /**
          * Set hidden to a given class
          * @param data
          * @constructor
@@ -429,6 +440,7 @@
             $(data.element).animate({
                 scrollLeft: data.offset
             });
+            jsqueue.finished(data.PID);
         },
 
         TOOLS_JS_SCROLL: function(data) {
