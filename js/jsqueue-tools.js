@@ -45,6 +45,11 @@
             $(data.element).val(data.value);
             jsqueue.finished(data.PID);
         },
+
+        TOOLS_UPDATE_HTML: function (data) {
+            $(data.element).html(data.value);
+            jsqueue.finished(data.PID);
+        },
         /**
          * Taking input data and put some into registers for later use maybe in another queue
          * @param data
@@ -74,6 +79,12 @@
         TOOLS_TOGGLE_CLASS: function (data) {
             $(data.clear).removeClass(data.class);
             $(data.set).addClass(data.class);
+            jsqueue.finished(data.PID);
+        },
+
+        TOOLS_UPDATE_CLASS: function (data) {
+            $(data.element).removeClass(data.remove_class);
+            $(data.element).addClass(data.add_class);
             jsqueue.finished(data.PID);
         },
 

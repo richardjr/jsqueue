@@ -63,6 +63,7 @@
         ng_workflow_build: function (obj) {
             var self = this;
             var queue = [];
+            var fail_queue = [];
             var main_action = $(obj).data();
             $(obj).removeClass("js-workflow-onload js-workflow");
 
@@ -75,7 +76,11 @@
             $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order=post]').each(function () {
                 var sub_action = $(this).data();
                 //$(this).removeClass('js-workflow-action');
-                queue.push(self.ng_workflow_exec(sub_action));
+                if(sub_action.chain&&sub_action.chain=='fail')
+                    fail_queue.push(self.ng_workflow_exec(sub_action));
+
+                else
+                    queue.push(self.ng_workflow_exec(sub_action));
             });
 
             /**
@@ -90,6 +95,8 @@
             queue.splice(0, 1);
             if (queue.length > 0)
                 run_queue.chain = queue;
+            if (fail_queue.length > 0)
+                run_queue.fail_chain = fail_queue;
             jsqueue.add(run_queue);
         },
 

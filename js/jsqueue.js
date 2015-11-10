@@ -377,6 +377,9 @@ function jsqueue_main() {
                     if (self.queue[i].chain.length > 0) {
                         newqueue.chain = self.queue[i].chain;
                     }
+                    if (self.queue[i].fail_chain&&self.queue[i].fail_chain.length > 0) {
+                        newqueue.fail_chain = self.queue[i].fail_chain;
+                    }
                     self.queue[i].state = 'finished';
                     self.add(newqueue);
                     return;
