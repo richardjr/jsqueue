@@ -351,7 +351,7 @@ function jsqueue_main() {
         var self = this;
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].data.PID == pid) {
-                self.queue[i].logic=fale;
+                self.queue[i].logic=false;
                 return;
             }
         }
@@ -381,14 +381,18 @@ function jsqueue_main() {
                     self.add(newqueue);
                     return;
                 } else {
-                    var newqueue = self.queue[i].fail_chain[0];
-                    newqueue.stack = self.queue[i].stack;
-                    self.queue[i].fail_chain.splice(0, 1);
-                    if (self.queue[i].fail_chain.length > 0) {
-                        newqueue.chain = self.queue[i].fail_chain;
+                    if(self.queue[i].fail_chain) {
+                        var newqueue = self.queue[i].fail_chain[0];
+                        newqueue.stack = self.queue[i].stack;
+                        self.queue[i].fail_chain.splice(0, 1);
+                        if (self.queue[i].fail_chain.length > 0) {
+                            newqueue.chain = self.queue[i].fail_chain;
+                        }
+                        self.add(newqueue);
+
                     }
                     self.queue[i].state = 'finished';
-                    self.add(newqueue);
+                    return;
                 }
             }
         }
