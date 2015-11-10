@@ -28,6 +28,17 @@
     jsTools.prototype = {
         constructor: jsTools,
 
+        TOOLS_IF: function(data) {
+            function index(obj,i) {return obj[i];}
+            var value=data.if_path.split('.').reduce(index,data);
+            if(value==data.if_check) {
+                console.log('true');
+            } else {
+                jsqueue.logicfail(data.PID);
+                console.log('false');
+            }
+            jsqueue.finished(data.PID);
+        },
         /**
          * Update a form value
          * @param data

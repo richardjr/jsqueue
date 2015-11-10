@@ -199,6 +199,7 @@ function jsqueue_main() {
         var ddata= jQuery.extend({},data);
         ddata.state = 'queued';
         ddata.time = jQuery.now();
+        ddata.logic = true;
         /**
          *  If a queue is tagged we check for an exisiting queue
          *  of the same tag and kill it, tagged queues are unique
@@ -346,6 +347,16 @@ function jsqueue_main() {
         }
     };
 
+    this.logicfail = function (pid) {
+        var self = this;
+        for (var i = 0; i < self.queue.length; i++) {
+            if (self.queue[i].data.PID == pid) {
+                self.queue[i].logic=fale;
+                return;
+            }
+        }
+    }
+
     this.finished = function (pid) {
         var self = this;
 
@@ -356,17 +367,29 @@ function jsqueue_main() {
                  *  in the chain
                  * @type {*}
                  */
-                //console.log(self.queue[i]);
 
-                var newqueue = self.queue[i].chain[0];
-                newqueue.stack = self.queue[i].stack;
-                self.queue[i].chain.splice(0, 1);
-                if (self.queue[i].chain.length > 0) {
-                    newqueue.chain = self.queue[i].chain;
+
+                //console.log(self.queue[i]);
+                if(self.queue[i].logic) {
+                    var newqueue = self.queue[i].chain[0];
+                    newqueue.stack = self.queue[i].stack;
+                    self.queue[i].chain.splice(0, 1);
+                    if (self.queue[i].chain.length > 0) {
+                        newqueue.chain = self.queue[i].chain;
+                    }
+                    self.queue[i].state = 'finished';
+                    self.add(newqueue);
+                    return;
+                } else {
+                    var newqueue = self.queue[i].fail_chain[0];
+                    newqueue.stack = self.queue[i].stack;
+                    self.queue[i].fail_chain.splice(0, 1);
+                    if (self.queue[i].fail_chain.length > 0) {
+                        newqueue.chain = self.queue[i].fail_chain;
+                    }
+                    self.queue[i].state = 'finished';
+                    self.add(newqueue);
                 }
-                self.queue[i].state = 'finished';
-                self.add(newqueue);
-                return;
             }
         }
     };
