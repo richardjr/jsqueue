@@ -125,8 +125,10 @@
                             'uri': self.options.uri,
                             'form': action.form,
                             'validatefunction': action.validatefunction,
-                            'json': action.data
-                        }
+                            'json': action.data,
+
+                        },
+                        'datamode': action.mode ? action.mode : false
                     };
                     return null;
                 default:

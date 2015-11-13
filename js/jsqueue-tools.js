@@ -521,8 +521,7 @@
             }
 
 
-            senddata = $.extend({},ldata.json, senddata);
-
+            senddata = $.extend(true,{},ldata.json, senddata);
             senddata = encodeURIComponent(JSON.stringify(senddata));
 
             /**
