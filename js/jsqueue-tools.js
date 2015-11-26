@@ -50,6 +50,16 @@
             $(data.element).html(data.value);
             jsqueue.finished(data.PID);
         },
+
+        TOOLS_FORMAT_DATA: function (data) {
+            function index(obj,i) {return obj[i];}
+            var formated_data={};
+            for(var i in data.paths) {
+                formated_data[i]=data.paths[i].split('.').reduce(index,data);
+            }
+            jsqueue.push(data.PID,formated_data);
+            jsqueue.finished(data.PID);
+        },
         /**
          * Taking input data and put some into registers for later use maybe in another queue
          * @param data
