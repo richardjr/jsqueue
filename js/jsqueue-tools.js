@@ -56,7 +56,13 @@
          * @constructor
          */
         TOOLS_SET_REG: function (data) {
-            jsqueue.set_reg(data.reg, data.value);
+            function index(obj,i) {return obj[i];}
+            if(data.path) {
+                var value=data.path.split('.').reduce(index,data);
+                jsqueue.set_reg(data.reg, value);
+            } else {
+                jsqueue.set_reg(data.reg, data.value);
+            }
             jsqueue.finished(data.PID);
         },
 
