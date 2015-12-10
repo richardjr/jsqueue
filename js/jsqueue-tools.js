@@ -42,6 +42,7 @@
          * @constructor
          */
         TOOLS_UPDATE_VALUE: function (data) {
+            if(data.value.match(/\!EVAL:/))
             $(data.element).val(data.value);
             jsqueue.finished(data.PID);
         },
@@ -474,7 +475,7 @@
         TOOLS_ANIMSCROLL: function(data) {
             $(data.element).animate({
                 scrollLeft: data.offset
-            });
+            },data.duration||400);
             jsqueue.finished(data.PID);
         },
 
