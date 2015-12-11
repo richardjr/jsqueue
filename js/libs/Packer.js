@@ -96,10 +96,8 @@ NETXUS.RectanglePacker.prototype.getDimensions = function () {
  If it doesn't fit returns null
  */
 NETXUS.RectanglePacker.prototype.findCoords = function ( w, h ) {
-
     // private function to traverse the node tree by recursion
     function recursiveFindCoords ( node, w, h ) {
-
         // private function to clone a node coords and size
         function cloneNode ( node ) {
             return {

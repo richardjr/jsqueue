@@ -39,8 +39,10 @@
              */
             $('.js-workflow').unbind('touchend');
             $('.js-workflow').unbind('click');
+            $('.js-workflow').unbind('run');
 
-            $('.js-workflow').on( 'click touchend', function (e) {
+
+            $('.js-workflow').on( 'click touchend run', function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
                 return false;

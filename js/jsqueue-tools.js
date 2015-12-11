@@ -27,7 +27,10 @@
 
     jsTools.prototype = {
         constructor: jsTools,
-
+        TOOLS_RUN: function(data) {
+            $(data.target).trigger('run');
+            jsqueue.finished(data.PID);
+        },
         TOOLS_IF: function(data) {
             function index(obj,i) {return obj[i];}
             var value=data.if_path.split('.').reduce(index,data);
