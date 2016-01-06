@@ -265,8 +265,11 @@
                         var matches = val.match(/^(#.*?)\&array/);
                         to[key] = [jQuery(matches[1]).val()];
                     }
-                    else
-                        to[key]=jQuery(val).val();
+                    else {
+                        var matches = val.match(/^(#\..*?)/);
+                        if(matches) val = val.substr(1);
+                        to[key] = jQuery(val).val();
+                    }
                 }
             }
 
