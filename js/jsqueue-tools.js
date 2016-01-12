@@ -31,6 +31,10 @@
             $(data.target).trigger('run');
             jsqueue.finished(data.PID);
         },
+        TOOLS_CLICK: function(data) {
+            $(data.target).click();
+            jsqueue.finished(data.PID);
+        },
         TOOLS_IF: function(data) {
             function index(obj,i) {return obj[i];}
             var value=data.if_path.split('.').reduce(index,data);
@@ -47,6 +51,12 @@
         TOOLS_UPDATE_VALUE: function (data) {
             if(data.value.match(/\!EVAL:/))
             $(data.element).val(data.value);
+            jsqueue.finished(data.PID);
+        },
+
+        TOOLS_UPDATE_VALUE_WITH_VALUE: function (data) {
+            var from_value = $(data.passed_element).val();
+            $(data.element).val(from_value);
             jsqueue.finished(data.PID);
         },
 
