@@ -45,6 +45,8 @@
             $('.js-workflow').on( 'click touchend run', function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
+                if($(this).attr('data-return'))
+                    return $(this).attr('data-return');
                 return false;
             });
 

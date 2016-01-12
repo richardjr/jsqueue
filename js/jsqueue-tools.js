@@ -49,7 +49,7 @@
          * @constructor
          */
         TOOLS_UPDATE_VALUE: function (data) {
-            if(data.value.match(/\!EVAL:/))
+            //if(data.value.match(/\!EVAL:/))
             $(data.element).val(data.value);
             jsqueue.finished(data.PID);
         },
