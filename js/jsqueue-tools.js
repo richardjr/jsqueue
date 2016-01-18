@@ -55,6 +55,11 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_START_CAROUSEL: function (data) {
+            $('.carousel').carousel();
+            jsqueue.finished(data.PID);
+        },
+
         TOOLS_FORMAT_DATA: function (data) {
             function index(obj,i) {return obj[i];}
             var formated_data={};
