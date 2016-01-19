@@ -209,11 +209,29 @@
 
         /**
          * Runs a JavaScript function that's defined in data.afunction
-         * @param data
+         *
+         * @example
+         *     jsqueue.add({
+         *        'component': 'TOOLS',
+         *        'command': 'TOOLS_RUN_FUNCTION',
+         *        'data': {
+         *            //The function that you want to run.
+         *            'afunction': 'updatePage'
+         *        }
+         *    });
+         *
+         * @param {Object[]} data - The data that you want to send.
+         * @param {string} data[].afunction - The function that you want to run.
          * @constructor
          */
         TOOLS_RUN_FUNCTION: function(data) {
-            window[data.afunction]();
+            if (data.parameters) {
+                window[data.afunction](data.parameters);
+            }
+            else {
+                window[data.afunction]();
+            }
+
             jsqueue.finished(data.PID);
         },
 

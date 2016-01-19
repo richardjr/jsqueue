@@ -1,6 +1,6 @@
 var compressor = require('node-minify');
 
-var files=[
+var desktopFiles = [
     "js/jsqueue.js",
     "js/jsqueue-animate.js",
     "js/jsqueue-calendar.js",
@@ -9,28 +9,45 @@ var files=[
     "js/jsqueue-modal.js",
     "js/jsqueue-time.js",
     "js/jsqueue-tools.js",
-    "js/jsqueue-workflow.js",
-    "js/libs/base64.js",
-    "js/libs/Chart.min.js",
-    "js/libs/fullcalendar.min.js",
-    "js/libs/jquery.dataTables.min.js",
-    "js/libs/jsrender.js",
-    "js/libs/jsrender-helpers.js",
-    "js/libs/moment.js",
-    "js/libs/perfect-scrollbar.jquery.min.js",
-    "js/libs/prettyprint.js"
+    "js/jsqueue-workflow.js"
+];
+
+var mobileFiles = [
+    "js/jsqueue.js",
+    "js/jsqueue-core.js",
+    "js/jsqueue-tools.js",
+    "js/jsqueue-workflow.js"
 ];
 
 new compressor.minify({
     type: 'gcc',
-    fileIn: files,
-    fileOut: 'jsqueue.min.js',
+    fileIn: desktopFiles,
+    fileOut: 'jsqueue-desktop.min.js',
     buffer: 100000 * 1024,
-    callback: function(err, min){
-        if(err)
-            console.log('ERROR:'+err);
-        else
-            console.log('Built');
+    options: ['--compilation_level=SIMPLE_OPTIMIZATIONS', '--warning_level=QUIET'],
+    callback: function(err, min) {
+        if (err) {
+            console.log('ERROR: ' + err);
+        }
+        else {
+            console.log('Built desktop files');
+        }
+
+        new compressor.minify({
+            type: 'gcc',
+            fileIn: mobileFiles,
+            fileOut: 'jsqueue-mobile.min.js',
+            buffer: 100000 * 1024,
+            options: ['--compilation_level=SIMPLE_OPTIMIZATIONS', '--warning_level=QUIET'],
+            callback: function(err, min) {
+                if (err) {
+                    console.log('ERROR: ' + err);
+                }
+                else {
+                    console.log("Built mobile files");
+                }
+            }
+        })
     }
 });
 
