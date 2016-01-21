@@ -34,8 +34,12 @@ core.forms = {
                     } else {
                         if ($(this).attr('data-encode') == 'json')
                             obj[path[i]] = JSON.parse($(this).val());
-                        else
-                            obj[path[i]] = $(this).val();
+                        else {
+                            if($(this).attr('data-ptr'))
+                                obj[path[i]] = $($(this).attr('data-ptr')).val();
+                            else
+                                obj[path[i]] = $(this).val();
+                        }
                     }
                     break;
                 }
