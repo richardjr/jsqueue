@@ -71,10 +71,27 @@
         },
 
         TOOLS_FORMAT_DATA: function (data) {
+            console.log(data);
             function index(obj,i) {return obj[i];}
             var formated_data={};
             for(var i in data.paths) {
-                formated_data[i]=data.paths[i].split('.').reduce(index,data);
+                if(data.paths[i]=='root') {
+                    formated_data[i]=data;
+                } else {
+                    var fpath= i.split('.');
+                    if(fpath.length==1)
+                        formated_data[i] = data.paths[i].split('.').reduce(index, data);
+                    else {
+                        /**
+                         *  Crap hack to allow two levels
+                         *
+                         *  TODO make this recurisve function when time isn't sucking
+                         *
+                         */
+                        formated_data[fpath[0]]={};
+                        formated_data[fpath[0]][fpath[1]]=data.paths[i].split('.').reduce(index, data);
+                    }
+                }
             }
             jsqueue.push(data.PID,formated_data);
             jsqueue.finished(data.PID);
