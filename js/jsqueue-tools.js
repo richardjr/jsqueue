@@ -71,7 +71,6 @@
         },
 
         TOOLS_FORMAT_DATA: function (data) {
-            console.log(data);
             function index(obj,i) {return obj[i];}
             var formated_data={};
             for(var i in data.paths) {
@@ -523,7 +522,6 @@
                     self.helper_replace_value(key, val, data,data);
                 });
             }
-            console.log(data);
             window.location=data.location;
             jsqueue.finished(data.PID);
         },
