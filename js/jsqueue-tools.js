@@ -17,7 +17,7 @@
                 if(self[cmd])
                     self[cmd](data);
                 else
-                    console.log('Error no cmd:'+cmd);
+                    console.warn('Error no cmd:'+cmd);
             }
         });
         jsqueue.activate('TOOLS');
@@ -202,10 +202,10 @@
          */
         TOOLS_DISPLAY_TEMPLATE: function (data) {
             if(($(data.element).length) <= 0) {
-                console.log("Element does not exist:"+data.element);
+                console.warn("Element does not exist:"+data.element);
             }
             if(($(data.template).length) <= 0) {
-                console.log("Template does not exist"+data.template);
+                console.warn("Template does not exist"+data.template);
             }
             $(data.element).html($(data.template).render(data));
             jsqueue.finished(data.PID);
