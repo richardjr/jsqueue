@@ -128,8 +128,12 @@
          * @constructor
          */
         TOOLS_TOGGLE_CLASS: function (data) {
-            $(data.clear).removeClass(data.class);
-            $(data.set).addClass(data.class);
+            if(data.clear||data.set) {
+                $(data.clear).removeClass(data.class);
+                $(data.set).addClass(data.class);
+            } else {
+                $(data.target).toggleClass(data.class);
+            }
             jsqueue.finished(data.PID);
         },
 
