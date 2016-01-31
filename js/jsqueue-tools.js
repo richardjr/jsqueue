@@ -70,6 +70,26 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_SLIDE_TOGGLE: function(data) {
+            var offet=data.offset||20;
+            if(data.target) {
+                    var obj=$(data.target);
+                    if (obj.position()['left'] < 0) {
+                        obj.animate({
+                            'left': '0px'
+                        });
+                        obj.addClass('active');
+                    } else {
+                        obj.animate({
+                            'left': '-' + (obj.width() - offet) + 'px'
+                        });
+                        obj.removeClass('active');
+                    }
+            } else {
+                console.warn('TOOL_SLIDE_TOGGLE called with no target');
+            }
+        },
+
         TOOLS_FORMAT_DATA: function (data) {
             function index(obj,i) {return obj[i];}
             var formated_data={};
