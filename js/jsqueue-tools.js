@@ -628,7 +628,7 @@
                     url: ldata.uri,
                     data: senddata,
                     async: true,
-                    contentType: "application/x-www-form-urlencoded",
+                    contentType: "application/json; charset=utf-8",
                     processData: false,
                     traditional: false,
                     success: function (rdata) {
@@ -667,7 +667,7 @@
                         withCredentials: true
                     },
                     processData: false,
-                    contentType: "application/x-www-form-urlencoded",
+                    contentType: "application/json; charset=utf-8",
                     traditional: false,
                     success: function (rdata) {
                         if(ldata.json&&ldata.json.ignoredata) {
