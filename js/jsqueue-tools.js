@@ -60,6 +60,13 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_UPDATE_VALUE_WITH_HTML: function (data) {
+            console.log(data);
+            var from_value = $(data.passed_element).html();
+            $(data.element).val(from_value);
+            jsqueue.finished(data.PID);
+        },
+
         TOOLS_UPDATE_HTML: function (data) {
             $(data.element).html(data.value);
             jsqueue.finished(data.PID);
