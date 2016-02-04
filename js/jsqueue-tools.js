@@ -82,12 +82,18 @@
             if(data.target) {
                     var obj=$(data.target);
                     if (obj.position()['left'] < 0) {
-                        obj.animate({
+                        /*obj.animate({
+                            'left': '0px'
+                        });*/
+                        obj.css({
                             'left': '0px'
                         });
                         obj.addClass('active');
                     } else {
-                        obj.animate({
+                        /*obj.animate({
+                            'left': '-' + (obj.width() - offet) + 'px'
+                        });*/
+                        obj.css({
                             'left': '-' + (obj.width() - offet) + 'px'
                         });
                         obj.removeClass('active');
