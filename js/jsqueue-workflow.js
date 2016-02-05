@@ -47,12 +47,12 @@
             /**
              *  Kill any events to prevent the old double down
              */
-            $('.js-workflow').unbind('touchend');
+            //$('.js-workflow').unbind('touchend');
             $('.js-workflow').unbind('click');
             $('.js-workflow').unbind('run');
 
 
-            $('.js-workflow').on( 'click touchend run', function (e) {
+            $('.js-workflow').on( 'click run', function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
                 if($(this).attr('data-return'))
