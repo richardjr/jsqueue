@@ -192,9 +192,31 @@
          * @constructor
          */
         TOOLS_REMOVE_HIDDEN: function (data) {
-            $(data.element).removeClass('hidden');
+            data.target=data.target||data.element;
+            $(data.target).removeClass('hidden');
             jsqueue.finished(data.PID);
         },
+
+        /**
+         * Remove class from a given target
+         * @param data
+         * @constructor
+         */
+        TOOLS_REMOVE_CLASS: function (data) {
+            $(data.target).removeClass(data.class);
+            jsqueue.finished(data.PID);
+        },
+
+        /**
+         * add class from a given target
+         * @param data
+         * @constructor
+         */
+        TOOLS_ADD_CLASS: function (data) {
+            $(data.target).addClass(data.class);
+            jsqueue.finished(data.PID);
+        },
+
 
         /**
          * If help class is found, add it as a popover
