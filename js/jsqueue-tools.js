@@ -665,6 +665,7 @@
                     async: true,
                     processData: false,
                     traditional: false,
+                    headers: data.headers || {},
                     success: function (rdata) {
                         if(ldata.json&&ldata.json.ignoredata) {
                             jsqueue.push(ldata.PID, rdata.data);
@@ -702,6 +703,8 @@
                     },
                     processData: false,
                     traditional: false,
+                    headers: data.headers || {},
+
                     success: function (rdata) {
                         if(ldata.json&&ldata.json.ignoredata) {
                             jsqueue.push(ldata.PID, rdata.data);
