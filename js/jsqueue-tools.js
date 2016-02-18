@@ -101,6 +101,8 @@
             } else {
                 console.warn('TOOL_SLIDE_TOGGLE called with no target');
             }
+            jsqueue.finished(data.PID);
+
         },
 
         TOOLS_FORMAT_DATA: function (data) {
@@ -170,6 +172,16 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_TOGGLE_BETWEEN_CLASS: function (data) {
+            if(data.clear||data.set) {
+                $(data.clear).removeClass(data.class);
+                $(data.set).addClass(data.class);
+            } else {
+                $(data.target).toggleClass(data.class);
+            }
+            jsqueue.finished(data.PID);
+        },
+
         TOOLS_UPDATE_CLASS: function (data) {
             $(data.element).removeClass(data.remove_class);
             $(data.element).addClass(data.add_class);
@@ -182,7 +194,8 @@
          * @constructor
          */
         TOOLS_SET_HIDDEN: function (data) {
-            $(data.element).addClass('hidden');
+            data.target=data.target||data.element;
+            $(data.target).addClass('hidden');
             jsqueue.finished(data.PID);
         },
 
