@@ -60,6 +60,7 @@
                 'component': 'WORKFLOW',
                 'command': 'WORKFLOW_START'
             });
+            jsqueue.finished(data.PID);
         },
 
         TOOLS_UPDATE_VALUE_WITH_VALUE: function (data) {
