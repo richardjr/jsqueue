@@ -694,21 +694,19 @@
                             jsqueue.push(ldata.PID, rdata);
                         }
                         jsqueue.finished(ldata.PID);
-                        jsqueue.add({
-                            'component': 'DEBUG',
-                            'command': 'DEBUG_MSG',
-                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
-                        });
+                        if (self.debug) {
+                            console.info('jsTools->call_api');
+                            console.info(rdata);
+                        }
                         if(ldata.success)
                             ldata.success(rdata);
 
                     },
                     error: function (rdata) {
-                        jsqueue.add({
-                            'component': 'DEBUG',
-                            'command': 'DEBUG_MSG',
-                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'warn'}
-                        });
+                        if (self.debug) {
+                            console.warn('jsTools->call_api');
+                            console.warn(rdata);
+                        }
 
                     }
                 });
@@ -733,20 +731,18 @@
                             jsqueue.push(ldata.PID, rdata);
                         }
                         jsqueue.finished(ldata.PID);
-                        jsqueue.add({
-                            'component': 'DEBUG',
-                            'command': 'DEBUG_MSG',
-                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'info'}
-                        });
+                        if (self.debug) {
+                            console.info('jsTools->call_api');
+                            console.info(rdata);
+                        }
                         if(ldata.success)
                             ldata.success(rdata);
                     },
                     error: function (rdata) {
-                        jsqueue.add({
-                            'component': 'DEBUG',
-                            'command': 'DEBUG_MSG',
-                            'data': {'caller': 'jsTools->call_api', 'msg': rdata, 'state': 'warn'}
-                        });
+                        if (self.debug) {
+                            console.warn('jsTools->call_api');
+                            console.warn(rdata);
+                        }
 
                     }
                 });
