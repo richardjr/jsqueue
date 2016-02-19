@@ -54,6 +54,14 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_EXECUTE_TEMPLATE: function (data) {
+            $('#command-window').html($(data.template).render(data.data));
+            jsqueue.add({
+                'component': 'WORKFLOW',
+                'command': 'WORKFLOW_START'
+            });
+        },
+
         TOOLS_UPDATE_VALUE_WITH_VALUE: function (data) {
             var from_value = $(data.passed_element).val();
             $(data.element).val(from_value);
