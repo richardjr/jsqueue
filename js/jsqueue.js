@@ -11,6 +11,7 @@ function jsqueue_main() {
          * List of components, this is used to set their state as well
          */
         self.components = {};
+        self.debug = false;
 
         /**
          *  Empty Queue
@@ -27,6 +28,12 @@ function jsqueue_main() {
         };
     };
 
+    this.debugger = function () {
+        var self = this;
+        console.log('jsqueue debugger enabled');
+        self.debug = true;
+        return true;
+    };
     /**
      * Register new component
      * @param name
@@ -51,20 +58,14 @@ function jsqueue_main() {
      */
     this.set_reg = function (name, data) {
         var self = this;
-        if(typeof data === 'object')
-            self.registers[name] = $.extend({},data);
+        if (typeof data === 'object')
+            self.registers[name] = $.extend({}, data);
         else
-            self.registers[name]=data;
-        self.add(
-            {
-                'component': 'DEBUG',
-                'command': 'DEBUG_MSG',
-                'data': {
-                    'caller': 'jsqueue>set_reg',
-                    'msg': 'REG set: '+name,
-                    'state': 'info'
-                }
-            });
+            self.registers[name] = data;
+        if (self.debug) {
+            console.info('jsqueue>set_reg:' + name);
+            console.info(data);
+        }
     };
 
     /**
@@ -73,15 +74,15 @@ function jsqueue_main() {
      * @param mode
      * @returns {*}
      */
-    this.get_reg = function (name,mode) {
+    this.get_reg = function (name, mode) {
         var self = this;
-        var ret=null;
-        mode=mode||false;
-        if(typeof self.registers[name] === 'object')
-            ret= $.extend({},self.registers[name]);
+        var ret = null;
+        mode = mode || false;
+        if (typeof self.registers[name] === 'object')
+            ret = $.extend({}, self.registers[name]);
         else
-            ret=self.registers[name];
-        if(mode)
+            ret = self.registers[name];
+        if (mode)
             delete self.registers[name];
         return ret;
     };
@@ -93,17 +94,8 @@ function jsqueue_main() {
     this.clear_reg = function (name) {
         var self = this;
         delete self.registers[name];
-        self.add(
-            {
-                'component': 'DEBUG',
-                'command': 'DEBUG_MSG',
-                'data': {
-                    'caller': 'jsqueue>set_reg',
-                    'msg': 'REG cleared: '+name,
-                    'state': 'info'
-                }
-            });
-
+        if (self.debug)
+            console.info('jsqueue>clear_reg:' + name);
     };
 
     this.killtag = function (tag) {
@@ -122,7 +114,6 @@ function jsqueue_main() {
     this.clean_queue = function () {
         var self = this;
         var cleaned = 0;
-        var cleaned_list = [];
         var iswork = true;
         while (iswork) {
             iswork = false;
@@ -133,39 +124,20 @@ function jsqueue_main() {
                     break;
                 }
                 if (jQuery.now() > (self.queue[i].time + self.config.maxlife)) {
-                    cleaned_list.push(self.queue[i]);
+                    if (self.debug)
+                        console.warn('Cleaned:' + self.queue[i].id + ':' + self.queue[i].command);
                     self.queue.splice(i, 1);
                     cleaned++;
                     iswork = true;
                     break;
-                }
 
+                }
             }
         }
         if (cleaned > 0) {
-            self.add({
-                'component': 'DEBUG',
-                'command': 'DEBUG_MSG',
-                'data': {
-                    'caller': 'jsqueue',
-                    'msg': 'Cleaned (' + cleaned + ') expired items from queue',
-                    'state': 'warn'
-                },
-                "chain": [
-                    {
-                        'component': 'DEBUG',
-                        'command': 'DEBUG_MSG',
-                        'data': {
-                            'caller': 'jsqueue',
-                            'msg': cleaned_list,
-                            'state': 'warn'
-                        }
-                    }
-                ]
-            });
+            if (self.debug)
+                console.info('Cleaned (' + cleaned + ') expired items from queue');
         }
-
-
     };
 
     /**
@@ -203,7 +175,7 @@ function jsqueue_main() {
      */
     this.add = function (data) {
         var self = this;
-        var ddata= jQuery.extend({},data);
+        var ddata = jQuery.extend({}, data);
         ddata.state = 'queued';
         ddata.time = jQuery.now();
         ddata.logic = true;
@@ -211,15 +183,15 @@ function jsqueue_main() {
          *  If a queue is tagged we check for an exisiting queue
          *  of the same tag and kill it, tagged queues are unique
          */
-        if(ddata.tag)
+        if (ddata.tag)
             self.killtag(ddata.tag);
         else
-            ddata.tag='untagged';
+            ddata.tag = 'untagged';
         if (!ddata.stack)
             ddata.stack = [];
         if (!ddata.data)
             ddata.data = {};
-        var qid=self.pid;
+        var qid = self.pid;
         self.queue.push(ddata);
         self.process();
         return qid;
@@ -264,7 +236,7 @@ function jsqueue_main() {
                     var myqueue = self.queue[i];
                     self.pid++;
                     var timeout = myqueue.data.timer || self.config.timeout;
-                    switch(myqueue.datamode) {
+                    switch (myqueue.datamode) {
                         case 'stack':
                             myqueue.data = jQuery.extend({}, myqueue.data, myqueue.stack.pop());
                             break;
@@ -272,35 +244,19 @@ function jsqueue_main() {
                             myqueue.data.stack = myqueue.stack;
                             break;
                         case 'listen':
-                            myqueue.data = jQuery.extend({}, myqueue.data, myqueue.stack[myqueue.stack.length-1]);
+                            myqueue.data = jQuery.extend({}, myqueue.data, myqueue.stack[myqueue.stack.length - 1]);
                             break;
                     }
-                    self.launch_queue_item(myqueue.component,myqueue.command,myqueue.data,timeout);
+                    self.launch_queue_item(myqueue.component, myqueue.command, myqueue.data, timeout);
                     if (myqueue.hasOwnProperty('chain')) {
                         myqueue.state = 'triggered';
-                        if (myqueue.component != 'DEBUG')
-                            self.add({
-                                'component': 'DEBUG',
-                                'command': 'DEBUG_MSG',
-                                'data': {
-                                    'caller': 'jsqueue>process',
-                                    'msg': 'PID(' + myqueue.data.PID + ') Ran chain ' + myqueue.command + ':' + timeout,
-                                    'state': 'info'
-                                }
-                            });
+                        if (self.debug)
+                            console.info('PID(' + myqueue.data.PID + ') Ran chain ' + myqueue.command + ':' + timeout);
 
                     } else {
                         myqueue.state = 'finished';
-                        if (myqueue.component != 'DEBUG')
-                            self.add({
-                                'component': 'DEBUG',
-                                'command': 'DEBUG_MSG',
-                                'data': {
-                                    'caller': 'jsqueue>process',
-                                    'msg': 'PID(' + myqueue.data.PID + ') Ran command ' + myqueue.command + ':' + timeout,
-                                    'state': 'info'
-                                }
-                            });
+                        if (self.debug)
+                            console.info('PID(' + myqueue.data.PID + ') Ran command ' + myqueue.command + ':' + timeout);
                     }
                 }
             }
@@ -310,20 +266,20 @@ function jsqueue_main() {
     /**
      *  We use an intermedia function to launch as timeout will use the variable state in a loop
      */
-    this.launch_queue_item =function (component,command,data,timeout) {
-        var self=this;
+    this.launch_queue_item = function (component, command, data, timeout) {
+        var self = this;
         if (self.components[component].mode != 'object') {
             setTimeout(function () {
                 jQuery(self.components[component].aclass).trigger('command', [command, data])
             }, timeout);
         } else {
             var ptrobj = self.components[component].object;
-            if(ptrobj[command]) {
+            if (ptrobj[command]) {
                 setTimeout(function () {
                     ptrobj[command](data)
                 }, timeout);
             } else {
-                console.log(component+':'+command+' is not a valid object!');
+                console.log(component + ':' + command + ' is not a valid object!');
             }
         }
     };
@@ -345,11 +301,8 @@ function jsqueue_main() {
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].data.PID == pid && self.queue[i].state == 'triggered') {
                 self.queue[i].stack.push(data);
-                self.add({
-                    'component': 'DEBUG',
-                    'command': 'DEBUG_MSG',
-                    'data': {'caller': 'jsqueue', 'msg': 'PID(' + pid + ') updated the stack', 'state': 'info'}
-                });
+                if (self.debug)
+                    console.warn('PID(' + pid + ') updated the stack');
             }
         }
     };
@@ -358,7 +311,7 @@ function jsqueue_main() {
         var self = this;
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].data.PID == pid) {
-                self.queue[i].logic=false;
+                self.queue[i].logic = false;
                 return;
             }
         }
@@ -377,21 +330,21 @@ function jsqueue_main() {
 
 
                 //console.log(self.queue[i]);
-                if(self.queue[i].logic) {
+                if (self.queue[i].logic) {
                     var newqueue = self.queue[i].chain[0];
                     newqueue.stack = self.queue[i].stack;
                     self.queue[i].chain.splice(0, 1);
                     if (self.queue[i].chain.length > 0) {
                         newqueue.chain = self.queue[i].chain;
                     }
-                    if (self.queue[i].fail_chain&&self.queue[i].fail_chain.length > 0) {
+                    if (self.queue[i].fail_chain && self.queue[i].fail_chain.length > 0) {
                         newqueue.fail_chain = self.queue[i].fail_chain;
                     }
                     self.queue[i].state = 'finished';
                     self.add(newqueue);
                     return;
                 } else {
-                    if(self.queue[i].fail_chain) {
+                    if (self.queue[i].fail_chain) {
                         var newqueue = self.queue[i].fail_chain[0];
                         newqueue.stack = self.queue[i].stack;
                         self.queue[i].fail_chain.splice(0, 1);
@@ -422,11 +375,8 @@ function jsqueue_main() {
         /**
          *  Force a queue process to send out any commands that are waiting by adding a debug into the queue
          */
-        self.add({
-            'component': 'DEBUG',
-            'command': 'DEBUG_MSG',
-            'data': {'caller': 'jsqueue>activate', 'msg': 'Component ' + component + ' Reports Active', 'state': 'info'}
-        });
+        if (self.debug)
+            console.warn('Component ' + component + ' Reports Active');
 
     };
 
@@ -435,11 +385,11 @@ function jsqueue_main() {
 
 var jsqueue = null;
 
-jQuery(window).load(function() {
+jQuery(window).load(function () {
 
     var config = {};
-    if(jQuery('#jsqueue').length>0)
-        config=JSON.parse(jQuery('#jsqueue').attr("data-config"));
+    if (jQuery('#jsqueue').length > 0)
+        config = JSON.parse(jQuery('#jsqueue').attr("data-config"));
 
     jsqueue = new jsqueue_main();
     var self = jsqueue;

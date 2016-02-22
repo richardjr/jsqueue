@@ -87,7 +87,7 @@
                 queue.push(self.ng_workflow_exec(sub_action));
             });
             queue.push(self.ng_workflow_exec(main_action));
-            $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order=post]').each(function () {
+            $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order!=pre]').each(function () {
                 var sub_action = $(this).data();
                 //$(this).removeClass('js-workflow-action');
                 if(sub_action.chain&&sub_action.chain=='fail')
