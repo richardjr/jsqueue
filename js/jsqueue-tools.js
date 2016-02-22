@@ -639,6 +639,10 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_RUN_JAVASCRIPT: function (data) {
+            eval(data.function+"("+data.args+");");
+        },
+
         TOOLS_REST_API: function (data) {
             var self = this;
             var senddata = {};
