@@ -171,6 +171,11 @@
          * @constructor
          */
         TOOLS_TOGGLE_CLASS: function (data) {
+            var self=this;
+            if(data.ifclass&&!self.ifclass(data.ifclass)) {
+                jsqueue.finished(data.PID);
+                return;
+            }
             if(data.clear||data.set) {
                 $(data.clear).removeClass(data.class);
                 $(data.set).addClass(data.class);
@@ -178,6 +183,25 @@
                 $(data.target).toggleClass(data.class);
             }
             jsqueue.finished(data.PID);
+        },
+
+        TOOLS_STATE_CLASS: function (data) {
+            var self=this;
+            if(data.ifclass&&self.ifclass(data.ifclass)) {
+                $(data.target).removeClass(data.falseclass);
+                $(data.target).addClass(data.trueclass);
+
+            } else {
+                $(data.target).removeClass(data.trueclass);
+                $(data.target).addClass(data.falseclass);
+            }
+            jsqueue.finished(data.PID);
+        },
+
+        ifclass: function (ifclass) {
+            if($(ifclass).length>0)
+                return true;
+            return false;
         },
 
         TOOLS_TOGGLE_BETWEEN_CLASS: function (data) {

@@ -103,6 +103,7 @@ function jsqueue_main() {
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].tag == tag) {
                 self.queue.splice(i, 1);
+                console.info('jsqueue>killed tag:' + tag);
                 break;
             }
         }
@@ -125,7 +126,7 @@ function jsqueue_main() {
                 }
                 if (jQuery.now() > (self.queue[i].time + self.config.maxlife)) {
                     if (self.debug)
-                        console.warn('Cleaned:' + self.queue[i].id + ':' + self.queue[i].command);
+                        console.warn('Cleaned:' + self.queue[i].PID + ':' + self.queue[i].command +':'+self.queue[i].tag);
                     self.queue.splice(i, 1);
                     cleaned++;
                     iswork = true;
