@@ -414,6 +414,7 @@
                         }
                     }
                 } else if (typeof val == "string" && (matches = val.match(/^(#.*?)/))) {
+                    console.info('TOOLS_REST_API call is using depricated helper_replace_value # value. Please move to !jquery: format');
                     if(val.match(/^(#.*?)\&array/)) {
                         var matches = val.match(/^(#.*?)\&array/);
                         to[key] = [jQuery(matches[1]).val()];

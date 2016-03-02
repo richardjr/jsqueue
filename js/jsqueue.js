@@ -269,6 +269,12 @@ function jsqueue_main() {
      */
     this.launch_queue_item = function (component, command, data, timeout) {
         var self = this;
+        /**
+         *  Process that data through our parser
+         */
+        core.data.datamunge(data);
+        if (self.debug)
+            console.log(data);
         if (self.components[component].mode != 'object') {
             setTimeout(function () {
                 jQuery(self.components[component].aclass).trigger('command', [command, data])
