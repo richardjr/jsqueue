@@ -118,19 +118,6 @@
         ng_workflow_exec: function (action) {
             var self = this;
             switch (action.action) {
-                case 'queue':
-                    var data={};
-                    if(action.form) {
-                        core.forms.encode(action.form,data);
-                    } else {
-                        data=$.extend({},action.data,action.merge);
-                    }
-                    return {
-                        'component': action.component,
-                        'command': action.command,
-                        'data':data,
-                        'datamode': action.mode ? action.mode : false
-                    }
                 case 'post-form':
                     return {
                         'component': 'TOOLS',
@@ -143,9 +130,20 @@
                         },
                         'datamode': action.mode ? action.mode : false
                     };
+                case 'queue':
                 default:
-                    console.log('unknown action:' + action.action);
-                    break;
+                    var data={};
+                    if(action.form) {
+                        core.forms.encode(action.form,data);
+                    } else {
+                        data=$.extend({},action.data,action.merge);
+                    }
+                    return {
+                        'component': action.component,
+                        'command': action.command,
+                        'data':data,
+                        'datamode': action.mode ? action.mode : false
+                    }
             }
         }
     };

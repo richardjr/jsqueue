@@ -20,7 +20,6 @@ core.data = {
         } else {
             var matches;
             if (typeof val == "string" && (matches = val.match(/^!jquery:(.*?)$/))) {
-                console.log(matches);
                 to[key] = jQuery(matches[1]).val();
             }
         }
