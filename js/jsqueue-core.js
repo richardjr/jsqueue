@@ -19,8 +19,9 @@ core.data = {
             });
         } else {
             var matches;
-            if (typeof val == "string" && (matches = val.match(/^!jquery:(.*?)$/))) {
-                to[key] = jQuery(matches[1]).val();
+            if (typeof val == "string" && (matches = val.match(/\!jquery:(.*)[:]{0,1}/))) {
+                var clean_match=matches[1].replace(/:.*/,'');
+                to[key] = val.replace(/\!jquery:.*[:]{0,1}/,jQuery(clean_match).val());
             }
         }
     }

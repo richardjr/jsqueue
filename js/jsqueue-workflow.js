@@ -78,7 +78,7 @@
             var self = this;
             var queue = [];
             var fail_queue = [];
-            var main_action = $(obj).data();
+            var main_action = jQuery.extend(true,{},$(obj).data());
             $(obj).removeClass("js-workflow-onload js-workflow");
 
             $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order=pre]').each(function () {
