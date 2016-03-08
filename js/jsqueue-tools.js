@@ -55,7 +55,7 @@
         },
 
         TOOLS_EXECUTE_TEMPLATE: function (data) {
-            $('#command-window').html($(data.template).render(data.data));
+            $('#command-window').html($(data.template).render(data));
             jsqueue.add({
                 'component': 'WORKFLOW',
                 'command': 'WORKFLOW_START'
