@@ -85,6 +85,11 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_SET_ATTRIBUTE: function(data) {
+            $(data.target).attr(data.attributes);
+            jsqueue.finished(data.PID);
+        },
+
         TOOLS_SLIDE_TOGGLE: function(data) {
             var offet=data.offset||20;
             if(data.target) {
