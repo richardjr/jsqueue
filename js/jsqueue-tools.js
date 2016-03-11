@@ -391,6 +391,8 @@
             } else {
                 var matches;
                 if (typeof val == "string" && (matches = val.match(/%(.*?)%/))) {
+                    console.info('TOOLS_REST_API call is using depricated helper_replace_value % value. Please move to !data: format');
+
                     /**
                      * Warning voodoo
                      *
@@ -722,10 +724,12 @@
                     traditional: false,
                     headers: data.headers || {},
                     success: function (rdata) {
-                        if(ldata.json&&ldata.json.ignoredata) {
-                            jsqueue.push(ldata.PID, rdata.data);
-                        } else {
-                            jsqueue.push(ldata.PID, rdata);
+                        if(!data.nostack) {
+                            if (ldata.json && ldata.json.ignoredata) {
+                                jsqueue.push(ldata.PID, rdata.data);
+                            } else {
+                                jsqueue.push(ldata.PID, rdata);
+                            }
                         }
                         jsqueue.finished(ldata.PID);
                         if (self.debug) {
@@ -759,10 +763,12 @@
                     headers: data.headers || {},
 
                     success: function (rdata) {
-                        if(ldata.json&&ldata.json.ignoredata) {
-                            jsqueue.push(ldata.PID, rdata.data);
-                        } else {
-                            jsqueue.push(ldata.PID, rdata);
+                        if(!data.nostack) {
+                            if (ldata.json && ldata.json.ignoredata) {
+                                jsqueue.push(ldata.PID, rdata.data);
+                            } else {
+                                jsqueue.push(ldata.PID, rdata);
+                            }
                         }
                         jsqueue.finished(ldata.PID);
                         if (self.debug) {
