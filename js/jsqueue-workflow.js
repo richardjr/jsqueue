@@ -138,12 +138,15 @@
                     } else {
                         data=$.extend({},action.data,action.merge);
                     }
-                    return {
+                    var gen_queue={
                         'component': action.component,
                         'command': action.command,
                         'data':data,
                         'datamode': action.mode ? action.mode : false
                     }
+                    if(action.reg)
+                        gen_queue.reg=action.reg;
+                    return gen_queue;
             }
         }
     };
