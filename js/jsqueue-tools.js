@@ -310,13 +310,14 @@
          * @constructor
          */
         TOOLS_DISPLAY_TEMPLATE: function (data) {
-            if(($(data.element).length) <= 0) {
-                console.warn("Element does not exist:"+data.element);
+            data.target=data.target||data.element;
+            if(($(data.target).length) <= 0) {
+                console.warn("Element does not exist:"+data.target);
             }
             if(($(data.template).length) <= 0) {
                 console.warn("Template does not exist"+data.template);
             }
-            $(data.element).html($(data.template).render(data));
+            $(data.target).html($(data.template).render(data));
             jsqueue.finished(data.PID);
         },
 
