@@ -272,7 +272,8 @@ function jsqueue_main() {
         /**
          *  Process that data through our parser
          */
-        core.data.datamunge(data);
+        if(data.munge!='off')
+            core.data.datamunge(data);
         if (self.debug)
             console.log(data);
         if (self.components[component].mode != 'object') {
