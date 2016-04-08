@@ -165,8 +165,12 @@ function jsqueue_main() {
          *  Now start them all up
          */
         for (var i in self.components) {
-            if (self.components[i].mode == 'plugin')
-                jQuery(self.components[i].aclass)[self.components[i].afunction](jQuery(self.components[i].aclass).data());
+            if (self.components[i].mode == 'plugin') {
+                if(jQuery(self.components[i].aclass)[self.components[i].afunction])
+                    jQuery(self.components[i].aclass)[self.components[i].afunction](jQuery(self.components[i].aclass).data());
+                else
+                    console.info('Could not start component '+i);
+            }
         }
     };
 
