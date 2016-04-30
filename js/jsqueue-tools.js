@@ -225,8 +225,9 @@
         },
 
         TOOLS_UPDATE_CLASS: function (data) {
-            $(data.element).removeClass(data.remove_class);
-            $(data.element).addClass(data.add_class);
+            data.target=data.target||data.element;
+            $(data.target).removeClass(data.remove_class);
+            $(data.target).addClass(data.add_class);
             jsqueue.finished(data.PID);
         },
 

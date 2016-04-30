@@ -52,12 +52,22 @@
             $('.js-workflow').unbind('run');
 
 
-            $('.js-workflow').on( 'click run', function (e) {
+            $('.js-workflow:not([data-events])').on( 'click run', function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
                 if($(this).attr('data-return'))
                     return $(this).attr('data-return');
                 return false;
+            });
+
+            $('.js-workflow[data-events]').each(function () {
+                $(this).on($(this).attr('data-events'), function(e) {
+                    e.stopPropagation();
+                    self.ng_workflow_build(this);
+                    if ($(this).attr('data-return'))
+                        return $(this).attr('data-return');
+                    return false;
+                });
             });
 
             $('.js-workflow[data-enter]').each(function () {

@@ -11,7 +11,7 @@ core.data = {
     },
     datamunge_recursive: function (key, val, data, to,depth) {
         var self = this;
-        if(depth>5)
+        if(depth>10)
             return;
         if (val instanceof Object) {
             $.each(val, function (mkey, mval) {
