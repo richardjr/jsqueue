@@ -27,7 +27,9 @@ core.data = {
                 var clean_match=matches[1].replace(/:.*/,'');
                 function index(obj,i) {return obj[i];}
                 var value=clean_match.split('.').reduce(index,data);
-                to[key] =value;
+                to[key] = val.replace(/\!data:.*[:]{0,1}/,value);
+
+               // to[key] =value;
             }
 
         }
