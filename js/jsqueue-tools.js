@@ -159,6 +159,11 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_CLEAR_REG: function (data) {
+            jsqueue.clear_reg(data.reg);
+            jsqueue.finished(data.PID);
+        },
+
         /**
          * Give a list of elements(toggle their hidden class)
          * @param data
