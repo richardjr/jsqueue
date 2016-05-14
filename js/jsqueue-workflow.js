@@ -40,7 +40,7 @@
             });
 
             data.mobile=data.mobile||false;
-            $('.js-workflow-onload,.js-workflow-onrun').each(function () {
+            $('.js-workflow-onload,.js-workflow-onrun,wfl:not([data-bound])').each(function () {
                 self.ng_workflow_build(this);
             });
 
@@ -106,13 +106,11 @@
 
             $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order=pre]').each(function () {
                 var sub_action = $(this).data();
-                //$(this).removeClass('js-workflow-action');
                 queue.push(self.ng_workflow_exec(sub_action));
             });
             queue.push(self.ng_workflow_exec(main_action));
             $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order!=pre]').each(function () {
                 var sub_action = $(this).data();
-                //$(this).removeClass('js-workflow-action');
                 if(sub_action.chain&&sub_action.chain=='fail')
                     fail_queue.push(self.ng_workflow_exec(sub_action));
 
