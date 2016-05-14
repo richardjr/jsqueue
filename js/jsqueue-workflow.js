@@ -108,6 +108,18 @@
             });
 
             /**
+             *  Search for children that have wfc element type
+             */
+            $('wfc',obj).each(function () {
+                var sub_action = $(this).data();
+                if(sub_action.chain&&sub_action.chain=='fail')
+                    fail_queue.push(self.ng_workflow_exec(sub_action));
+                else
+                    queue.push(self.ng_workflow_exec(sub_action));
+            });
+
+
+            /**
              *  Format the queue correctly
              */
 
