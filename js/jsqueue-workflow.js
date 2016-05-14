@@ -51,6 +51,16 @@
             $('.js-workflow').unbind('click');
             $('.js-workflow').unbind('run');
 
+            /**
+             *  New element style runner
+             */
+            $('wf:not([data-bound])').on( 'click run', function (e) {
+                e.stopPropagation();
+                self.ng_workflow_build(this);
+                if($(this).attr('data-return'))
+                    return $(this).attr('data-return');
+                return false;
+            });
 
             $('.js-workflow:not([data-events])').on( 'click run', function (e) {
                 e.stopPropagation();
@@ -59,6 +69,8 @@
                     return $(this).attr('data-return');
                 return false;
             });
+
+
 
             $('.js-workflow[data-events]').each(function () {
                 $(this).on($(this).attr('data-events'), function(e) {
@@ -90,6 +102,7 @@
             var fail_queue = [];
             var main_action = jQuery.extend(true,{},$(obj).data());
             $(obj).removeClass("js-workflow-onload js-workflow");
+            $(obj).attr("data-bound","true");
 
             $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order=pre]').each(function () {
                 var sub_action = $(this).data();
