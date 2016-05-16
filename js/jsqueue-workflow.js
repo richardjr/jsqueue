@@ -21,6 +21,40 @@
             self.WORKFLOW_START({});
         }
 
+        /**
+         * loader detection
+         * @type {HTMLElement}
+         */
+        var workflow_load = Object.create(HTMLElement.prototype);
+        workflow_load.createdCallback = function() {
+            console.log('Called')
+            self.ng_workflow_build(this);
+        };
+
+        var wfl = document.registerElement('wf-load', {
+            prototype: workflow_load
+        });
+
+        /**
+         * click detection
+         * @type {HTMLElement}
+         */
+        var workflow_click = Object.create(HTMLElement.prototype);
+        workflow_click.createdCallback = function() {
+            $(this).on( 'click run', function (e) {
+                e.stopPropagation();
+                self.ng_workflow_build(this);
+                if($(this).attr('data-return'))
+                    return $(this).attr('data-return');
+                return false;
+            });
+        };
+
+        var wfclick = document.registerElement('wf-click', {
+            prototype: workflow_click
+        });
+
+
     }
 
 
