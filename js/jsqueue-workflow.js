@@ -36,12 +36,13 @@
         });
 
         /**
-         * click detection
+         * click/run detection
          * @type {HTMLElement}
          */
-        var workflow_click = Object.create(HTMLElement.prototype);
-        workflow_click.createdCallback = function() {
-            $(this).on( 'click run', function (e) {
+        var workflow_event = Object.create(HTMLElement.prototype);
+        workflow_event.createdCallback = function() {
+            var events=$(this).attr('data-events')||'click run';
+            $(this).on( events, function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
                 if($(this).attr('data-return'))
@@ -50,8 +51,8 @@
             });
         };
 
-        var wfclick = document.registerElement('wf-click', {
-            prototype: workflow_click
+        var wfclick = document.registerElement('wf-event', {
+            prototype: workflow_event
         });
 
 
@@ -74,38 +75,32 @@
             });
 
             data.mobile=data.mobile||false;
-            $('.js-workflow-onload,.js-workflow-onrun,wfl:not([data-bound])').each(function () {
+            $('.js-workflow-onload,.js-workflow-onrun').each(function () {
                 self.ng_workflow_build(this);
             });
 
             /**
              *  Kill any events to prevent the old double down
              */
-            $('.js-workflow,wf').unbind('click');
-            $('.js-workflow,wf').unbind('run');
+            $('.js-workflow').unbind('click');
+            $('.js-workflow').unbind('run');
 
-            /**
-             *  New element style runner
-             */
-            $('wf').on( 'click run', function (e) {
-                e.stopPropagation();
-                self.ng_workflow_build(this);
-                if($(this).attr('data-return'))
-                    return $(this).attr('data-return');
-                return false;
-            });
 
             $('.js-workflow:not([data-events])').on( 'click run', function (e) {
+                console.log('Class method js-workflow is now deprecated, convert to wf-event model');
+                console.log(this);
                 e.stopPropagation();
                 self.ng_workflow_build(this);
                 if($(this).attr('data-return'))
                     return $(this).attr('data-return');
                 return false;
             });
-
 
 
             $('.js-workflow[data-events]').each(function () {
+                console.log('Class method js-workflow is now deprecated, convert to wf-event model');
+                console.log(this);
+
                 $(this).on($(this).attr('data-events'), function(e) {
                     e.stopPropagation();
                     self.ng_workflow_build(this);
@@ -154,7 +149,7 @@
             /**
              *  Search for children that have wfc element type
              */
-            $('wfc',obj).each(function () {
+            $('wf-child',obj).each(function () {
                 var sub_action = $(this).data();
                 if(sub_action.chain&&sub_action.chain=='fail')
                     fail_queue.push(self.ng_workflow_exec(sub_action));
