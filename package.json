@@ -5,12 +5,12 @@
     "scripts":{
         "build": "nodejs scripts/minify.js",
         "docs": "nodejs scripts/docs.js",
-        "deploydebug": "echo debug ----"
     },
     "devDependencies": {
         "node-minify": "1.2.0",
         "jsdoc": "3.3.2",
-        "shelljs": "0.5.3"
+        "shelljs": "0.5.3",
+        "html5shiv": "3.7.3"
     },
     "repository": {
         "type": "git",

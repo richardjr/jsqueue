@@ -21,7 +21,7 @@ core.data = {
             var matches;
             if (typeof val == "string" && (matches = val.match(/\!jquery:(.*)[:]{0,1}/))) {
                 var clean_match=matches[1].replace(/:.*/,'');
-                if(jQuery(clean_match).is('input'))
+                if(jQuery(clean_match).is('input,textarea'))
                     to[key] = val.replace(/\!jquery:.*[:]{0,1}/,jQuery(clean_match).val());
                 else
                     to[key] = val.replace(/\!jquery:.*[:]{0,1}/,jQuery(clean_match).text());
