@@ -55,6 +55,31 @@
             prototype: workflow_event
         });
 
+        /**
+         * click/run detection
+         * @type {HTMLElement}
+         */
+        var workflow_text = Object.create(HTMLElement.prototype);
+        workflow_text.createdCallback = function() {
+            var data=$(this).data();
+            var match=data['source'].match(/(.*?):\/\/(.*)/);
+            function index(obj,i) {return obj[i];}
+            switch(match[1]) {
+                case 'global':
+                    var value=match[2].split('.').reduce(index,window);
+                    $(this).text(value);
+                    break;
+            }
+            if(data.format.match(/TXT_ONLY/))
+                $(this).contents().unwrap();
+
+        };
+
+        var wfclick = document.registerElement('wf-text', {
+            prototype: workflow_text
+        });
+
+
 
     }
 
