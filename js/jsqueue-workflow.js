@@ -96,8 +96,6 @@
                 while(match=re.exec(str)) {
                     ret_str=ret_str.replace(match[1],'"'+uritodata(match[1])+'"');
                 }
-                console.log(ret_str)
-
                 return ret_str;
 
             }
@@ -109,6 +107,35 @@
         });
 
         /**
+         * click/run detection
+         * @type {HTMLElement}
+         */
+        var workflow_for = Object.create(HTMLElement.prototype);
+        workflow_for.createdCallback = function() {
+            var data=$(this).data();
+            var loop_data=uritodata(data.source);
+            if(Object.prototype.toString.call(loop_data) === '[object Array]') {
+                for (var i=0;i<loop_data.length;i++) {
+                    jsqueue.push_name(data.stackname, loop_data[i]);
+                    $(this).append($(data.template).html());
+                }
+            } else {
+                for (var i in loop_data) {
+                    jsqueue.push_name(data.stackname, {"key": i, "value": loop_data[i]});
+                    $(this).append($(data.template).html());
+                }
+            }
+
+            $(this).contents().unwrap();
+
+
+        };
+
+        var wffor = document.registerElement('wf-for', {
+            prototype: workflow_for
+        });
+
+        /**
          *  Helper functions for uri variables
          */
 
@@ -116,7 +143,9 @@
             var match = uri.match(/(.*?):\/\/(.*)/);
 
             function index(obj, i) {
-                return obj[i];
+                if(obj)
+                    return obj[i];
+                return '';
             }
 
             switch (match[1]) {

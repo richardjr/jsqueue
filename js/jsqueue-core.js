@@ -41,6 +41,16 @@ core.data = {
 
                // to[key] =value;
             }
+            if (typeof val == "string" && (matches = val.match(/\!stack:\/\/(.*)[:]{0,1}/))) {
+                var clean_match=matches[1].replace(/:.*/,'');
+                matches=clean_match.split('/');
+                clean_match=matches[1];
+                data=jsqueue.stack[matches[0]];
+                function index(obj,i) {return obj[i];}
+                var value=clean_match.split('.').reduce(index,data);
+                to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/,value);
+
+            }
 
         }
     }
