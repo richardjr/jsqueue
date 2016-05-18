@@ -68,7 +68,13 @@
              */
             if(!data.format)
                 data.format="TXT_ONLY";
-            $(this).text(uritodata(data.source))
+            var value=uritodata(data.source);
+            if(typeof value === 'object')
+                value=JSON.stringify(value);
+            if(value)
+                $(this).text(value);
+            else
+                $(this).text('unknown');
 
             if(data.format.match(/TXT_ONLY/))
                 $(this).contents().unwrap();
@@ -157,6 +163,8 @@
                     var uri = match[2].match(/(.*?)\/(.*)/);
                     var value = uri[2].split('.').reduce(index, jsqueue.stack[uri[1]]);
                     return value;
+                default:
+                    return 'data uri ['+match[1]+'] is not valid';
             }
         }
 
