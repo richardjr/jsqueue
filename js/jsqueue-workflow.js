@@ -68,25 +68,7 @@
              */
             if(!data.format)
                 data.format="TXT_ONLY";
-
-            var match=data['source'].match(/(.*?):\/\/(.*)/);
-            function index(obj,i) {return obj[i];}
-            switch(match[1]) {
-                case 'global':
-                    var value=match[2].split('.').reduce(index,window);
-                    $(this).text(value);
-                    break;
-                case 'stack':
-                    var stack_index=0;
-                    var uri=match[2].match(/(.*?)\/(.*)/);
-                    /**
-                     *  TODO pull stack index if supplied
-                     * @type {*}
-                     */
-                    var value=uri[2].split('.').reduce(index,jsqueue.stack[uri[1]][stack_index]);
-                    $(this).text(value);
-                    break;
-            }
+            $(this).text(uritodata(data.source))
 
             if(data.format.match(/TXT_ONLY/))
                 $(this).contents().unwrap();
@@ -96,6 +78,57 @@
         var wfclick = document.registerElement('wf-text', {
             prototype: workflow_text
         });
+
+        /**
+         * click/run detection
+         * @type {HTMLElement}
+         */
+        var workflow_if = Object.create(HTMLElement.prototype);
+        workflow_if.createdCallback = function() {
+            var data=$(this).data();
+            var statement=process_statment(data.statement);
+            if(!eval(statement)) {
+                $(this).remove();
+            }
+            function process_statment(str) {
+                var match,ret_str=str;
+                var re=/([a-zA-Z]*:\/\/[a-zA-Z_\/\.]*)/g;
+                while(match=re.exec(str)) {
+                    ret_str=ret_str.replace(match[1],'"'+uritodata(match[1])+'"');
+                }
+                console.log(ret_str)
+
+                return ret_str;
+
+            }
+
+        };
+
+        var wfclick = document.registerElement('wf-if', {
+            prototype: workflow_if
+        });
+
+        /**
+         *  Helper functions for uri variables
+         */
+
+        function uritodata(uri) {
+            var match = uri.match(/(.*?):\/\/(.*)/);
+
+            function index(obj, i) {
+                return obj[i];
+            }
+
+            switch (match[1]) {
+                case 'global':
+                    var value = match[2].split('.').reduce(index, window);
+                    return value;
+                case 'stack':
+                    var uri = match[2].match(/(.*?)\/(.*)/);
+                    var value = uri[2].split('.').reduce(index, jsqueue.stack[uri[1]]);
+                    return value;
+            }
+        }
 
 
 

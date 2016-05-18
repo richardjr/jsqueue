@@ -316,9 +316,7 @@ function jsqueue_main() {
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].data.PID == pid && self.queue[i].state == 'triggered') {
                 if(self.queue[i].stackname) {
-                    if(!self.stack[self.queue[i].stackname])
-                        self.stack[self.queue[i].stackname]=[];
-                    self.stack[self.queue[i].stackname].push(data);
+                    self.stack[self.queue[i].stackname]=data;
                     if (self.debug)
                         console.warn('PID(' + pid + ') updated named stack '+self.queue[i].stackname);
                 }
@@ -327,6 +325,11 @@ function jsqueue_main() {
                     console.warn('PID(' + pid + ') updated the stack');
             }
         }
+    };
+
+    this.push_name = function(stackname,data) {
+        var self=this;
+        self.stack[stackname]=data;
     };
 
     this.logicfail = function (pid) {
