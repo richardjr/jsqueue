@@ -87,9 +87,10 @@
         workflow_if.createdCallback = function() {
             var data=$(this).data();
             var statement=process_statment(data.statement);
-            if(!eval(statement)) {
-                $(this).remove();
+            if(eval(statement)) {
+                $(this).append($(data.template).html());
             }
+            $(this).contents().unwrap();
             function process_statment(str) {
                 var match,ret_str=str;
                 var re=/([a-zA-Z]*:\/\/[a-zA-Z_\/\.]*)/g;
