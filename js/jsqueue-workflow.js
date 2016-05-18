@@ -56,12 +56,19 @@
         });
 
         /**
-         * click/run detection
+         * text replacer element detection
          * @type {HTMLElement}
          */
         var workflow_text = Object.create(HTMLElement.prototype);
         workflow_text.createdCallback = function() {
             var data=$(this).data();
+
+            /**
+             * Default the format
+             */
+            if(!data.format)
+                data.format="TXT_ONLY";
+
             var match=data['source'].match(/(.*?):\/\/(.*)/);
             function index(obj,i) {return obj[i];}
             switch(match[1]) {
@@ -69,7 +76,18 @@
                     var value=match[2].split('.').reduce(index,window);
                     $(this).text(value);
                     break;
+                case 'stack':
+                    var stack_index=0;
+                    var uri=match[2].match(/(.*?)\/(.*)/);
+                    /**
+                     *  TODO pull stack index if supplied
+                     * @type {*}
+                     */
+                    var value=uri[2].split('.').reduce(index,jsqueue.stack[uri[1]][stack_index]);
+                    $(this).text(value);
+                    break;
             }
+
             if(data.format.match(/TXT_ONLY/))
                 $(this).contents().unwrap();
 
@@ -228,7 +246,8 @@
                         'component': action.component,
                         'command': action.command,
                         'data':data,
-                        'datamode': action.mode ? action.mode : false
+                        'datamode': action.mode ? action.mode : false,
+                        'stackname': action.stackname? action.stackname : false
                     }
                     if(action.reg)
                         gen_queue.reg=action.reg;

@@ -315,6 +315,13 @@ function jsqueue_main() {
         var self = this;
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].data.PID == pid && self.queue[i].state == 'triggered') {
+                if(self.queue[i].stackname) {
+                    if(!self.stack[self.queue[i].stackname])
+                        self.stack[self.queue[i].stackname]=[];
+                    self.stack[self.queue[i].stackname].push(data);
+                    if (self.debug)
+                        console.warn('PID(' + pid + ') updated named stack '+self.queue[i].stackname);
+                }
                 self.queue[i].stack.push(data);
                 if (self.debug)
                     console.warn('PID(' + pid + ') updated the stack');
