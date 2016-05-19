@@ -37,7 +37,10 @@ core.data = {
                 var clean_match=matches[1].replace(/:.*/,'');
                 function index(obj,i) {return obj[i];}
                 var value=clean_match.split('.').reduce(index,data);
-                to[key] = val.replace(/\!data:.*[:]{0,1}/,value);
+                if(val.match(/^\!data:(.*)[:]{0,1}$/))
+                    to[key]=value;
+                else
+                    to[key] = val.replace(/\!data:.*[:]{0,1}/,value);
 
                // to[key] =value;
             }
