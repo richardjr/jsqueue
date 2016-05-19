@@ -340,6 +340,16 @@
         },
 
         /**
+         *  Takes a template and renders the data to data.body on the stack
+         * @param data
+         * @constructor
+         */
+        TOOLS_WF_TEMPLATE: function (data) {
+            $(data.target).html($(data.template).html());
+            jsqueue.finished(data.PID);
+        },
+
+        /**
          * Runs a JavaScript function that's defined in data.afunction
          *
          * @example
