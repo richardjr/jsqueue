@@ -27,7 +27,6 @@
          */
         var workflow_load = Object.create(HTMLElement.prototype);
         workflow_load.createdCallback = function() {
-            console.log('Called')
             self.ng_workflow_build(this);
         };
 
@@ -149,7 +148,7 @@
 
         function htmlinject(html) {
             var match,ret_str=html;
-            var re=/\~([a-zA-Z]*:\/\/[a-zA-Z_\/\.]*)/g;
+            var re=/\~([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*)/g;
             while(match=re.exec(html)) {
                 ret_str=ret_str.replace("~"+match[1],uritodata(match[1]));
             }
@@ -169,7 +168,7 @@
              * @type {RegExp}
              */
             var ret_str=uri;
-            var re=/\[([a-zA-Z]*:\/\/[a-zA-Z_\/\.]*)\]/g;
+            var re=/\[([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*)\]/g;
             while(match=re.exec(uri)) {
                 ret_str=ret_str.replace("["+match[1]+"]","."+uritodata(match[1]));
             }
