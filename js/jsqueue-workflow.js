@@ -211,11 +211,13 @@
             /**
              *  Display warning of duplicate ID's which cause common faults
              */
-            $('[id]').each(function(){
-                var ids = $('[id="'+this.id+'"]');
-                if(ids.length>1 && ids[0]==this)
-                    console.warn('Multiple IDs #'+this.id);
-            });
+            if(jsqueue&&jsqueue.debug) {
+                $('[id]').each(function () {
+                    var ids = $('[id="' + this.id + '"]');
+                    if (ids.length > 1 && ids[0] == this)
+                        console.warn('Multiple IDs #' + this.id);
+                });
+            }
 
             data.mobile=data.mobile||false;
             $('.js-workflow-onload,.js-workflow-onrun').each(function () {
