@@ -99,7 +99,7 @@
             var data=$(this).data();
             var statement=process_statment(data.statement);
             if(eval(statement)) {
-                $(this).append($(data.template).html());
+                $(this).append(htmlinject($(data.template).html()));
             }
             $(this).contents().unwrap();
 
