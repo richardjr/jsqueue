@@ -68,12 +68,18 @@
             if(!data.format)
                 data.format="TXT_ONLY";
             var value=uritodata(data.source);
-            if(typeof value === 'object')
-                value=JSON.stringify(value);
-            if(value)
-                $(this).text(value);
-            else
-                $(this).text('unknown');
+
+
+            if(data.format.match(/CONSOLE/)) {
+                console.log(value);
+            } else {
+                if(typeof value === 'object')
+                    value=JSON.stringify(value);
+                if (value)
+                    $(this).text(value);
+                else
+                    $(this).text('undefined');
+            }
 
             if(data.format.match(/TXT_ONLY/))
                 $(this).contents().unwrap();
