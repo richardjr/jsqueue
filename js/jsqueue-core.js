@@ -3,55 +3,68 @@ window.core = {
 };
 
 core.data = {
+    serializer: function (key,value) {
+        if(typeof value === 'object')
+            return 'Object';
+        return value;
+
+    },
     datamunge: function (data) {
-        var self=this;
+        var self = this;
         $.each(data, function (key, val) {
-                self.datamunge_recursive(key, val, data, data,0);
+            self.datamunge_recursive(key, val, data, data, 0);
         });
     },
-    datamunge_recursive: function (key, val, data, to,depth) {
+    datamunge_recursive: function (key, val, data, to, depth) {
         var self = this;
-        if(depth>10)
+        if (depth > 10)
             return;
         if (val instanceof Object) {
             $.each(val, function (mkey, mval) {
-                self.datamunge_recursive(mkey, mval, data, to[key],depth++)
+                self.datamunge_recursive(mkey, mval, data, to[key], depth++)
             });
         } else {
             var matches;
             if (typeof val == "string" && (matches = val.match(/\!jquery:(.*)[:]{0,1}/))) {
-                var clean_match=matches[1].replace(/:.*/,'');
-                if(jQuery(clean_match).is('input:not(:checkbox),textarea')) {
+                var clean_match = matches[1].replace(/:.*/, '');
+                if (jQuery(clean_match).is('input:not(:checkbox),textarea')) {
                     to[key] = val.replace(/\!jquery:.*[:]{0,1}/, jQuery(clean_match).val());
-                } else if(jQuery(clean_match).is(':checkbox')) {
-                    if(jQuery(clean_match).is(':checked')) {
+                } else if (jQuery(clean_match).is(':checkbox')) {
+                    if (jQuery(clean_match).is(':checked')) {
                         to[key] = val.replace(/\!jquery:.*[:]{0,1}/, jQuery(clean_match).val());
                     } else {
-                        to[key]='';
+                        to[key] = '';
                     }
                 } else {
                     to[key] = val.replace(/\!jquery:.*[:]{0,1}/, jQuery(clean_match).text());
                 }
             }
             if (typeof val == "string" && (matches = val.match(/\!data:(.*)[:]{0,1}/))) {
-                var clean_match=matches[1].replace(/:.*/,'');
-                function index(obj,i) {return obj[i];}
-                var value=clean_match.split('.').reduce(index,data);
-                if(val.match(/^\!data:(.*)[:]{0,1}$/))
-                    to[key]=value;
-                else
-                    to[key] = val.replace(/\!data:.*[:]{0,1}/,value);
+                var clean_match = matches[1].replace(/:.*/, '');
 
-               // to[key] =value;
+                function index(obj, i) {
+                    return obj[i];
+                }
+
+                var value = clean_match.split('.').reduce(index, data);
+                if (val.match(/^\!data:(.*)[:]{0,1}$/))
+                    to[key] = value;
+                else
+                    to[key] = val.replace(/\!data:.*[:]{0,1}/, value);
+
+                // to[key] =value;
             }
             if (typeof val == "string" && (matches = val.match(/\!stack:\/\/(.*)[:]{0,1}/))) {
-                var clean_match=matches[1].replace(/:.*/,'');
-                matches=clean_match.split('/');
-                clean_match=matches[1];
-                data=jsqueue.stack[matches[0]];
-                function index(obj,i) {return obj[i];}
-                var value=clean_match.split('.').reduce(index,data);
-                to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/,value);
+                var clean_match = matches[1].replace(/:.*/, '');
+                matches = clean_match.split('/');
+                clean_match = matches[1];
+                data = jsqueue.stack[matches[0]];
+                function index(obj, i) {
+                    return obj[i];
+                }
+
+                var value = clean_match.split('.').reduce(index, data);
+                to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/, value);
 
             }
 

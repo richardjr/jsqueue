@@ -75,6 +75,7 @@
             } else {
                 if(typeof value === 'object')
                     value=JSON.stringify(value);
+                    //value=JSON.stringify(value, core.data.serializer);
                 if (value)
                     $(this).text(value);
                 else
@@ -130,13 +131,18 @@
             if(Object.prototype.toString.call(loop_data) === '[object Array]') {
                 for (var i=0;i<loop_data.length;i++) {
                     jsqueue.push_name(data.stackname, loop_data[i]);
-                    $(this).append(htmlinject($(data.template).html()));
+                    if(data.target)
+                        $(data.target).append(htmlinject($(data.template).html()));
+                    else
+                        $(this).append(htmlinject($(data.template).html()));
                 }
             } else {
                 for (var i in loop_data) {
                     jsqueue.push_name(data.stackname, {"key": i, "value": loop_data[i]});
-                    $(this).append(htmlinject($(data.template).html()));
-                }
+                    if(data.target)
+                        $(data.target).append(htmlinject($(data.template).html()));
+                    else
+                        $(this).append(htmlinject($(data.template).html()));                }
             }
 
             $(this).contents().unwrap();
