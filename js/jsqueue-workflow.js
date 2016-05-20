@@ -157,12 +157,24 @@
         }
 
         function uritodata(uri) {
-            var match = uri.match(/(.*?):\/\/(.*)/);
+
             function index(obj, i) {
                 if(obj)
                     return obj[i];
                 return '';
             }
+
+            /**
+             * Find any [ ] sub uri's
+             * @type {RegExp}
+             */
+            var ret_str=uri;
+            var re=/\[([a-zA-Z]*:\/\/[a-zA-Z_\/\.]*)\]/g;
+            while(match=re.exec(uri)) {
+                ret_str=ret_str.replace("["+match[1]+"]","."+uritodata(match[1]));
+            }
+            uri=ret_str;
+            var match = uri.match(/(.*?):\/\/(.*)/);
             var value;
             switch (match[1]) {
                 case 'global':
