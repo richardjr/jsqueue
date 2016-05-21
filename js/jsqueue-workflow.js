@@ -101,8 +101,10 @@
             var statement=process_statment(data.statement);
             if(eval(statement)) {
                 $(this).append(htmlinject($(data.template).html()));
+                $(this).contents().unwrap();
+            } else {
+                $(this).remove();
             }
-            $(this).contents().unwrap();
 
             function process_statment(str) {
                 var match,ret_str=str;
