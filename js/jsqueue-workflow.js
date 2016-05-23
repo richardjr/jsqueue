@@ -211,6 +211,8 @@
                             value = uri[2].split('.').reduce(index, jsqueue.stack[uri[1]]);
                         else
                             value = jsqueue.stack[uri[1]];
+                        if(value===undefined)
+                            return '';
                         return value;
                     default:
                         return 'data uri [' + match[1] + '] is not valid';
