@@ -27,7 +27,7 @@ core.data = {
             var matches;
             if (typeof val == "string" && (matches = val.match(/\!jquery:(.*)[:]{0,1}/))) {
                 var clean_match = matches[1].replace(/:.*/, '');
-                if (jQuery(clean_match).is('input:not(:checkbox),textarea')) {
+                if (jQuery(clean_match).is('input:not(:checkbox),textarea,select')) {
                     to[key] = val.replace(/\!jquery:.*[:]{0,1}/, jQuery(clean_match).val());
                 } else if (jQuery(clean_match).is(':checkbox')) {
                     if (jQuery(clean_match).is(':checked')) {
