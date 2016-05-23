@@ -79,7 +79,7 @@
                 if (value)
                     $(this).text(value);
                 else
-                    $(this).text('undefined');
+                    $(this).text('');
             }
 
             if(data.format.match(/TXT_ONLY/))
@@ -181,27 +181,40 @@
              * Find any [ ] sub uri's
              * @type {RegExp}
              */
-            var ret_str=uri;
-            var re=/\[([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*)\]/g;
-            while(match=re.exec(uri)) {
-                ret_str=ret_str.replace("["+match[1]+"]","."+uritodata(match[1]));
+            var uris=uri.split(',');
+            var ret_uri;
+            for(var i=0;i<uris.length;i++) {
+                ret_uri=get_uri(uris[i]);
+                if(ret_uri)
+                    break;
+
             }
-            uri=ret_str;
-            var match = uri.match(/(.*?):\/\/(.*)/);
-            var value;
-            switch (match[1]) {
-                case 'global':
-                    value = match[2].split('.').reduce(index, window);
-                    return value;
-                case 'stack':
-                    var uri = match[2].match(/(.*?)\/(.*)/);
-                    if(uri[2])
-                        value = uri[2].split('.').reduce(index, jsqueue.stack[uri[1]]);
-                    else
-                        value=jsqueue.stack[uri[1]];
-                    return value;
-                default:
-                    return 'data uri ['+match[1]+'] is not valid';
+            return ret_uri;
+
+
+            function get_uri(uri) {
+                var ret_str = uri;
+                var re = /\[([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*)\]/g;
+                while (match = re.exec(uri)) {
+                    ret_str = ret_str.replace("[" + match[1] + "]", "." + uritodata(match[1]));
+                }
+                uri = ret_str;
+                var match = uri.match(/(.*?):\/\/(.*)/);
+                var value;
+                switch (match[1]) {
+                    case 'global':
+                        value = match[2].split('.').reduce(index, window);
+                        return value;
+                    case 'stack':
+                        var uri = match[2].match(/(.*?)\/(.*)/);
+                        if (uri[2])
+                            value = uri[2].split('.').reduce(index, jsqueue.stack[uri[1]]);
+                        else
+                            value = jsqueue.stack[uri[1]];
+                        return value;
+                    default:
+                        return 'data uri [' + match[1] + '] is not valid';
+                }
             }
         }
 
