@@ -36,9 +36,13 @@
             jsqueue.finished(data.PID);
         },
         TOOLS_IF: function(data) {
-            function index(obj,i) {return obj[i];}
+            function index(obj,i) {
+                if(obj)
+                    return obj[i];
+                return '';
+            }
             var value=data.if_path.split('.').reduce(index,data);
-            if(value!=data.if_check) {
+            if(value!==data.if_check) {
                 jsqueue.logicfail(data.PID);
             }
             jsqueue.finished(data.PID);
