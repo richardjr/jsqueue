@@ -123,7 +123,43 @@
         });
 
         /**
-         * click/run detection
+         * switch
+         * @type {HTMLElement}
+         */
+        var workflow_switch = Object.create(HTMLElement.prototype);
+        workflow_switch.createdCallback = function() {
+            var data=$(this).data();
+            var switch_val=uritodata(data.source);
+            var switch_obj=this;
+            $('wf-case',switch_obj).each(function () {
+                var case_data=$(this).data();
+                var case_val=case_data['value'];
+                if(case_val==switch_val) {
+                    $(switch_obj).html(htmlinject($(case_data.template).html()));
+                    $('wf-default',switch_obj).remove();
+                }
+                $(this).remove();
+
+            });
+            var sdefault=$('wf-default',switch_obj);
+            if(sdefault.length>0) {
+                var default_data = sdefault.data();
+                $(switch_obj).html(htmlinject($(default_data.template).html()));
+                sdefault.remove();
+            }
+
+            $(switch_obj).contents().unwrap();
+
+
+        };
+
+        var wfswitch = document.registerElement('wf-switch', {
+            prototype: workflow_switch
+        });
+
+
+        /**
+         * For statement
          * @type {HTMLElement}
          */
         var workflow_for = Object.create(HTMLElement.prototype);
