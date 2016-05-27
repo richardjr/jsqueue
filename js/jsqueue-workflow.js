@@ -28,6 +28,7 @@
         var workflow_load = Object.create(HTMLElement.prototype);
         workflow_load.createdCallback = function() {
             self.ng_workflow_build(this);
+            $(this).remove();
         };
 
         var wfl = document.registerElement('wf-load', {
