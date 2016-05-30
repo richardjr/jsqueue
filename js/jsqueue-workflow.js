@@ -27,6 +27,15 @@
          */
         var workflow_load = Object.create(HTMLElement.prototype);
         workflow_load.createdCallback = function() {
+            var data=$(this).data();
+            var format={
+                "command":{"message":"No command specified"},
+                "component":{"message":"No component specified"}
+            };
+            if(!core.data.check_params(format,data)) {
+                console.log(this);
+                return;
+            }
             self.ng_workflow_build(this);
             $(this).remove();
         };
@@ -41,6 +50,15 @@
          */
         var workflow_event = Object.create(HTMLElement.prototype);
         workflow_event.createdCallback = function() {
+            var data=$(this).data();
+            var format={
+                "command":{"message":"No command specified"},
+                "component":{"message":"No component specified"}
+            };
+            if(!core.data.check_params(format,data)) {
+                console.log(this);
+                return;
+            }
             var events=$(this).attr('data-events')||'click run';
             $(this).on( events, function (e) {
                 e.stopPropagation();
@@ -62,7 +80,13 @@
         var workflow_text = Object.create(HTMLElement.prototype);
         workflow_text.createdCallback = function() {
             var data=$(this).data();
-
+            var format={
+                "source":{"message":"No source specified"}
+            };
+            if(!core.data.check_params(format,data)) {
+                console.log(this);
+                return;
+            }
             /**
              * Default the format
              */
@@ -99,6 +123,14 @@
         var workflow_if = Object.create(HTMLElement.prototype);
         workflow_if.createdCallback = function() {
             var data=$(this).data();
+            var format={
+                "statement":{"message":"No statement specified"},
+                "template":{"message":"No template specified"}
+            };
+            if(!core.data.check_params(format,data)) {
+                console.log(this);
+                return;
+            }
             var statement=process_statment(data.statement);
             if(eval(statement)) {
                 $(this).append(htmlinject($(data.template).html()));
@@ -130,6 +162,13 @@
         var workflow_switch = Object.create(HTMLElement.prototype);
         workflow_switch.createdCallback = function() {
             var data=$(this).data();
+            var format={
+                "source":{"message":"No source specified"}
+            };
+            if(!core.data.check_params(format,data)) {
+                console.log(this);
+                return;
+            }
             var switch_val=uritodata(data.source);
             var switch_obj=this;
             $('wf-case',switch_obj).each(function () {
@@ -166,6 +205,15 @@
         var workflow_for = Object.create(HTMLElement.prototype);
         workflow_for.createdCallback = function() {
             var data=$(this).data();
+            var format={
+                "source":{"message":"No source specified"},
+                "template":{"message":"No template specified"},
+                "stackname":{"message":"No stackname specified"}
+            };
+            if(!core.data.check_params(format,data)) {
+                console.log(this);
+                return;
+            }
             var loop_data=uritodata(data.source);
             if(Object.prototype.toString.call(loop_data) === '[object Array]') {
                 for (var i=0;i<loop_data.length;i++) {

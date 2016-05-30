@@ -3,6 +3,16 @@ window.core = {
 };
 
 core.data = {
+    check_params: function (format,data) {
+        var result=true;
+        for(var i in format) {
+            if(!data[i]) {
+                console.error(format[i].message);
+                result=false;
+            }
+        }
+        return result;
+    },
     serializer: function (key,value) {
         if(typeof value === 'object')
             return 'Object';
