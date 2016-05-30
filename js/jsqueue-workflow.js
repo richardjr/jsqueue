@@ -247,9 +247,11 @@
 
         function htmlinject(html) {
             var match,ret_str=html;
-            var re=/\~([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*)/g;
+            var re=/\~([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*[\:]{0,1})/g;
             while(match=re.exec(html)) {
-                ret_str=ret_str.replace("~"+match[1],uritodata(match[1]));
+                var rep_match=match[1];
+                var uri_match=match[1].replace(/\:$/,'');
+                ret_str=ret_str.replace("~"+rep_match,uritodata(uri_match));
             }
             return ret_str;
         }
