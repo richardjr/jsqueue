@@ -25,10 +25,16 @@
         constructor: jsMenus,
 
         MENUS_DROPDOWNS: function(data) {
-            console.log('loaded');
             $(".ddz-option").click(function() {
                 $(".ddz-option").siblings("ul").removeClass('show-ddz-below');
-                $(this).siblings("ul").addClass('show-ddz-below');
+                if($(this).hasClass('active')) {
+                    $(".ddz-option").removeClass('active');
+                } else {
+                    $(this).siblings("ul").addClass('show-ddz-below');
+                    $(".ddz-option").removeClass('active');
+                    $(this).addClass('active');
+
+                }
             });
             $(".ddz-option-sub").click(function() {
                 $(".ddz-option-sub").siblings("ul").removeClass('show-ddz-below');
