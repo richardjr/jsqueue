@@ -32,10 +32,10 @@
                 "command":{"message":"No command specified"},
                 "component":{"message":"No component specified"}
             };
-            if(!core.data.check_params(format,data)) {
+            /*f(!core.data.check_params(format,data)) {
                 console.log(this);
                 return;
-            }
+            }*/
             self.ng_workflow_build(this);
             $(this).remove();
         };
@@ -55,10 +55,10 @@
                 "command":{"message":"No command specified"},
                 "component":{"message":"No component specified"}
             };
-            if(!core.data.check_params(format,data)) {
+            /*if(!core.data.check_params(format,data)) {
                 console.log(this);
                 return;
-            }
+            }*/
             var events=$(this).attr('data-events')||'click run';
             $(this).on( events, function (e) {
                 e.stopPropagation();
