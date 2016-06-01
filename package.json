@@ -4,13 +4,14 @@
     "description":"JSQueue",
     "scripts":{
         "build": "nodejs scripts/minify.js",
-        "docs": "nodejs scripts/docs.js",
+        "docs": "nodejs scripts/docs.js"
     },
     "devDependencies": {
         "node-minify": "1.2.0",
         "jsdoc": "3.3.2",
         "shelljs": "0.5.3",
-        "html5shiv": "3.7.3"
+        "html5shiv": "3.7.3",
+        "jquery":"*"
     },
     "repository": {
         "type": "git",

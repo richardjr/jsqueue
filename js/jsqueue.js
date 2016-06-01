@@ -31,7 +31,7 @@ function jsqueue_main() {
 
     };
 
-    this.debugger = function () {
+    this['debugger'] = function () {
         var self = this;
         console.log('jsqueue debugger enabled');
         self.debug = true;
