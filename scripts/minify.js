@@ -7,6 +7,7 @@ var desktopFiles = [
     "js/jsqueue-calendar.js",
     "js/jsqueue-core.js",
     "js/jsqueue-modal.js",
+    "js/jsqueue-menus.js",
     "js/jsqueue-time.js",
     "js/jsqueue-tools.js",
     "js/jsqueue-workflow.js"
