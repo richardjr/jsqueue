@@ -349,10 +349,12 @@
          * @constructor
          */
         TOOLS_WF_TEMPLATE: function (data) {
-            if($(data.template).length>0)
+            if ($(data.template).length > 0) {
                 $(data.target).html($(data.template).html());
-            else
-                console.info('Warning template ['+data.template+'] not found');
+                CustomElements.takeRecords();
+            } else {
+                console.info('Warning template [' + data.template + '] not found');
+            }
             jsqueue.finished(data.PID);
         },
 

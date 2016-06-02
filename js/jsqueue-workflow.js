@@ -38,6 +38,7 @@
             }*/
             self.ng_workflow_build(this);
             $(this).remove();
+            CustomElements.takeRecords();
         };
 
         var wfl = document.registerElement('wf-load', {
@@ -67,6 +68,7 @@
                     return $(this).attr('data-return');
                 return false;
             });
+            CustomElements.takeRecords();
         };
 
         var wfclick = document.registerElement('wf-event', {
@@ -109,6 +111,7 @@
 
             if(data.format.match(/TXT_ONLY/))
                 $(this).contents().unwrap();
+            CustomElements.takeRecords();
 
         };
 
@@ -148,6 +151,7 @@
                 return ret_str;
 
             }
+            CustomElements.takeRecords();
 
         };
 
@@ -189,6 +193,7 @@
             }
 
             $(switch_obj).contents().unwrap();
+            CustomElements.takeRecords();
 
 
         };
@@ -222,6 +227,8 @@
                         $(data.target).append(htmlinject($(data.template).html()));
                     else
                         $(this).append(htmlinject($(data.template).html()));
+                    CustomElements.takeRecords();
+
                 }
             } else {
                 for (var i in loop_data) {
@@ -229,11 +236,12 @@
                     if(data.target)
                         $(data.target).append(htmlinject($(data.template).html()));
                     else
-                        $(this).append(htmlinject($(data.template).html()));                }
+                        $(this).append(htmlinject($(data.template).html()));
+                    CustomElements.takeRecords();
+
+                }
             }
-
             $(this).contents().unwrap();
-
 
         };
 
