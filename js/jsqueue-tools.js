@@ -351,7 +351,6 @@
         TOOLS_WF_TEMPLATE: function (data) {
             if ($(data.template).length > 0) {
                 $(data.target).html($(data.template).html());
-                CustomElements.takeRecords();
             } else {
                 console.info('Warning template [' + data.template + '] not found');
             }

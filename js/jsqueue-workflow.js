@@ -10,6 +10,7 @@
         var self = this;
         self.options = options;
         self.div = element;
+        self.loops={};
         // Commands
         $(element).on({
             "command": function (event, cmd, data) {
@@ -20,6 +21,7 @@
         if(self.options.auto==true) {
             self.WORKFLOW_START({});
         }
+
 
         /**
          * loader detection
@@ -38,7 +40,6 @@
             }*/
             self.ng_workflow_build(this);
             $(this).remove();
-            CustomElements.takeRecords();
         };
 
         var wfl = document.registerElement('wf-load', {
@@ -61,6 +62,7 @@
                 return;
             }*/
             var events=$(this).attr('data-events')||'click run';
+            $(this).unbind(events);
             $(this).on( events, function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
@@ -68,7 +70,6 @@
                     return $(this).attr('data-return');
                 return false;
             });
-            CustomElements.takeRecords();
         };
 
         var wfclick = document.registerElement('wf-event', {
@@ -111,11 +112,10 @@
 
             if(data.format.match(/TXT_ONLY/))
                 $(this).contents().unwrap();
-            CustomElements.takeRecords();
 
         };
 
-        var wfclick = document.registerElement('wf-text', {
+        var wftext = document.registerElement('wf-text', {
             prototype: workflow_text
         });
 
@@ -151,11 +151,10 @@
                 return ret_str;
 
             }
-            CustomElements.takeRecords();
 
         };
 
-        var wfclick = document.registerElement('wf-if', {
+        var wfif = document.registerElement('wf-if', {
             prototype: workflow_if
         });
 
@@ -193,7 +192,6 @@
             }
 
             $(switch_obj).contents().unwrap();
-            CustomElements.takeRecords();
 
 
         };
@@ -212,35 +210,34 @@
             var data=$(this).data();
             var format={
                 "source":{"message":"No source specified"},
-                "template":{"message":"No template specified"},
-                "stackname":{"message":"No stackname specified"}
+                "template":{"message":"No template specified"}
             };
             if(!core.data.check_params(format,data)) {
                 console.log(this);
                 return;
             }
+            var index_var=data.index||'index';
             var loop_data=uritodata(data.source);
+            self.loops[index_var]=0;
             if(Object.prototype.toString.call(loop_data) === '[object Array]') {
                 for (var i=0;i<loop_data.length;i++) {
-                    jsqueue.push_name(data.stackname, loop_data[i]);
-                    if(data.target)
-                        $(data.target).append(htmlinject($(data.template).html()));
-                    else
-                        $(this).append(htmlinject($(data.template).html()));
-                    CustomElements.takeRecords();
-
+                    self.loops[index_var]=i;
+                    if(data.stackname)
+                        jsqueue.push_name(data.stackname, loop_data[i]);
+                    var target=data.target||this;
+                    $(target).append(htmlinject($(data.template).html()));
                 }
             } else {
                 for (var i in loop_data) {
-                    jsqueue.push_name(data.stackname, {"key": i, "value": loop_data[i]});
-                    if(data.target)
-                        $(data.target).append(htmlinject($(data.template).html()));
-                    else
-                        $(this).append(htmlinject($(data.template).html()));
-                    CustomElements.takeRecords();
-
+                    self.loops[index_var]=i;
+                    if(data.stackname)
+                        jsqueue.push_name(data.stackname, {"key": i, "value": loop_data[i]});
+                    var target=data.target||this;
+                    $(target).append(htmlinject($(data.template).html()));
                 }
             }
+
+
             $(this).contents().unwrap();
 
         };
@@ -249,24 +246,52 @@
             prototype: workflow_for
         });
 
+
+
+
         /**
          *  Helper functions for uri variables
+         *
+         *
          */
 
         function htmlinject(html) {
             var match,ret_str=html;
-            var re=/\~([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*[\:]{0,1})/g;
+
+            /**
+             * Match in indexs
+             * @type {RegExp}
+             */
+            for(var i in self.loops) {
+                var re=new RegExp("\~"+i+"\~","g");
+                while(match=re.exec(html)) {
+                    ret_str=ret_str.replace("~"+i+"~",self.loops[i]);
+                }
+
+            }
+            html=ret_str;
+
+            /**
+             * Match in uri data
+             * @type {RegExp}
+             */
+            var re=/\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@]*[\:]{0,1})/g;
             while(match=re.exec(html)) {
                 var rep_match=match[1];
                 var uri_match=match[1].replace(/\:$/,'');
                 ret_str=ret_str.replace("~"+rep_match,uritodata(uri_match));
             }
+
             return ret_str;
         }
 
         function uritodata(uri) {
-
+            console.log(uri);
             function index(obj, i) {
+                var matches=i.match(/^@(.*)/)
+                if(matches) {
+                    return matches[1];
+                }
                 if(obj)
                     return obj[i];
                 return '';
@@ -289,7 +314,7 @@
 
             function get_uri(uri) {
                 var ret_str = uri;
-                var re = /\[([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9]*)\]/g;
+                var re = /\[([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@]*)\]/g;
                 while (match = re.exec(uri)) {
                     ret_str = ret_str.replace("[" + match[1] + "]", "." + uritodata(match[1]));
                 }
@@ -302,10 +327,12 @@
                         return value;
                     case 'stack':
                         var uri = match[2].match(/(.*?)\/(.*)/);
-                        if (uri[2])
-                            value = uri[2].split('.').reduce(index, jsqueue.stack[uri[1]]);
+                        var stack_ptr=uri[1].split('.').reduce(index,jsqueue.stack);
+                        if (uri[2]) {
+                            value = uri[2].split('.').reduce(index, stack_ptr);
+                        }
                         else
-                            value = jsqueue.stack[uri[1]];
+                            value = stack_ptr;
                         if(value===undefined)
                             return '';
                         return value;
