@@ -49,6 +49,38 @@
             jsqueue.finished(data.PID);
         },
 
+        MODAL_TEXT_HELPER_CLICK: function(data) {
+            var target=$(data.target);
+            jsqueue.add(
+                {
+                    "component":"MODAL",
+                    "command":"MODAL_DISPLAY",
+                    "data": {
+                        "template":data.template,
+                        "form_value": $(target).val()
+                    },
+                    "chain":[
+                        {
+                            "component":"TOOLS",
+                            "command":"TOOLS_ADD_EVENTS",
+                            "data": {
+                                "triggers":[
+                                    {
+                                        "aclass": "#modal-save",
+                                        "atrigger": "click",
+                                        "afunction": function() {
+                                            $(target).val($("#modal_text_helper").val());
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+
+            );
+        },
+
         MODAL_TEXT_HELPER: function(data) {
             $(data.aclass).focus(function(){
                 var form_ptr=this;
