@@ -286,7 +286,7 @@
         }
 
         function uritodata(uri) {
-            console.log(uri);
+           // console.log(uri);
             function index(obj, i) {
                 var matches=i.match(/^@(.*)/)
                 if(matches) {
