@@ -28,6 +28,12 @@ exec('/bin/cp node_modules/jquery/dist/jquery.min.js js/libs/jquery', function(e
     }
 });
 
+exec('/bin/cp node_modules/document-register-element/build/document-register-element.js js/libs/register-element', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
 new compressor.minify({
     type: 'gcc',
     fileIn: desktopFiles,

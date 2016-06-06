@@ -11,7 +11,8 @@
         "jsdoc": "3.3.2",
         "shelljs": "0.5.3",
         "html5shiv": "3.7.3",
-        "jquery":"*"
+        "jquery":"*",
+        "document-register-element":"*"
     },
     "repository": {
         "type": "git",
