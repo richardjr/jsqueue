@@ -97,8 +97,10 @@
                 data.format="TXT_ONLY";
             var value=uritodata(data.source);
 
-
-            if(data.format.match(/CONSOLE/)) {
+            if(data.format.match(/DEBUG/g)) {
+                debugger;
+            }
+            if(data.format.match(/CONSOLE/g)) {
                 console.log(value);
             } else {
                 if(typeof value === 'object')
@@ -110,7 +112,7 @@
                     $(this).text('');
             }
 
-            if(data.format.match(/TXT_ONLY/))
+            if(data.format.match(/TXT_ONLY/g))
                 $(this).contents().unwrap();
 
         };
