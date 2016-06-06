@@ -13,7 +13,8 @@
         "html5shiv": "3.7.3",
         "jquery":"*",
         "document-register-element":"*",
-        "dom4":"*"
+        "dom4":"*",
+        "particles.js":"*"
     },
     "repository": {
         "type": "git",

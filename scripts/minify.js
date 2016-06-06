@@ -49,6 +49,12 @@ exec('/bin/cp node_modules/dom4/build/dom4.max.js js/libs/dom4', function(error,
     }
 });
 
+exec('/bin/cp node_modules/particles.js/particles.js js/libs/particles', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
 
 new compressor.minify({
     type: 'gcc',
