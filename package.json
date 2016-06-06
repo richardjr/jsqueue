@@ -12,7 +12,8 @@
         "shelljs": "0.5.3",
         "html5shiv": "3.7.3",
         "jquery":"*",
-        "document-register-element":"*"
+        "document-register-element":"*",
+        "dom4":"*"
     },
     "repository": {
         "type": "git",

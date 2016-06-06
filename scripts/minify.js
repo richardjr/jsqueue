@@ -33,6 +33,22 @@ exec('/bin/cp node_modules/document-register-element/build/document-register-ele
         console.error(error);
     }
 });
+exec('/bin/cp node_modules/document-register-element/build/document-register-element.max.js js/libs/register-element', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+exec('/bin/cp node_modules/dom4/build/dom4.js js/libs/dom4', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+exec('/bin/cp node_modules/dom4/build/dom4.max.js js/libs/dom4', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
 
 new compressor.minify({
     type: 'gcc',

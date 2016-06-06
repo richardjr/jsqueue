@@ -95,11 +95,12 @@
              */
             if(!data.format)
                 data.format="TXT_ONLY";
-            var value=uritodata(data.source);
+
 
             if(data.format.match(/DEBUG/g)) {
                 debugger;
             }
+            var value=uritodata(data.source);
             if(data.format.match(/CONSOLE/g)) {
                 console.log(value);
             } else {
@@ -228,6 +229,8 @@
                         jsqueue.push_name(data.stackname, loop_data[i]);
                     var target=data.target||this;
                     $(target).append(htmlinject($(data.template).html()));
+                    forceRedraw(target);
+
                 }
             } else {
                 for (var i in loop_data) {
@@ -236,6 +239,7 @@
                         jsqueue.push_name(data.stackname, {"key": i, "value": loop_data[i]});
                     var target=data.target||this;
                     $(target).append(htmlinject($(data.template).html()));
+                    forceRedraw(target);
                 }
             }
 
@@ -249,7 +253,9 @@
         });
 
 
-
+        function forceRedraw(element){
+            document.dispatchEvent(new CustomEvent('readystatechange'));
+        }
 
         /**
          *  Helper functions for uri variables
