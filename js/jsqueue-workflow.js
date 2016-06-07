@@ -283,7 +283,7 @@
              * Match in uri data
              * @type {RegExp}
              */
-            var re=/\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@]*[\:]{0,1})/g;
+            var re=/\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*[\:]{0,1})/g;
             while(match=re.exec(html)) {
                 var rep_match=match[1];
                 var uri_match=match[1].replace(/\:$/,'');
@@ -322,7 +322,7 @@
 
             function get_uri(uri) {
                 var ret_str = uri;
-                var re = /\[([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@]*)\]/g;
+                var re = /\[([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*)\]/g;
                 while (match = re.exec(uri)) {
                     ret_str = ret_str.replace("[" + match[1] + "]", "." + uritodata(match[1]));
                 }
