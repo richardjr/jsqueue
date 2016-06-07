@@ -14,7 +14,8 @@
         "jquery":"*",
         "document-register-element":"*",
         "dom4":"*",
-        "particles.js":"*"
+        "particles.js":"*",
+        "bowser":"*"
     },
     "repository": {
         "type": "git",
