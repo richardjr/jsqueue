@@ -351,6 +351,9 @@
         TOOLS_WF_TEMPLATE: function (data) {
             if ($(data.template).length > 0) {
                 $(data.target).html($(data.template).html());
+                if(data['class']) {
+                    $(data.target).addClass(data['class'])
+                }
             } else {
                 console.info('Warning template [' + data.template + '] not found');
             }
