@@ -147,7 +147,7 @@
 
             function process_statment(str) {
                 var match,ret_str=str;
-                var re=/([a-zA-Z]*:\/\/[a-zA-Z_\/\.]*)/g;
+                var re=/([a-zA-Z]*:\/\/[a-zA-Z_\/\.\@\s]*)/g;
                 while(match=re.exec(str)) {
                     ret_str=ret_str.replace(match[1],'"'+uritodata(match[1])+'"');
                 }
