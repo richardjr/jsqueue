@@ -3,6 +3,91 @@ window.core = {
 };
 
 core.data = {
+    htmlinject: function(html) {
+        var match, ret_str = html;
+
+        /**
+         * Match in indexs
+         * @type {RegExp}
+         */
+        for (var i in jsqueue.loops) {
+            var re = new RegExp("\~" + i + "\~", "g");
+            while (match = re.exec(html)) {
+                ret_str = ret_str.replace("~" + i + "~", jsqueue.loops[i]);
+            }
+
+        }
+        html = ret_str;
+
+        /**
+         * Match in uri data
+         * @type {RegExp}
+         */
+        var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*[\:]{0,1})/g;
+        while (match = re.exec(html)) {
+            var rep_match = match[1];
+            var uri_match = match[1].replace(/\:$/, '');
+            ret_str = ret_str.replace("~" + rep_match, this.uritodata(uri_match));
+        }
+
+        return ret_str;
+    },
+    uritodata: function(uri) {
+        // console.log(uri);
+        function index(obj, i) {
+            var matches=i.match(/^@(.*)/)
+            if(matches) {
+                return matches[1];
+            }
+            if(obj)
+                return obj[i];
+            return '';
+        }
+
+        /**
+         * Find any [ ] sub uri's
+         * @type {RegExp}
+         */
+        var uris=uri.split(',');
+        var ret_uri;
+        for(var i=0;i<uris.length;i++) {
+            ret_uri=get_uri(uris[i]);
+            if(ret_uri)
+                break;
+
+        }
+
+        return ret_uri;
+
+        function get_uri(uri) {
+            var ret_str = uri;
+            var re = /\[([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*)\]/g;
+            while (match = re.exec(uri)) {
+                ret_str = ret_str.replace("[" + match[1] + "]", "." + core.data.uritodata(match[1]));
+            }
+            uri = ret_str;
+            var match = uri.match(/(.*?):\/\/(.*)/);
+            var value;
+            switch (match[1]) {
+                case 'global':
+                    value = match[2].split('.').reduce(index, window);
+                    return value;
+                case 'stack':
+                    var uri = match[2].match(/(.*?)\/(.*)/);
+                    var stack_ptr=uri[1].split('.').reduce(index,jsqueue.stack);
+                    if (uri[2]) {
+                        value = uri[2].split('.').reduce(index, stack_ptr);
+                    }
+                    else
+                        value = stack_ptr;
+                    if(value===undefined)
+                        return '';
+                    return value;
+                default:
+                    return 'data uri [' + match[1] + '] is not valid';
+            }
+        }
+    },
     check_params: function (format,data) {
         var result=true;
         for(var i in format) {

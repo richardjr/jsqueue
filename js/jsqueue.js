@@ -12,7 +12,7 @@ function jsqueue_main() {
          */
         self.components = {};
         self.debug = false;
-
+        self.loops={};
         /**
          *  Empty Queue
          * @type {Array}

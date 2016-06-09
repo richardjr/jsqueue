@@ -10,7 +10,6 @@
         var self = this;
         self.options = options;
         self.div = element;
-        self.loops={};
         // Commands
         $(element).on({
             "command": function (event, cmd, data) {
@@ -100,7 +99,7 @@
             if(data.format.match(/DEBUG/g)) {
                 debugger;
             }
-            var value=uritodata(data.source);
+            var value=core.data.uritodata(data.source);
             if(data.format.match(/CONSOLE/g)) {
                 console.log(value);
             } else {
@@ -139,7 +138,7 @@
             }
             var statement=process_statment(data.statement);
             if(eval(statement)) {
-                $(this).append(htmlinject($(data.template).html()));
+                $(this).append(core.data.htmlinject($(data.template).html()));
                 $(this).contents().unwrap();
             } else {
                 $(this).remove();
@@ -149,7 +148,7 @@
                 var match,ret_str=str;
                 var re=/([a-zA-Z]*:\/\/[a-zA-Z_\/\.\@\s]*)/g;
                 while(match=re.exec(str)) {
-                    ret_str=ret_str.replace(match[1],'"'+uritodata(match[1])+'"');
+                    ret_str=ret_str.replace(match[1],'"'+core.data.uritodata(match[1])+'"');
                 }
                 return ret_str;
 
@@ -175,13 +174,13 @@
                 console.log(this);
                 return;
             }
-            var switch_val=uritodata(data.source);
+            var switch_val=core.data.uritodata(data.source);
             var switch_obj=this;
             $('wf-case',switch_obj).each(function () {
                 var case_data=$(this).data();
                 var case_val=case_data['value'];
                 if(case_val==switch_val) {
-                    $(switch_obj).html(htmlinject($(case_data.template).html()));
+                    $(switch_obj).html(core.data.htmlinject($(case_data.template).html()));
                     $('wf-default',switch_obj).remove();
                 }
                 $(this).remove();
@@ -190,7 +189,7 @@
             var sdefault=$('wf-default',switch_obj);
             if(sdefault.length>0) {
                 var default_data = sdefault.data();
-                $(switch_obj).html(htmlinject($(default_data.template).html()));
+                $(switch_obj).html(core.data.htmlinject($(default_data.template).html()));
                 sdefault.remove();
             }
 
@@ -220,25 +219,25 @@
                 return;
             }
             var index_var=data.index||'index';
-            var loop_data=uritodata(data.source);
-            self.loops[index_var]=0;
+            var loop_data=core.data.uritodata(data.source);
+            jsqueue.loops[index_var]=0;
             if(Object.prototype.toString.call(loop_data) === '[object Array]') {
                 for (var i=0;i<loop_data.length;i++) {
-                    self.loops[index_var]=i;
+                    jsqueue.loops[index_var]=i;
                     if(data.stackname)
                         jsqueue.push_name(data.stackname, loop_data[i]);
                     var target=data.target||this;
-                    $(target).append(htmlinject($(data.template).html()));
+                    $(target).append(core.data.htmlinject($(data.template).html()));
                     forceRedraw(target);
 
                 }
             } else {
                 for (var i in loop_data) {
-                    self.loops[index_var]=i;
+                    jsqueue.loops[index_var]=i;
                     if(data.stackname)
                         jsqueue.push_name(data.stackname, {"key": i, "value": loop_data[i]});
                     var target=data.target||this;
-                    $(target).append(htmlinject($(data.template).html()));
+                    $(target).append(core.data.htmlinject($(data.template).html()));
                     forceRedraw(target);
                 }
             }
@@ -270,10 +269,10 @@
              * Match in indexs
              * @type {RegExp}
              */
-            for(var i in self.loops) {
+            for(var i in jsqueue.loops) {
                 var re=new RegExp("\~"+i+"\~","g");
                 while(match=re.exec(html)) {
-                    ret_str=ret_str.replace("~"+i+"~",self.loops[i]);
+                    ret_str=ret_str.replace("~"+i+"~",jsqueue.loops[i]);
                 }
 
             }
@@ -287,7 +286,7 @@
             while(match=re.exec(html)) {
                 var rep_match=match[1];
                 var uri_match=match[1].replace(/\:$/,'');
-                ret_str=ret_str.replace("~"+rep_match,uritodata(uri_match));
+                ret_str=ret_str.replace("~"+rep_match,core.data.uritodata(uri_match));
             }
 
             return ret_str;
@@ -324,7 +323,7 @@
                 var ret_str = uri;
                 var re = /\[([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*)\]/g;
                 while (match = re.exec(uri)) {
-                    ret_str = ret_str.replace("[" + match[1] + "]", "." + uritodata(match[1]));
+                    ret_str = ret_str.replace("[" + match[1] + "]", "." + core.data.uritodata(match[1]));
                 }
                 uri = ret_str;
                 var match = uri.match(/(.*?):\/\/(.*)/);
