@@ -27,7 +27,7 @@
          * @type {HTMLElement}
          */
         var workflow_load = Object.create(HTMLElement.prototype);
-        workflow_load.createdCallback = function() {
+        workflow_load.attachedCallback = function() {
             var data=$(this).data();
             var format={
                 "command":{"message":"No command specified"},
@@ -37,6 +37,7 @@
                 console.log(this);
                 return;
             }*/
+
             self.ng_workflow_build(this);
             $(this).remove();
         };
@@ -143,6 +144,8 @@
             } else {
                 $(this).remove();
             }
+            //forceRedraw(this);
+
 
             function process_statment(str) {
                 var match,ret_str=str;
