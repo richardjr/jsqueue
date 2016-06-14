@@ -200,6 +200,7 @@
             }
 
             $(switch_obj).contents().unwrap();
+            forceRedraw(this);
 
 
         };
