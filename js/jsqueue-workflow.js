@@ -138,13 +138,16 @@
                 return;
             }
             var statement=process_statment(data.statement);
+            if(data.debug)
+                console.info(statement);
             if(eval(statement)) {
                 $(this).append(core.data.htmlinject($(data.template).html()));
                 $(this).contents().unwrap();
             } else {
                 $(this).remove();
             }
-            //forceRedraw(this);
+            forceRedraw(this);
+
 
 
             function process_statment(str) {
