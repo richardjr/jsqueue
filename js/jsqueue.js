@@ -332,6 +332,18 @@ function jsqueue_main() {
         self.stack[stackname]=data;
     };
 
+    this.get_stack = function() {
+        var self = this;
+
+        return self.stack;
+    };
+
+    this.get_stack_name = function(stackname) {
+        var self = this;
+
+        return self.stack[stackname];
+    };
+
     this.logicfail = function (pid) {
         var self = this;
         for (var i = 0; i < self.queue.length; i++) {
