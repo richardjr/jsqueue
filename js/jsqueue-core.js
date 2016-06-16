@@ -120,18 +120,18 @@ core.data = {
             });
         } else {
             var matches;
-            if (typeof val == "string" && (matches = val.match(/\!jquery:(.*)[:]{0,1}/))) {
+            if (typeof val == "string" && (matches = val.match(/\!jquery:([#a-zA-Z\-_\.0-9]*)[:]{0,1}/))) {
                 var clean_match = matches[1].replace(/:.*/, '');
                 if (jQuery(clean_match).is('input:not(:checkbox),textarea,select')) {
-                    to[key] = val.replace(/\!jquery:.*[:]{0,1}/, jQuery(clean_match).val());
+                    to[key] = val.replace(/\!jquery:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, jQuery(clean_match).val());
                 } else if (jQuery(clean_match).is(':checkbox')) {
                     if (jQuery(clean_match).is(':checked')) {
-                        to[key] = val.replace(/\!jquery:.*[:]{0,1}/, jQuery(clean_match).val());
+                        to[key] = val.replace(/\!jquery:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, jQuery(clean_match).val());
                     } else {
                         to[key] = '';
                     }
                 } else {
-                    to[key] = val.replace(/\!jquery:.*[:]{0,1}/, jQuery(clean_match).text());
+                    to[key] = val.replace(/\!jquery:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, jQuery(clean_match).text());
                 }
             }
             if (typeof val == "string" && (matches = val.match(/\!data:(.*)[:]{0,1}/))) {
