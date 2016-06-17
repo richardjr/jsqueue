@@ -726,7 +726,10 @@
         TOOLS_RUN_JAVASCRIPT: function (data) {
             eval(data['function']+"("+data.args+");");
         },
-
+        TOOLS_PUSH_NAME: function (data) {
+            jsqueue.push_name(data.stackname, data.data);
+            jsqueue.finished(data.PID);
+        },
         TOOLS_REST_API: function (data) {
             var self = this;
             var senddata = {};
