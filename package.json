@@ -1,25 +1,25 @@
 {
-    "name":"jsqueue",
-    "version":"1.0.0",
-    "description":"JSQueue",
-    "scripts":{
-        "build": "nodejs scripts/minify.js",
-        "docs": "nodejs scripts/docs.js"
-    },
-    "devDependencies": {
-        "node-minify": "1.2.0",
-        "jsdoc": "3.3.2",
-        "shelljs": "0.5.3",
-        "html5shiv": "3.7.3",
-        "jquery":"*",
-        "document-register-element":"*",
-        "dom4":"*",
-        "particles.js":"*",
-        "bowser":"*"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/nautoguide/jsqueue"
-    }
-
+  "name": "jsqueue",
+  "version": "1.0.0",
+  "description": "JSQueue",
+  "scripts": {
+    "build": "nodejs scripts/minify.js",
+    "docs": "nodejs scripts/docs.js"
+  },
+  "devDependencies": {
+    "node-minify": "1.2.0",
+    "jsdoc": "3.3.2",
+    "shelljs": "0.5.3",
+    "html5shiv": "3.7.3",
+    "jquery": "*",
+    "document-register-element": "*",
+    "dom4": "*",
+    "particles.js": "*",
+    "bowser": "*",
+    "three": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nautoguide/jsqueue"
+  }
 }

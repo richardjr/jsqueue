@@ -67,6 +67,18 @@ exec('/bin/cp node_modules/bowser/bowser.min.js js/libs/bowser', function(error,
     }
 });
 
+exec('/bin/cp node_modules/three/build/three.js js/libs/three', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
+exec('/bin/cp node_modules/three/build/three.min.js js/libs/three', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
 new compressor.minify({
     type: 'gcc',
     fileIn: desktopFiles,
