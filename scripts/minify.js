@@ -78,6 +78,11 @@ exec('/bin/cp node_modules/three/build/three.min.js js/libs/three', function(err
         console.error(error);
     }
 });
+exec('/bin/cp node_modules/three/examples/js/controls/TrackballControls.js js/libs/three/plugins', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
 
 new compressor.minify({
     type: 'gcc',
