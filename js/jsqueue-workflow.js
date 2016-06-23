@@ -253,9 +253,10 @@
                     forceRedraw(target);
                 }
             }
-
-
-            $(this).contents().unwrap();
+            if(data.target)
+                $(this).remove();
+            else
+                $(this).contents().unwrap();
 
         };
 
