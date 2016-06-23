@@ -17,7 +17,7 @@
             }
         });
         jsqueue.activate('WORKFLOW');
-        if(self.options.auto==true) {
+        if (self.options.auto == true) {
             self.WORKFLOW_START({});
         }
 
@@ -27,16 +27,16 @@
          * @type {HTMLElement}
          */
         var workflow_load = Object.create(HTMLElement.prototype);
-        workflow_load.attachedCallback = function() {
-            var data=$(this).data();
-            var format={
-                "command":{"message":"No command specified"},
-                "component":{"message":"No component specified"}
+        workflow_load.attachedCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "command": {"message": "No command specified"},
+                "component": {"message": "No component specified"}
             };
             /*f(!core.data.check_params(format,data)) {
-                console.log(this);
-                return;
-            }*/
+             console.log(this);
+             return;
+             }*/
 
             self.ng_workflow_build(this);
             $(this).remove();
@@ -51,22 +51,22 @@
          * @type {HTMLElement}
          */
         var workflow_event = Object.create(HTMLElement.prototype);
-        workflow_event.createdCallback = function() {
-            var data=$(this).data();
-            var format={
-                "command":{"message":"No command specified"},
-                "component":{"message":"No component specified"}
+        workflow_event.createdCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "command": {"message": "No command specified"},
+                "component": {"message": "No component specified"}
             };
             /*if(!core.data.check_params(format,data)) {
-                console.log(this);
-                return;
-            }*/
-            var events=$(this).attr('data-events')||'click run';
+             console.log(this);
+             return;
+             }*/
+            var events = $(this).attr('data-events') || 'click run';
             $(this).unbind(events);
-            $(this).on( events, function (e) {
+            $(this).on(events, function (e) {
                 e.stopPropagation();
                 self.ng_workflow_build(this);
-                if($(this).attr('data-return'))
+                if ($(this).attr('data-return'))
                     return $(this).attr('data-return');
                 return false;
             });
@@ -81,39 +81,39 @@
          * @type {HTMLElement}
          */
         var workflow_text = Object.create(HTMLElement.prototype);
-        workflow_text.createdCallback = function() {
-            var data=$(this).data();
-            var format={
-                "source":{"message":"No source specified"}
+        workflow_text.createdCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "source": {"message": "No source specified"}
             };
-            if(!core.data.check_params(format,data)) {
+            if (!core.data.check_params(format, data)) {
                 console.log(this);
                 return;
             }
             /**
              * Default the format
              */
-            if(!data.format)
-                data.format="TXT_ONLY";
+            if (!data.format)
+                data.format = "TXT_ONLY";
 
 
-            if(data.format.match(/DEBUG/g)) {
+            if (data.format.match(/DEBUG/g)) {
                 debugger;
             }
-            var value=core.data.uritodata(data.source);
-            if(data.format.match(/CONSOLE/g)) {
+            var value = core.data.uritodata(data.source);
+            if (data.format.match(/CONSOLE/g)) {
                 console.log(value);
             } else {
-                if(typeof value === 'object')
-                    value=JSON.stringify(value);
-                    //value=JSON.stringify(value, core.data.serializer);
+                if (typeof value === 'object')
+                    value = JSON.stringify(value);
+                //value=JSON.stringify(value, core.data.serializer);
                 if (value)
                     $(this).text(value);
                 else
                     $(this).text('');
             }
 
-            if(data.format.match(/TXT_ONLY/g))
+            if (data.format.match(/TXT_ONLY/g))
                 $(this).contents().unwrap();
 
         };
@@ -127,20 +127,20 @@
          * @type {HTMLElement}
          */
         var workflow_if = Object.create(HTMLElement.prototype);
-        workflow_if.createdCallback = function() {
-            var data=$(this).data();
-            var format={
-                "statement":{"message":"No statement specified"},
-                "template":{"message":"No template specified"}
+        workflow_if.attachedCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "statement": {"message": "No statement specified"},
+                "template": {"message": "No template specified"}
             };
-            if(!core.data.check_params(format,data)) {
+            if (!core.data.check_params(format, data)) {
                 console.log(this);
                 return;
             }
-            var statement=process_statment(data.statement);
-            if(data.debug)
+            var statement = process_statment(data.statement);
+            if (data.debug)
                 console.info(statement);
-            if(eval(statement)) {
+            if (eval(statement)) {
                 $(this).append(core.data.htmlinject($(data.template).html()));
                 $(this).contents().unwrap();
             } else {
@@ -149,12 +149,11 @@
             forceRedraw(this);
 
 
-
             function process_statment(str) {
-                var match,ret_str=str;
-                var re=/([a-zA-Z]*:\/\/[a-zA-Z_\/\.\@\s]*)/g;
-                while(match=re.exec(str)) {
-                    ret_str=ret_str.replace(match[1],'"'+core.data.uritodata(match[1])+'"');
+                var match, ret_str = str;
+                var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.\@\s]*)/g;
+                while (match = re.exec(str)) {
+                    ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
                 }
                 return ret_str;
 
@@ -171,29 +170,29 @@
          * @type {HTMLElement}
          */
         var workflow_switch = Object.create(HTMLElement.prototype);
-        workflow_switch.createdCallback = function() {
-            var data=$(this).data();
-            var format={
-                "source":{"message":"No source specified"}
+        workflow_switch.attachedCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "source": {"message": "No source specified"}
             };
-            if(!core.data.check_params(format,data)) {
+            if (!core.data.check_params(format, data)) {
                 console.log(this);
                 return;
             }
-            var switch_val=core.data.uritodata(data.source);
-            var switch_obj=this;
-            $('wf-case',switch_obj).each(function () {
-                var case_data=$(this).data();
-                var case_val=case_data['value'];
-                if(case_val==switch_val) {
+            var switch_val = core.data.uritodata(data.source);
+            var switch_obj = this;
+            $('wf-case', switch_obj).each(function () {
+                var case_data = $(this).data();
+                var case_val = case_data['value'];
+                if (case_val == switch_val) {
                     $(switch_obj).html(core.data.htmlinject($(case_data.template).html()));
-                    $('wf-default',switch_obj).remove();
+                    $('wf-default', switch_obj).remove();
                 }
                 $(this).remove();
 
             });
-            var sdefault=$('wf-default',switch_obj);
-            if(sdefault.length>0) {
+            var sdefault = $('wf-default', switch_obj);
+            if (sdefault.length > 0) {
                 var default_data = sdefault.data();
                 $(switch_obj).html(core.data.htmlinject($(default_data.template).html()));
                 sdefault.remove();
@@ -215,35 +214,41 @@
          * @type {HTMLElement}
          */
         var workflow_for = Object.create(HTMLElement.prototype);
-        workflow_for.createdCallback = function() {
-            var data=$(this).data();
-            var format={
-                "source":{"message":"No source specified"},
-                "template":{"message":"No template specified"}
+        workflow_for.attachedCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "source": {"message": "No source specified"},
+                "template": {"message": "No template specified"}
             };
-            if(!core.data.check_params(format,data)) {
+            if (!core.data.check_params(format, data)) {
                 console.log(this);
                 return;
             }
-            var index_var=data.index||'index';
-            var loop_data=core.data.uritodata(data.source);
-            jsqueue.loops[index_var]=0;
-            if(Object.prototype.toString.call(loop_data) === '[object Array]') {
-                for (var i=0;i<loop_data.length;i++) {
-                    jsqueue.loops[index_var]=i;
-                    if(data.stackname)
+            var index_var = data.index || 'index';
+            var loop_data = core.data.uritodata(data.source);
+            var target = data.target || this;
+
+            if ($(target).length <= 0) {
+                console.error('Target does not exist:'+data.target);
+                return;
+            }
+
+            jsqueue.loops[index_var] = 0;
+            if (Object.prototype.toString.call(loop_data) === '[object Array]') {
+                for (var i = 0; i < loop_data.length; i++) {
+                    jsqueue.loops[index_var] = i;
+                    if (data.stackname)
                         jsqueue.push_name(data.stackname, loop_data[i]);
-                    var target=data.target||this;
                     $(target).append(core.data.htmlinject($(data.template).html()));
+
                     forceRedraw(target);
 
                 }
             } else {
                 for (var i in loop_data) {
-                    jsqueue.loops[index_var]=i;
-                    if(data.stackname)
+                    jsqueue.loops[index_var] = i;
+                    if (data.stackname)
                         jsqueue.push_name(data.stackname, {"key": i, "value": loop_data[i]});
-                    var target=data.target||this;
                     $(target).append(core.data.htmlinject($(data.template).html()));
                     forceRedraw(target);
                 }
@@ -259,7 +264,7 @@
         });
 
 
-        function forceRedraw(element){
+        function forceRedraw(element) {
             document.dispatchEvent(new CustomEvent('readystatechange'));
         }
 
@@ -270,43 +275,43 @@
          */
 
         function htmlinject(html) {
-            var match,ret_str=html;
+            var match, ret_str = html;
 
             /**
              * Match in indexs
              * @type {RegExp}
              */
-            for(var i in jsqueue.loops) {
-                var re=new RegExp("\~"+i+"\~","g");
-                while(match=re.exec(html)) {
-                    ret_str=ret_str.replace("~"+i+"~",jsqueue.loops[i]);
+            for (var i in jsqueue.loops) {
+                var re = new RegExp("\~" + i + "\~", "g");
+                while (match = re.exec(html)) {
+                    ret_str = ret_str.replace("~" + i + "~", jsqueue.loops[i]);
                 }
 
             }
-            html=ret_str;
+            html = ret_str;
 
             /**
              * Match in uri data
              * @type {RegExp}
              */
-            var re=/\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*[\:]{0,1})/g;
-            while(match=re.exec(html)) {
-                var rep_match=match[1];
-                var uri_match=match[1].replace(/\:$/,'');
-                ret_str=ret_str.replace("~"+rep_match,core.data.uritodata(uri_match));
+            var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*[\:]{0,1})/g;
+            while (match = re.exec(html)) {
+                var rep_match = match[1];
+                var uri_match = match[1].replace(/\:$/, '');
+                ret_str = ret_str.replace("~" + rep_match, core.data.uritodata(uri_match));
             }
 
             return ret_str;
         }
 
         function uritodata(uri) {
-           // console.log(uri);
+            // console.log(uri);
             function index(obj, i) {
-                var matches=i.match(/^@(.*)/)
-                if(matches) {
+                var matches = i.match(/^@(.*)/)
+                if (matches) {
                     return matches[1];
                 }
-                if(obj)
+                if (obj)
                     return obj[i];
                 return '';
             }
@@ -315,11 +320,11 @@
              * Find any [ ] sub uri's
              * @type {RegExp}
              */
-            var uris=uri.split(',');
+            var uris = uri.split(',');
             var ret_uri;
-            for(var i=0;i<uris.length;i++) {
-                ret_uri=get_uri(uris[i]);
-                if(ret_uri)
+            for (var i = 0; i < uris.length; i++) {
+                ret_uri = get_uri(uris[i]);
+                if (ret_uri)
                     break;
 
             }
@@ -341,13 +346,13 @@
                         return value;
                     case 'stack':
                         var uri = match[2].match(/(.*?)\/(.*)/);
-                        var stack_ptr=uri[1].split('.').reduce(index,jsqueue.stack);
+                        var stack_ptr = uri[1].split('.').reduce(index, jsqueue.stack);
                         if (uri[2]) {
                             value = uri[2].split('.').reduce(index, stack_ptr);
                         }
                         else
                             value = stack_ptr;
-                        if(value===undefined)
+                        if (value === undefined)
                             return '';
                         return value;
                     default:
@@ -357,20 +362,19 @@
         }
 
 
-
     }
 
 
     jsWorkflow.prototype = {
         constructor: jsWorkflow,
 
-        WORKFLOW_START: function(data) {
-            var self=this;
+        WORKFLOW_START: function (data) {
+            var self = this;
 
             /**
              *  Display warning of duplicate ID's which cause common faults
              */
-            if(jsqueue&&jsqueue.debug) {
+            if (jsqueue && jsqueue.debug) {
                 $('[id]').each(function () {
                     var ids = $('[id="' + this.id + '"]');
                     if (ids.length > 1 && ids[0] == this)
@@ -378,7 +382,7 @@
                 });
             }
 
-            data.mobile=data.mobile||false;
+            data.mobile = data.mobile || false;
             $('.js-workflow-onload,.js-workflow-onrun').each(function () {
                 self.ng_workflow_build(this);
             });
@@ -390,12 +394,12 @@
             $('.js-workflow').unbind('run');
 
 
-            $('.js-workflow:not([data-events])').on( 'click run', function (e) {
+            $('.js-workflow:not([data-events])').on('click run', function (e) {
                 console.log('Class method js-workflow is now deprecated, convert to wf-event model');
                 console.log(this);
                 e.stopPropagation();
                 self.ng_workflow_build(this);
-                if($(this).attr('data-return'))
+                if ($(this).attr('data-return'))
                     return $(this).attr('data-return');
                 return false;
             });
@@ -405,7 +409,7 @@
                 console.log('Class method js-workflow is now deprecated, convert to wf-event model');
                 console.log(this);
 
-                $(this).on($(this).attr('data-events'), function(e) {
+                $(this).on($(this).attr('data-events'), function (e) {
                     e.stopPropagation();
                     self.ng_workflow_build(this);
                     if ($(this).attr('data-return'))
@@ -415,8 +419,8 @@
             });
 
             $('.js-workflow[data-enter]').each(function () {
-                var parent_object=this;
-                var identifier= $(this).attr('data-enter');
+                var parent_object = this;
+                var identifier = $(this).attr('data-enter');
                 $(identifier).on('keypress', function (e) {
                     if (e && e.keyCode == 13) {
                         self.ng_workflow_build(parent_object);
@@ -432,9 +436,9 @@
             var self = this;
             var queue = [];
             var fail_queue = [];
-            var main_action = jQuery.extend(true,{},$(obj).data());
+            var main_action = jQuery.extend(true, {}, $(obj).data());
             $(obj).removeClass("js-workflow-onload js-workflow");
-            $(obj).attr("data-bound","true");
+            $(obj).attr("data-bound", "true");
 
             $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order=pre]').each(function () {
                 var sub_action = $(this).data();
@@ -443,7 +447,7 @@
             queue.push(self.ng_workflow_exec(main_action));
             $('.js-workflow-action[data-parent=' + $(obj).attr('id') + '][data-order!=pre]').each(function () {
                 var sub_action = $(this).data();
-                if(sub_action.chain&&sub_action.chain=='fail')
+                if (sub_action.chain && sub_action.chain == 'fail')
                     fail_queue.push(self.ng_workflow_exec(sub_action));
 
                 else
@@ -453,9 +457,9 @@
             /**
              *  Search for children that have wfc element type
              */
-            $('wf-child',obj).each(function () {
+            $('wf-child', obj).each(function () {
                 var sub_action = $(this).data();
-                if(sub_action.chain&&sub_action.chain=='fail')
+                if (sub_action.chain && sub_action.chain == 'fail')
                     fail_queue.push(self.ng_workflow_exec(sub_action));
                 else
                     queue.push(self.ng_workflow_exec(sub_action));
@@ -497,21 +501,21 @@
                     };
                 case 'queue':
                 default:
-                    var data={};
-                    if(action.form) {
-                        core.forms.encode(action.form,data);
+                    var data = {};
+                    if (action.form) {
+                        core.forms.encode(action.form, data);
                     } else {
-                        data=$.extend({},action.data,action.merge);
+                        data = $.extend({}, action.data, action.merge);
                     }
-                    var gen_queue={
+                    var gen_queue = {
                         'component': action.component,
                         'command': action.command,
-                        'data':data,
+                        'data': data,
                         'datamode': action.mode ? action.mode : false,
-                        'stackname': action.stackname? action.stackname : false
+                        'stackname': action.stackname ? action.stackname : false
                     }
-                    if(action.reg)
-                        gen_queue.reg=action.reg;
+                    if (action.reg)
+                        gen_queue.reg = action.reg;
                     return gen_queue;
             }
         }
