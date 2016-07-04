@@ -16,7 +16,8 @@
     "dom4": "*",
     "particles.js": "*",
     "bowser": "*",
-    "three": "*"
+    "three": "*",
+    "openlayers": "*"
   },
   "repository": {
     "type": "git",

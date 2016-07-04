@@ -84,6 +84,18 @@ exec('/bin/cp node_modules/three/examples/js/controls/TrackballControls.js js/li
     }
 });
 
+exec('/bin/cp node_modules/openlayers/dist/ol.js js/libs/openlayers', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
+exec('/bin/cp node_modules/openlayers/dist/ol-debug.js js/libs/openlayers', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
 new compressor.minify({
     type: 'gcc',
     fileIn: desktopFiles,
