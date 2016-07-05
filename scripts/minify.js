@@ -96,6 +96,12 @@ exec('/bin/cp node_modules/openlayers/dist/ol-debug.js js/libs/openlayers', func
     }
 });
 
+exec('/bin/cp node_modules/ckeditor/ckeditor.js js/libs/ckeditor', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
 new compressor.minify({
     type: 'gcc',
     fileIn: desktopFiles,

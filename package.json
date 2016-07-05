@@ -17,7 +17,8 @@
     "particles.js": "*",
     "bowser": "*",
     "three": "*",
-    "openlayers": "*"
+    "openlayers": "*",
+    "ckeditor": "*"
   },
   "repository": {
     "type": "git",
