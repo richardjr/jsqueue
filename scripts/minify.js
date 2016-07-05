@@ -102,6 +102,12 @@ exec('/bin/cp node_modules/ckeditor/ckeditor.js js/libs/ckeditor', function(erro
     }
 });
 
+exec('/bin/cp node_modules/bootstrap/dist/js/bootstrap* js/libs/bootstrap', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
 new compressor.minify({
     type: 'gcc',
     fileIn: desktopFiles,

@@ -18,7 +18,8 @@
     "bowser": "*",
     "three": "*",
     "openlayers": "*",
-    "ckeditor": "*"
+    "ckeditor": "*",
+    "bootstrap":"*"
   },
   "repository": {
     "type": "git",
