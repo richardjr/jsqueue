@@ -10,6 +10,7 @@ var desktopFiles = [
     "js/jsqueue-menus.js",
     "js/jsqueue-time.js",
     "js/jsqueue-tools.js",
+    "js/jsqueue-ckeditor.js",
     "js/jsqueue-workflow.js"
 ];
 
