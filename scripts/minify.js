@@ -97,7 +97,7 @@ exec('/bin/cp node_modules/openlayers/dist/ol-debug.js js/libs/openlayers', func
     }
 });
 
-exec('/bin/cp node_modules/ckeditor/ckeditor.js js/libs/ckeditor', function(error, stdout, stderr) {
+exec('/bin/cp -r node_modules/ckeditor/* js/libs/ckeditor', function(error, stdout, stderr) {
     if(error) {
         console.error(error);
     }

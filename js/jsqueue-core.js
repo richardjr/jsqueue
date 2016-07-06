@@ -131,7 +131,7 @@ core.data = {
                         to[key] = '';
                     }
                 } else {
-                    to[key] = val.replace(/\!jquery:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, jQuery(clean_match).text());
+                    to[key] = val.replace(/\!jquery:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, jQuery(clean_match).html());
                 }
             }
             if (typeof val == "string" && (matches = val.match(/\!data:(.*)[:]{0,1}/))) {
