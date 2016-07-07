@@ -72,6 +72,13 @@ core.data = {
                 case 'global':
                     value = match[2].split('.').reduce(index, window);
                     return value;
+                case 'request':
+                    console.log(match);
+                    function get(name){
+                        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+                            return decodeURIComponent(name[1]);
+                    }
+                    return get(match[1]);
                 case 'stack':
                     var uri = match[2].match(/(.*?)\/(.*)/);
                     var stack_ptr=uri[1].split('.').reduce(index,jsqueue.stack);
@@ -165,6 +172,17 @@ core.data = {
                     to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/, value);
                 }
 
+            }
+            if (typeof val == "string" && (matches = val.match(/\!request:([#a-zA-Z\-_\.0-9]*)[:]{0,1}/))) {
+
+                function get(name){
+                    if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+                        return decodeURIComponent(name[1]);
+                }
+
+                var clean_match = matches[1].replace(/:.*/, '');
+
+                to[key] = val.replace(/\!request:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, get(clean_match));
             }
 
         }
