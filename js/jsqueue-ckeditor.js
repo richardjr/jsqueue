@@ -32,14 +32,13 @@
         INIT_EDITOR: function(data) {
             var self=this;
             CKEDITOR.disableAutoInline = true;
-            CKEDITOR.inline(data.target);
+            CKEDITOR.inline(data.target,data.config||{});
             jsqueue.finished(data.PID);
         },
         
         CLEANUP_EDITOR: function(data) {
             var self=this;
-            for(name in CKEDITOR.instances)
-            {
+            for(name in CKEDITOR.instances) {
                 CKEDITOR.instances[name].destroy(true);
             }
             jsqueue.finished(data.PID);

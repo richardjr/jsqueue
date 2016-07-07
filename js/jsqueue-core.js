@@ -159,7 +159,11 @@ core.data = {
                 }
 
                 var value = clean_match.split('.').reduce(index, data);
-                to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/, value);
+                if(Object.prototype.toString.call( value ) === '[object Array]'  ) {
+                    to[key]=value;
+                } else {
+                    to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/, value);
+                }
 
             }
 
