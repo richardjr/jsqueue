@@ -332,6 +332,42 @@ function jsqueue_main() {
         self.stack[stackname]=data;
     };
 
+    this.merge_name = function(stackname,data) {
+        var self=this;
+        self.stack[stackname]=$.extend({},self.stack[stackname],data);
+    };
+
+    this.delete_name_element = function(stackname,element) {
+        var self=this;
+        function index(obj, i) {
+            return obj[i];
+        }
+
+        var ptr = element.split('.').reduce(index, self.stack[stackname]);
+        delete ptr;
+    };
+
+    this.delete_name_array_element = function(stackname,path,dindex) {
+        var self=this;
+        function index(obj, i) {
+            return obj[i];
+        }
+
+        var ptr = path.split('.').reduce(index, self.stack[stackname]);
+        ptr.splice(dindex,1)
+    };
+
+    this.add_name_array_element = function(stackname,path,value) {
+        var self=this;
+        function index(obj, i) {
+            return obj[i];
+        }
+
+        var ptr = path.split('.').reduce(index, self.stack[stackname]);
+        ptr.push(value);
+    };
+
+
     this.get_stack = function() {
         var self = this;
 

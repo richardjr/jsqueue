@@ -726,10 +726,32 @@
         TOOLS_RUN_JAVASCRIPT: function (data) {
             eval(data['function']+"("+data.args+");");
         },
+
         TOOLS_PUSH_NAME: function (data) {
             jsqueue.push_name(data.stackname, data.data);
             jsqueue.finished(data.PID);
         },
+
+        TOOLS_MERGE_NAME: function (data) {
+            jsqueue.merge_name(data.stackname, data.data);
+            jsqueue.finished(data.PID);
+        },
+        TOOLS_DELETE_NAME_ELEMENT: function (data) {
+            jsqueue.delete_name_element(data.stackname, data.element);
+            jsqueue.finished(data.PID);
+        },
+
+        TOOLS_DELETE_NAME_ARRAY_ITEM: function (data) {
+            jsqueue.delete_name_array_element(data.stackname, data.path,data.index);
+            jsqueue.finished(data.PID);
+        },
+
+        TOOLS_ADD_NAME_ARRAY_ITEM: function (data) {
+            jsqueue.add_name_array_element(data.stackname, data.path,data.value);
+            jsqueue.finished(data.PID);
+        },
+
+
         TOOLS_REST_API: function (data) {
             var self = this;
             var senddata = {};
