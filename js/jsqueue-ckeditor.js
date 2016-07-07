@@ -10,7 +10,6 @@
         var self = this;
         self.options = options;
         self.div = element;
-        self.cal=null;
 
         // Commands
         $(element).on({
@@ -35,6 +34,16 @@
             CKEDITOR.disableAutoInline = true;
             CKEDITOR.inline(data.target);
             jsqueue.finished(data.PID);
+        },
+        
+        CLEANUP_EDITOR: function(data) {
+            var self=this;
+            for(name in CKEDITOR.instances)
+            {
+                CKEDITOR.instances[name].destroy(true);
+            }
+            jsqueue.finished(data.PID);
+
         }
 
     };

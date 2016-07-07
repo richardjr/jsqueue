@@ -364,6 +364,8 @@ function jsqueue_main() {
         }
 
         var ptr = path.split('.').reduce(index, self.stack[stackname]);
+        if(Object.prototype.toString.call( ptr ) !== '[object Array]')
+            ptr=[];
         ptr.push(value);
     };
 
