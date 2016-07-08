@@ -3,7 +3,7 @@ window.core = {
 };
 
 core.data = {
-    htmlinject: function(html) {
+    htmlinject: function (html) {
         var match, ret_str = html;
 
         /**
@@ -32,14 +32,14 @@ core.data = {
 
         return ret_str;
     },
-    uritodata: function(uri) {
+    uritodata: function (uri) {
         // console.log(uri);
         function index(obj, i) {
-            var matches=i.match(/^@(.*)/)
-            if(matches) {
+            var matches = i.match(/^@(.*)/)
+            if (matches) {
                 return matches[1];
             }
-            if(obj)
+            if (obj)
                 return obj[i];
             return '';
         }
@@ -48,11 +48,11 @@ core.data = {
          * Find any [ ] sub uri's
          * @type {RegExp}
          */
-        var uris=uri.split(',');
+        var uris = uri.split(',');
         var ret_uri;
-        for(var i=0;i<uris.length;i++) {
-            ret_uri=get_uri(uris[i]);
-            if(ret_uri)
+        for (var i = 0; i < uris.length; i++) {
+            ret_uri = get_uri(uris[i]);
+            if (ret_uri)
                 break;
 
         }
@@ -73,21 +73,17 @@ core.data = {
                     value = match[2].split('.').reduce(index, window);
                     return value;
                 case 'request':
-                    console.log(match);
-                    function get(name){
-                        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
-                            return decodeURIComponent(name[1]);
-                    }
-                    return get(match[1]);
+                    var clean = match[2].replace(/\//, '');
+                    return core.data.getUrl(clean);
                 case 'stack':
                     var uri = match[2].match(/(.*?)\/(.*)/);
-                    var stack_ptr=uri[1].split('.').reduce(index,jsqueue.stack);
+                    var stack_ptr = uri[1].split('.').reduce(index, jsqueue.stack);
                     if (uri[2]) {
                         value = uri[2].split('.').reduce(index, stack_ptr);
                     }
                     else
                         value = stack_ptr;
-                    if(value===undefined)
+                    if (value === undefined)
                         return '';
                     return value;
                 default:
@@ -95,18 +91,18 @@ core.data = {
             }
         }
     },
-    check_params: function (format,data) {
-        var result=true;
-        for(var i in format) {
-            if(!data[i]) {
+    check_params: function (format, data) {
+        var result = true;
+        for (var i in format) {
+            if (!data[i]) {
                 console.error(format[i].message);
-                result=false;
+                result = false;
             }
         }
         return result;
     },
-    serializer: function (key,value) {
-        if(typeof value === 'object')
+    serializer: function (key, value) {
+        if (typeof value === 'object')
             return 'Object';
         return value;
 
@@ -166,8 +162,8 @@ core.data = {
                 }
 
                 var value = clean_match.split('.').reduce(index, data);
-                if(Object.prototype.toString.call( value ) === '[object Array]'  ) {
-                    to[key]=value;
+                if (Object.prototype.toString.call(value) === '[object Array]') {
+                    to[key] = value;
                 } else {
                     to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/, value);
                 }
@@ -175,17 +171,20 @@ core.data = {
             }
             if (typeof val == "string" && (matches = val.match(/\!request:([#a-zA-Z\-_\.0-9]*)[:]{0,1}/))) {
 
-                function get(name){
-                    if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
-                        return decodeURIComponent(name[1]);
-                }
 
                 var clean_match = matches[1].replace(/:.*/, '');
 
-                to[key] = val.replace(/\!request:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, get(clean_match));
+                to[key] = val.replace(/\!request:[#a-zA-Z\-_\.0-9]*[:]{0,1}/, core.data.getUrl(clean_match));
             }
 
         }
+    },
+    getUrl: function (name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
+            return decodeURIComponent(name[1]);
+        }
+        return false;
+
     }
 };
 
