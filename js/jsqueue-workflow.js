@@ -107,8 +107,12 @@
                 if (typeof value === 'object')
                     value = JSON.stringify(value);
                 //value=JSON.stringify(value, core.data.serializer);
-                if (value)
-                    $(this).text(value);
+                if (value) {
+                    if (data.format.match(/HTML/g))
+                        $(this).html(value);
+                    else
+                        $(this).text(value);
+                }
                 else
                     $(this).text('');
             }
