@@ -174,7 +174,12 @@
                 $(this).append(core.data.htmlinject($(data.template).html()));
                 $(this).contents().unwrap();
             } else {
-                $(this).remove();
+                if(data.elsetemplate) {
+                    $(this).append(core.data.htmlinject($(data.elsetemplate).html()));
+                    $(this).contents().unwrap();
+                } else {
+                    $(this).remove();
+                }
             }
             forceRedraw(this);
 
