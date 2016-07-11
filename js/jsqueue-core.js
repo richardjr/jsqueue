@@ -28,7 +28,7 @@ core.data = {
          * TODO: Test addition of \:.. This could overrun the detection.
          * @type {RegExp}
          */
-        var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s\[\]\:]*[\:]{0,1})/g;
+        var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*(\[.*\])*[a-zA-Za.]*[\:]{0,1})/g;
         while (match = re.exec(html)) {
             var rep_match = match[1];
             var uri_match = match[1].replace(/\:$/, '');
