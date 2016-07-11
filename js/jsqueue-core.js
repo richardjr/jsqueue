@@ -157,7 +157,7 @@ core.data = {
 
                 // to[key] =value;
             }
-            if (typeof val == "string" && (matches = val.match(/\!stack:\/\/(.*)[:]{0,1}/))) {
+            if (typeof val == "string" && (matches = val.match(/\!stack:\/\/([#a-zA-Z\-_\.0-9\/]*)[:]{0,1}/))) {
                 var clean_match = matches[1].replace(/:.*/, '');
                 matches = clean_match.split('/');
                 clean_match = matches[1];
@@ -170,7 +170,7 @@ core.data = {
                 if (Object.prototype.toString.call(value) === '[object Array]') {
                     to[key] = value;
                 } else {
-                    to[key] = val.replace(/\!stack:\/\/.*[:]{0,1}/, value);
+                    to[key] = val.replace(/\!stack:\/\/[#a-zA-Z\-_\.0-9\/]*[:]{0,1}/, value);
                 }
 
             }
