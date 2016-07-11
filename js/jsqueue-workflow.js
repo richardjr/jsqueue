@@ -123,7 +123,37 @@
         });
 
         /**
-         * click/run detection
+         * if statement
+         * @type {HTMLElement}
+         */
+        var workflow_template = Object.create(HTMLElement.prototype);
+        workflow_template.attachedCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "template": {"message": "No template specified"}
+            };
+            if (!core.data.check_params(format, data)) {
+                console.log(this);
+                return;
+            }
+
+            $(this).append(core.data.htmlinject($(data.template).html()));
+            $(this).contents().unwrap();
+
+            forceRedraw(this);
+
+
+
+
+        };
+
+        var wftemplate = document.registerElement('wf-template', {
+            prototype: workflow_template
+        });
+
+
+        /**
+         * if statement
          * @type {HTMLElement}
          */
         var workflow_if = Object.create(HTMLElement.prototype);
