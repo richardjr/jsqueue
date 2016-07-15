@@ -3,6 +3,14 @@ window.core = {
 };
 
 core.data = {
+    process_statment: function (str) {
+        var match, ret_str = str;
+        var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.\@\s]*)/g;
+        while (match = re.exec(str)) {
+            ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
+        }
+        return ret_str;
+    },
     htmlinject: function (html) {
         var match, ret_str = html;
 
@@ -28,7 +36,7 @@ core.data = {
          * TODO: Test addition of \:.. This could overrun the detection.
          * @type {RegExp}
          */
-        var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*(\[.*\])*[a-zA-Za.]*[\:]{0,1})/g;
+        var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s]*(\[.*?\])*[a-zA-Za.\_]*[\:]{0,1})/g;
         while (match = re.exec(html)) {
             var rep_match = match[1];
             var uri_match = match[1].replace(/\:$/, '');
