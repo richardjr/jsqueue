@@ -46,6 +46,35 @@
             prototype: workflow_load
         });
 
+
+        /** checkbox - experimental
+         *
+         * @type {HTMLElement}
+         */
+
+
+        var workflow_checkbox = Object.create(HTMLElement.prototype);
+        workflow_checkbox.attachedCallback = function () {
+            var data=$(this).data();
+            var statement = core.data.process_statment(data.statement);
+            $(this).append($("<input/>",{
+                'type':'checkbox',
+                'id':data.id,
+                'checked':eval(statement),
+                'value':data.value
+            }));
+            $(this).contents().unwrap();
+        };
+
+        var wfl = document.registerElement('wf-checkbox', {
+            prototype: workflow_checkbox
+        });
+
+
+
+
+
+
         /**
          * click/run detection
          * @type {HTMLElement}
@@ -171,7 +200,7 @@
                 console.log(this);
                 return;
             }
-            var statement = process_statment(data.statement);
+            var statement = core.data.process_statment(data.statement);
             if (data.debug)
                 console.info(statement);
             if (eval(statement)) {
@@ -188,15 +217,7 @@
             forceRedraw(this);
 
 
-            function process_statment(str) {
-                var match, ret_str = str;
-                var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.\@\s]*)/g;
-                while (match = re.exec(str)) {
-                    ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
-                }
-                return ret_str;
-
-            }
+           
 
         };
 
