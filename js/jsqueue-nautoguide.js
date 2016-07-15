@@ -32,18 +32,23 @@
             },
             'chain': [
                 {
-                    'component': 'TOOLS',
-                    'command': 'TOOLS_RUN_FUNCTION',
-                    'data': {
-                        'afunction': 'populateSystemVariables'
-                    }
+                    'component': 'NAUTOGUIDE',
+                    'command': 'POPULATE_SYSTEM_VARIABLES'
                 }
             ]
         });
     }
 
     jsNautoguide.prototype = {
-        constructor: jsNautoguide
+        constructor: jsNautoguide,
+
+        POPULATE_SYSTEM_VARIABLES: function() {
+            var stack = jsqueue.get_stack_name("TOKEN_DETAIL");
+
+            window.nautosdk = {"app": {"schema": stack['_schema']}, "acl": stack['data']};
+
+            jsqueue.set_reg("NAUTOGUIDE_LOADED", true);
+        }
     };
 
     /* PLUGIN DEFINITION
@@ -64,11 +69,3 @@
 
     $.fn.jsNautoguide.Constructor = jsNautoguide;
 }(window.jQuery));
-
-function populateSystemVariables() {
-    var stack = jsqueue.get_stack_name("TOKEN_DETAIL");
-
-    window.nautosdk = {"app": {"schema": stack['_schema']}, "acl": stack['data']};
-
-    jsqueue.set_reg("NAUTOGUIDE_LOADED", true);
-}
