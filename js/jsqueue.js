@@ -357,7 +357,7 @@ function jsqueue_main() {
         ptr.splice(dindex,1)
     };
 
-    this.add_name_array_element = function(stackname,path,value) {
+    this.add_name_array_element = function(stackname,path,value,unique) {
         var self=this;
         function index(obj, i) {
             return obj[i];
@@ -366,7 +366,12 @@ function jsqueue_main() {
         var ptr = path.split('.').reduce(index, self.stack[stackname]);
         if(Object.prototype.toString.call( ptr ) !== '[object Array]'||ptr===undefined)
             ptr=[];
-        ptr.push(value);
+        if(unique) {
+            if(!ptr[value])
+                ptr.push(value);
+        } else {
+            ptr.push(value);
+        }
     };
 
 

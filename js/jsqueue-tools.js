@@ -748,7 +748,7 @@
         },
 
         TOOLS_ADD_NAME_ARRAY_ITEM: function (data) {
-            jsqueue.add_name_array_element(data.stackname, data.path,data.value);
+            jsqueue.add_name_array_element(data.stackname, data.path,data.value,data.unique);
             jsqueue.finished(data.PID);
         },
 
