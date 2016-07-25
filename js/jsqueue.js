@@ -367,7 +367,7 @@ function jsqueue_main() {
         if(Object.prototype.toString.call( ptr ) !== '[object Array]'||ptr===undefined)
             ptr=[];
         if(unique) {
-            if(!ptr[value])
+            if(ptr.indexOf(value)==-1)
                 ptr.push(value);
         } else {
             ptr.push(value);
