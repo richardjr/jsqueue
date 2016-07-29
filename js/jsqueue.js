@@ -19,6 +19,7 @@ function jsqueue_main() {
          */
 
         self.queue = [];
+        self.namedQueue = {};
         self.registers = {};
 
         self.config = {
@@ -183,6 +184,7 @@ function jsqueue_main() {
      */
     this.add = function (data) {
         var self = this;
+
         var ddata = jQuery.extend({}, data);
         ddata.state = 'queued';
         ddata.time = jQuery.now();
@@ -200,11 +202,28 @@ function jsqueue_main() {
         if (!ddata.data)
             ddata.data = {};
         var qid = self.pid;
-        self.queue.push(ddata);
-        self.process();
+        /**
+         *  A named queue items goes on a different stack that can be moved into the live queue as needed
+         */
+        if(ddata.named!==undefined) {
+            if (self.debug)
+                console.log('added named queue '+ddata.named);
+            self.namedQueue[ddata.named]=ddata;
+        } else {
+            self.queue.push(ddata);
+            self.process();
+        }
         return qid;
 
     };
+
+    this.namedToQueue = function (named) {
+        var self=this;
+        if(self.namedQueue[named]!==undefined) {
+            self.queue.push(self.namedQueue[named]);
+            self.process();
+        }
+    }
     /**
      *  Run the current queue
      */
@@ -329,6 +348,8 @@ function jsqueue_main() {
 
     this.push_name = function(stackname,data) {
         var self=this;
+        if (self.debug)
+            console.log('Named stack ['+stackname+'] updated');
         self.stack[stackname]=data;
     };
 

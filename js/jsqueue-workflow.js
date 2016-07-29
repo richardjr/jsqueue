@@ -575,6 +575,8 @@
                         'datamode': action.mode ? action.mode : false,
                         'stackname': action.stackname ? action.stackname : false
                     }
+                    if (action.named)
+                        gen_queue.named = action.named;
                     if (action.reg)
                         gen_queue.reg = action.reg;
                     return gen_queue;
