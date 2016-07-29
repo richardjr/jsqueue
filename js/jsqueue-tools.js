@@ -292,6 +292,11 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_RUN_NAMED_QUEUE: function (data) {
+            jsqueue.namedToQueue(data.namedQueue);
+            jsqueue.finished(data.PID);
+        },
+
 
         /**
          * If help class is found, add it as a popover
