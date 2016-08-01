@@ -220,8 +220,10 @@ function jsqueue_main() {
     this.namedToQueue = function (named) {
         var self=this;
         if(self.namedQueue[named]!==undefined) {
-            self.queue.push(self.namedQueue[named]);
+            self.queue.push($.extend(true,{},self.namedQueue[named]));
             self.process();
+            if(self.debug)
+                console.log('Added named queue '+named);
         }
     }
     /**
