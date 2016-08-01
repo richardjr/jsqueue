@@ -109,6 +109,11 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_RELOAD: function(data) {
+            window.location.reload();
+            jsqueue.finished(data.PID);
+        },
+
         TOOLS_SLIDE_TOGGLE: function(data) {
             var offet=data.offset||20;
             if(data.target) {
@@ -844,15 +849,22 @@
                                 jsqueue.push(ldata.PID, rdata);
                             }
                         }
-                        jsqueue.finished(ldata.PID);
                         if (self.debug) {
                             console.info('jsTools->call_api');
                             console.info(rdata);
                         }
                         if(ldata.success)
                             ldata.success(rdata);
+                        if(rdata.result=='ERROR') {
+                            jsqueue.push_name('API_ERROR_RECV_DATA',rdata);
+                            jsqueue.push_name('API_ERROR_SEND_DATA',ldata);
+                            jsqueue.namedToQueue('WF_API_ERROR');
+                        }
+                        jsqueue.finished(ldata.PID);
+
                     },
                     error: function (rdata) {
+                        jsqueue.namedToQueue('WF_API_ERROR');
                         if (self.debug) {
                             console.warn('jsTools->call_api');
                             console.warn(rdata);
