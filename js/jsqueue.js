@@ -185,7 +185,7 @@ function jsqueue_main() {
     this.add = function (data) {
         var self = this;
 
-        var ddata = jQuery.extend({}, data);
+        var ddata = jQuery.extend(true,{}, data);
         ddata.state = 'queued';
         ddata.time = jQuery.now();
         ddata.logic = true;
