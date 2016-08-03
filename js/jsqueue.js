@@ -220,7 +220,10 @@ function jsqueue_main() {
     this.namedToQueue = function (named) {
         var self=this;
         if(self.namedQueue[named]!==undefined) {
-            self.queue.push($.extend(true,{},self.namedQueue[named]));
+            var newQueue=$.extend(true,{},self.namedQueue[named]);
+            /** update the time stamp to prevent cleaning (this one had me head scratching)**/
+            newQueue.time = jQuery.now();
+            self.queue.push(newQueue);
             self.process();
             if(self.debug)
                 console.log('Added named queue '+named);
