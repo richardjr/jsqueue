@@ -64,6 +64,12 @@
                 'value':data.value
             }));
             $(this).contents().unwrap();
+            /** TODO LEAK **/
+            if(data.changequeue!==undefined) {
+                $('#'+data.id).click(function(){
+                    jsqueue.namedToQueue(data.changequeue);
+                });
+            }
         };
 
         var wfl = document.registerElement('wf-checkbox', {
