@@ -52,7 +52,7 @@ core.data = {
             if (matches) {
                 return matches[1];
             }
-            if (obj)
+            if (obj!==undefined)
                 return obj[i];
             return '';
         }
