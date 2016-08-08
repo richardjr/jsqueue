@@ -491,7 +491,7 @@ function jsqueue_main() {
 
 var jsqueue = null;
 
-jQuery(window).load(function () {
+jQuery(window).on('load',function () {
 
     var config = {};
     if (jQuery('#jsqueue').length > 0)
