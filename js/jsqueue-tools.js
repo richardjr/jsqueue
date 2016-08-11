@@ -688,7 +688,7 @@
                     self.helper_replace_value(key, val, data,data);
                 });
             }
-            window.location=data.location;
+            window.top.location=data.location;
             jsqueue.finished(data.PID);
         },
 
