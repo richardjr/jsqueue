@@ -5,7 +5,7 @@ window.core = {
 core.data = {
     process_statment: function (str) {
         var match, ret_str = str;
-        var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.\@\s]*)/g;
+        var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9\@\s\#]*)/g;
         while (match = re.exec(str)) {
             ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
         }
