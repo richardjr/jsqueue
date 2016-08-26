@@ -4,6 +4,7 @@
   "description": "JSQueue",
   "scripts": {
     "build": "nodejs scripts/minify.js",
+    "update": "nodejs scripts/update.js",
     "docs": "nodejs scripts/docs.js"
   },
   "devDependencies": {
@@ -19,7 +20,8 @@
     "three": "*",
     "openlayers": "*",
     "ckeditor": "*",
-    "bootstrap":"*"
+    "bootstrap":"*",
+    "d3":"*"
   },
   "repository": {
     "type": "git",
