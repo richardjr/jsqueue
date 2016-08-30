@@ -86,6 +86,19 @@
          * @type {HTMLElement}
          */
         var workflow_event = Object.create(HTMLElement.prototype);
+
+        /**
+         *  Because we attach events to these elements we need to clean up
+         *  after dom remove to ensure cleanup
+         *
+         *  This is being called even when not detached!!
+         */
+      /* workflow_event.detachedCallback = function() {
+           console.log(this);
+           var events = $(this).attr('data-events') || 'click run';
+           $(this).unbind(events);
+        };*/
+
         workflow_event.createdCallback = function () {
             var data = $(this).data();
             var format = {
@@ -116,6 +129,9 @@
          * @type {HTMLElement}
          */
         var workflow_text = Object.create(HTMLElement.prototype);
+
+
+
         workflow_text.createdCallback = function () {
             var data = $(this).data();
             var format = {

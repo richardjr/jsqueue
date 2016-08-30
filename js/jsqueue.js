@@ -501,6 +501,7 @@ jQuery(window).on('load',function () {
     var self = jsqueue;
 
     self.config = jQuery.extend(self.config, config);
+    self.plugins=[];
 
     if (isNull(self.config.auto_start)) {
         jsqueue.start_components();
@@ -514,6 +515,12 @@ jQuery(window).on('load',function () {
     if (!isNull(window.loadFnc)) {
         window.loadFnc();
     }
+
+    if(typeof window.jsqueue_plugins!=="undefined") {
+        for(var i=0;i<jsqueue_plugins.length;i++)
+            self.plugins.push(new window[jsqueue_plugins[i]]());
+    }
+
 });
 
 function isNull(object) {
