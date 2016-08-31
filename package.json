@@ -21,7 +21,8 @@
     "openlayers": "*",
     "ckeditor": "*",
     "bootstrap":"*",
-    "d3":"*"
+    "d3":"*",
+    "d3-axis":"*"
   },
   "repository": {
     "type": "git",

@@ -107,3 +107,15 @@ exec('/bin/cp node_modules/d3/build/d3.min.js js/libs/d3', function(error, stdou
     }
 });
 
+exec('/bin/cp node_modules/d3-axis/build/d3-axis.js js/libs/d3', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
+exec('/bin/cp node_modules/d3-axis/build/d3-axis.min.js js/libs/d3', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
