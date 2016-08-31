@@ -183,7 +183,7 @@ core.data = {
                 }
 
                 var value = clean_match.split('.').reduce(index, data);
-                if (Object.prototype.toString.call(value) === '[object Array]') {
+                if (Object.prototype.toString.call(value) === '[object Array]'||typeof value ==='object') {
                     to[key] = value;
                 } else {
                     to[key] = val.replace(/\!stack:\/\/[#a-zA-Z\-_\.0-9\/]*[:]{0,1}/, value);

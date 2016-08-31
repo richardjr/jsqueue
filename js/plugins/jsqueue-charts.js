@@ -12,6 +12,7 @@ function jsqueue_charts() {
     }
     this.CREATE_CHART = function (data) {
         var self = this;
+        console.log(data);
         console.log('spoon')
         jsqueue.finished(data.PID);
     }
