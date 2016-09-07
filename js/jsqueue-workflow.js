@@ -178,7 +178,7 @@
         });
 
         /**
-         * if statement
+         * include a template in current template
          * @type {HTMLElement}
          */
         var workflow_template = Object.create(HTMLElement.prototype);
@@ -197,13 +197,36 @@
 
             forceRedraw(this);
 
-
-
-
         };
 
         var wftemplate = document.registerElement('wf-template', {
             prototype: workflow_template
+        });
+
+
+        /**
+         * include template(s) from a file
+         * @type {HTMLElement}
+         */
+        var workflow_include = Object.create(HTMLElement.prototype);
+        workflow_include.attachedCallback = function () {
+            var data = $(this).data();
+            var format = {
+                "file": {"message": "No file specified"}
+            };
+            if (!core.data.check_params(format, data)) {
+                console.log(this);
+                return;
+            }
+            $(this).load(data.file);
+            $(this).contents().unwrap();
+
+            forceRedraw(this);
+
+        };
+
+        var wfinclude = document.registerElement('wf-include', {
+            prototype: workflow_include
         });
 
 
