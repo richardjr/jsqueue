@@ -19,9 +19,29 @@ function jsqueue_draggable() {
 
     this.MAKE_DRAGGABLE = function (data) {
         var self = this;
-        console.log('making drag:'+data.target);
-        $(data.target).draggable();
+        $(data.target).draggable(data.options||{});
         jsqueue.finished(data.PID);
+    };
+
+    this.MAKE_SORTABLE = function (data) {
+        var self = this;
+        $(data.target).sortable(data.options||{});
+        jsqueue.finished(data.PID);
+    };
+
+    this.MAKE_DROPPABLE = function (data) {
+        var self = this;
+        $(data.target).droppable({
+            drop: function( event, ui ) {
+                self.drop_append( this,ui.draggable );
+            }
+        });
+        jsqueue.finished(data.PID);
+    };
+
+    this.drop_append = function(target,$item) {
+        $item.draggable( "destroy" );
+        $(target).append($item);
     }
 
     this.construct();
