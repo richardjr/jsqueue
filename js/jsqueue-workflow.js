@@ -218,8 +218,9 @@
                 console.log(this);
                 return;
             }
-            $(this).load(data.file);
-            $(this).contents().unwrap();
+            $(this).load(data.file, function() {
+                $(this).contents().unwrap();
+            });
 
             forceRedraw(this);
 
