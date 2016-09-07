@@ -22,7 +22,8 @@
     "ckeditor": "*",
     "bootstrap":"*",
     "d3":"*",
-    "d3-axis":"*"
+    "d3-axis":"*",
+    "jquery-ui-dist":"*"
   },
   "repository": {
     "type": "git",
