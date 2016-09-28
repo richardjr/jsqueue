@@ -5,7 +5,7 @@ window.core = {
 core.data = {
     process_statment: function (str) {
         var match, ret_str = str;
-        var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9\@\s\#]*)/g;
+        var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9\@\s\#\*]*)/g;
         while (match = re.exec(str)) {
             ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
         }
@@ -36,7 +36,7 @@ core.data = {
          * TODO: Test addition of \:.. This could overrun the detection.
          * @type {RegExp}
          */
-        var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s\#]*(\[.*?\])*[a-zA-Za.\_]*[\:]{0,1})/g;
+        var re = /\~([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s\#\*]*(\[.*?\])*[a-zA-Za.\_]*[\:]{0,1})/g;
         while (match = re.exec(html)) {
             var rep_match = match[1];
             var uri_match = match[1].replace(/\:$/, '');
@@ -51,6 +51,10 @@ core.data = {
             var matches = i.match(/^@(.*)/)
             if (matches) {
                 return matches[1];
+            }
+            matches = i.match(/^\*(.*)/)
+            if (matches) {
+                return JSON.stringify(obj[matches[1]]);
             }
             if (obj!==undefined)
                 return obj[i];
@@ -74,7 +78,7 @@ core.data = {
 
         function get_uri(uri) {
             var ret_str = uri;
-            var re = /\[([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s\#]*)\]/g;
+            var re = /\[([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s\#\*]*)\]/g;
             while (match = re.exec(uri)) {
                 ret_str = ret_str.replace("[" + match[1] + "]", "." + core.data.uritodata(match[1]));
             }
