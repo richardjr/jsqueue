@@ -747,6 +747,10 @@
             jsqueue.merge_name(data.stackname, data.data);
             jsqueue.finished(data.PID);
         },
+        TOOLS_SET_NAME_VALUE: function (data) {
+            jsqueue.set_name_value(data.stackname, data.path,data.value);
+            jsqueue.finished(data.PID);
+        },
         TOOLS_DELETE_NAME_ELEMENT: function (data) {
             jsqueue.delete_name_element(data.stackname, data.element);
             jsqueue.finished(data.PID);

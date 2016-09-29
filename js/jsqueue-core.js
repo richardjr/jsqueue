@@ -177,12 +177,16 @@ core.data = {
 
                 // to[key] =value;
             }
-            if (typeof val == "string" && (matches = val.match(/\!stack:\/\/([#a-zA-Z\-_\.0-9\/]*)[:]{0,1}/))) {
+            if (typeof val == "string" && (matches = val.match(/\!stack:\/\/([#a-zA-Z\-_\.0-9\/\*]*)[:]{0,1}/))) {
                 var clean_match = matches[1].replace(/:.*/, '');
                 matches = clean_match.split('/');
                 clean_match = matches[1];
                 data = jsqueue.stack[matches[0]];
                 function index(obj, i) {
+                    var matches = i.match(/^\*(.*)/)
+                    if (matches) {
+                        return JSON.stringify(obj[matches[1]]);
+                    }
                     return obj[i];
                 }
 

@@ -383,6 +383,22 @@ function jsqueue_main() {
         ptr.splice(dindex,1)
     };
 
+    this.set_name_value = function(stackname,path,value) {
+        var self=this;
+        function index(obj,is, value) {
+            if (typeof is == 'string')
+                return index(obj,is.split('.'), value);
+            else if (is.length==1 && value!==undefined)
+                return obj[is[0]] = value;
+            else if (is.length==0)
+                return obj;
+            else
+                return index(obj[is[0]],is.slice(1), value);
+        }
+        index(self.stack[stackname],path,value);
+    };
+
+
     this.add_name_array_element = function(stackname,path,value,unique) {
         var self=this;
         function index(obj, i) {
