@@ -43,8 +43,8 @@ function jsqueue_charts() {
         console.log(data.chart);
 
         var dataset=[];
-        for(var i=0;i<data.chart.legend.length;i++) {
-            dataset.push({"col":data.chart.legend[i].col,"label":data.chart.legend[i].title});
+        for(var i=0;i<data.chart.data.length;i++) {
+            dataset.push({"col":data.chart.data[i].rows,"label":data.chart.data[i].title});
         }
         dataset.forEach(function (d) {
 
