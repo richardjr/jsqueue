@@ -42,26 +42,33 @@ function jsqueue_charts() {
     this.render_bar = function(data) {
         console.log(data.chart);
 
+        // Merge in defaults
+
+        data.chart.options=$.extend(data.chart.options||{},{
+           "xTitle":"X Scale",
+            "yTitle":"Y Scale",
+            "margin":40
+        });
         var dataset=[];
+        var max=0;
         for(var i=0;i<data.chart.data.length;i++) {
             dataset.push({"col":data.chart.data[i].rows,"label":data.chart.data[i].title});
+            if(data.chart.data[i].rows>max)
+                max=data.chart.data[i].rows;
         }
-        dataset.forEach(function (d) {
+        var margin=data.chart.options.margin;
+        var w = (data.width||$(data.target).width())-margin*2;
+        var h = (data.height||$(data.target).height())-margin*2;
 
-
-            d.col = +d.col;
-        });
-        var w = data.width||$(data.target).width();
-        var h = data.height||$(data.target).height();
-        var margin=40;
-
-        var colw=((w-(dataset.length*5))/dataset.length);
+        var colw=w/dataset.length;
 
         /**
          *  Setup the yscale
          */
         var y = d3.scaleLinear()
-            .range([h, 0]);
+            .domain([0, max])
+            .range([h, 0])
+            .nice();
 
         var yAxis = d3.axisLeft(y);
 
@@ -70,8 +77,11 @@ function jsqueue_charts() {
          *
          */
 
-        var x = d3.scaleOrdinal()
-            .range([0, w], .1);
+        var x = d3.scaleBand()
+            .range([0, w])
+            .padding(0.1);
+
+        x.domain(dataset.map(function(d) { return d.label.substring(0, 10); }));
 
         var xAxis = d3.axisBottom(x);
 
@@ -93,7 +103,7 @@ function jsqueue_charts() {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Frequency");
+            .text(data.chart.options.yTitle);
 
         svg.append("g")
             .attr("class", "x axis")
@@ -103,30 +113,31 @@ function jsqueue_charts() {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Town");
+            .text(data.chart.options.xTitle);
 
-        var bars = svg.selectAll("rect")
+        var bars = svg.selectAll(".bar")
             .data(dataset)
-            .enter().append("g")
-            .attr("transform", function(d, i) { return "translate(" + i * colw + ",0)"; });
+            .enter().append("rect")
+            .attr("fill", "teal")
+            .attr("x", function(d,i) {return (colw*i)+5;})
+            .attr("width", colw-5)
+            .attr("y", function(d) { return y(d.col); })
+            .attr("height", function(d) { return h - y(d.col); });
 
-        var animbar=bars.append("rect")
+     /*   var animbar=bars.append("rect")
             .attr("fill", "teal")
             .attr("x", function(d,i) {return (5*i)+5;})
-            .attr("y", h - 1)
+            .attr("y", y(h+(margin*2)))
             .attr("width", colw)
-            .attr("height", 1);
-
-        bars.append("text")
-            .attr("x", function(d,i) {return (5*i)+10;})
-            .attr("y", h + 10)
-            .attr("dy", ".75em")
-            .text(function(d) { return d.label.substring(0, 10); });
+            .attr("height", 1);*/
 
 
+        svg.append("g")
+            .attr("transform", "translate(0," + h + ")")
+            .call(xAxis);
 
 
-        animbar.transition()
+        /*animbar.transition()
             .duration(1000)
             .delay(100)
             .attr("y", function(d) {
@@ -134,7 +145,7 @@ function jsqueue_charts() {
             })
             .attr("height", function(d) {
                 return d.col * 4;
-            })
+            })*/
     }
 
     this.construct();
