@@ -246,6 +246,7 @@
                 console.log(this);
                 return;
             }
+
             var statement = core.data.process_statment(data.statement);
             if (data.debug)
                 console.info(statement);
