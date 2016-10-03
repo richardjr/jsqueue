@@ -26,11 +26,11 @@ function jsqueue_draggable() {
     this.MAKE_SORTABLE = function (data) {
         var self = this;
 
-        if (data['file_upload_event']) {
+        if (data['receive_event']) {
             data.options['receive'] = function(event, ui) {
                 var item_id = ui['item'].attr('id');
 
-                if (!event['target']['id'].startsWith('map-row')) {
+                if (data['receive_event'] && data['receive_event']['exclude'] && !contains(event['target']['id'], data['receive_event']['exclude'])) {
                     var type = item_id.substring(0, item_id.indexOf('-'));
 
                     if (!contains(event['target']['id'], type)) {
