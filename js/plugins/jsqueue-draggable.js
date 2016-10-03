@@ -25,7 +25,23 @@ function jsqueue_draggable() {
 
     this.MAKE_SORTABLE = function (data) {
         var self = this;
+
+        if (data['receive_event']) {
+            data.options['receive'] = function(event, ui) {
+                var item_id = ui['item'].attr('id');
+
+                if (data['receive_event'] && data['receive_event']['exclude'] && !contains(event['target']['id'], data['receive_event']['exclude'])) {
+                    var type = item_id.substring(0, item_id.indexOf('-'));
+
+                    if (!contains(event['target']['id'], type)) {
+                        $('#' + ui['sender'].attr('id')).append($('#' + item_id));
+                    }
+                }
+            }
+        }
+
         $(data.target).sortable(data.options||{});
+
         jsqueue.finished(data.PID);
     };
 
@@ -40,9 +56,10 @@ function jsqueue_draggable() {
     };
 
     this.drop_append = function(target,$item) {
-        $item.draggable( "destroy" );
+        $item.draggable("destroy");
+
         $(target).append($item);
-    }
+    };
 
     this.construct();
 }
@@ -51,3 +68,7 @@ if(typeof window.jsqueue_plugins==="undefined")
     window.jsqueue_plugins=[];
 
 window.jsqueue_plugins.push('jsqueue_draggable');
+
+function contains(haystack, needle) {
+    return !!(~haystack.indexOf(needle));
+}
