@@ -27,6 +27,9 @@ function jsqueue_charts() {
                 case 'bar':
                     this.render_bar(data);
                     break;
+                case 'table':
+                    this.render_table(data);
+                    break;
                 default:
                     console.info('There is no chartType:'+data.chart.chartType);
             }
@@ -35,6 +38,15 @@ function jsqueue_charts() {
         }
         jsqueue.finished(data.PID);
     }
+
+    /**
+     *  Make a table using a template
+     */
+
+    this.render_table = function(data) {
+
+    }
+
     /**
      * Make a D3 bar chart
      * @param chart

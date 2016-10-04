@@ -766,6 +766,13 @@
             jsqueue.finished(data.PID);
         },
 
+        TOOLS_URI_TO_NAMED: function(data) {
+            var ret=core.data.uritodata(data.statement);
+            jsqueue.push_name(data.stackname, ret);
+            jsqueue.finished(data.PID);
+
+        },
+
 
         TOOLS_REST_API: function (data) {
             var self = this;
