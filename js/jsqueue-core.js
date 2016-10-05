@@ -190,8 +190,10 @@ core.data = {
                     }
                     return obj[i];
                 }
-
-                var value = clean_match.split('.').reduce(index, data);
+                var value =undefined;
+                if(clean_match!=='')
+                    value = clean_match.split('.').reduce(index, data);
+                else value=data;
                 if (Object.prototype.toString.call(value) === '[object Array]'||typeof value ==='object') {
                     to[key] = value;
                 } else {

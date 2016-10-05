@@ -44,6 +44,9 @@ function jsqueue_charts() {
      */
 
     this.render_table = function(data) {
+        jsqueue.add({
+
+        })
 
     }
 
