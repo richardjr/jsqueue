@@ -178,12 +178,24 @@ function jsqueue_charts() {
             });
 
         bars.on("mouseover", function(d,i) {
+            d3.select(this).append("rect")
+                .attr("class","tt")
+                .attr("fill", function(d,i) { return "rgb(255,255,255)"; })
+                .attr("stroke", function(d,i) { return "rgb(0,0,00)"; })
+                .attr("x", w-350)
+                .attr("width", 340)
+                .attr("y", (-data.chart.options.margin.top)+5)
+                .attr("height", 50);
+
             d3.select(this).append("text")
+                .attr("class","tt")
                 .text( d.label)
                 .attr("y", (-data.chart.options.margin.top)+20)
                 .attr("x", w-300);
 
             d3.select(this).append("text")
+                .attr("class","tt")
+
                 .text( d.col)
                 .attr("y", (-data.chart.options.margin.top)+40)
                 .attr("x", w-300);
@@ -191,7 +203,7 @@ function jsqueue_charts() {
         });
 
         bars.on("mouseout", function(d,i) {
-            d3.select(this).selectAll("text")
+            d3.select(this).selectAll(".tt")
                 .remove();
         });
 
