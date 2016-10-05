@@ -44,10 +44,7 @@ function jsqueue_charts() {
      */
 
     this.render_table = function(data) {
-        jsqueue.add({
-
-        })
-
+        $(data.target).html(core.data.htmlinject($(data.template).html()));
     }
 
     /**
