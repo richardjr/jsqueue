@@ -5,7 +5,8 @@ window.core = {
 core.data = {
     process_statment: function (str) {
         var match, ret_str = str;
-        var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9\@\s\#\*]*)/g;
+        //var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9\@\s\#\*]*)/g;
+        var re= /([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s\#\*]*(\[.*?\])*[a-zA-Za.\_]*[\:]{0,1})/g;
         while (match = re.exec(str)) {
             ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
         }
@@ -189,8 +190,10 @@ core.data = {
                     }
                     return obj[i];
                 }
-
-                var value = clean_match.split('.').reduce(index, data);
+                var value =undefined;
+                if(clean_match!=='')
+                    value = clean_match.split('.').reduce(index, data);
+                else value=data;
                 if (Object.prototype.toString.call(value) === '[object Array]'||typeof value ==='object') {
                     to[key] = value;
                 } else {
