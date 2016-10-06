@@ -100,13 +100,6 @@ function jsqueue_charts() {
 
         var xAxis = d3.axisBottom(x);
 
-      /*  var tip = d3.tip()
-            .attr('class', 'd3-tip')
-            .offset([-10, 0])
-            .html(function(d) {
-                return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
-            });
-*/
 
 
         var svg = d3.select(data.target)
@@ -116,7 +109,6 @@ function jsqueue_charts() {
             .append("g")
             .attr("transform", "translate(" + data.chart.options.margin.left + "," + data.chart.options.margin.top + ")");
 
-     //   svg.call(tip);
 
 
         svg.append("g")
@@ -127,7 +119,8 @@ function jsqueue_charts() {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text(data.chart.options.yTitle);
+            .text(data.chart.options.yTitle)
+            .attr("transform", "rotate(0) translate(0,-40)");
 
         var bottom=svg.append("g")
             .attr("class", "x axis")
@@ -191,14 +184,14 @@ function jsqueue_charts() {
                 .attr("class","tt")
                 .text( d.label)
                 .attr("y", (-data.chart.options.margin.top)+20)
-                .attr("x", w-300);
+                .attr("x", w-340);
 
             d3.select(this).append("text")
                 .attr("class","tt")
 
                 .text( d.col)
                 .attr("y", (-data.chart.options.margin.top)+40)
-                .attr("x", w-300);
+                .attr("x", w-340);
 
         });
 
