@@ -96,8 +96,7 @@ function jsqueue_charts() {
             .range([0, w])
             .padding(0.1);
 
-        x.domain(dataset.map(function(d) { return d.label.substring(0, 10); }));
-
+        x.domain(dataset.map(function(d,i) { return i+" "+ d.label.substring(0, 10); }));
         var xAxis = d3.axisBottom(x);
 
 
@@ -182,7 +181,7 @@ function jsqueue_charts() {
 
             d3.select(this).append("text")
                 .attr("class","tt")
-                .text( d.label)
+                .text( i+" "+d.label)
                 .attr("y", (-data.chart.options.margin.top)+20)
                 .attr("x", w-340);
 
