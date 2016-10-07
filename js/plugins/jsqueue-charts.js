@@ -200,7 +200,11 @@ function jsqueue_charts() {
                 .remove();
         });
 
+        bottom.selectAll("line")
+            .attr("class","xline");
+
       bottom.selectAll("text")
+            .attr("class","xtext")
             .transition()
             .duration(1000)
             .delay(100)
