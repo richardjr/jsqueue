@@ -60,9 +60,9 @@ function jsqueue_charts() {
            "xTitle":"X Scale",
             "yTitle":"Y Scale",
             "margin":{"top":80,"bottom":80,"left":40,"right":40},
-            "rgb1":"255,0,0",
-            "rgb2":"0,0,255",
-            "rgbaHover":"0,255,0,0.2"
+            "rgb1":"90,167,216",
+            "rgb2":"82,181,140",
+            "rgbaHover":"204,204,204,0.1"
         });
         var dataset=[];
         var max=0;
@@ -141,7 +141,7 @@ function jsqueue_charts() {
 
 
         bars.append("rect")
-            .attr("class","vbar")
+            .attr("class","vbar vbar1")
             .attr("fill", function(d,i) {return "rgb("+data.chart.options.rgb2+")"; })
             .attr("x", function(d,i) {return (colw*i)+5;})
             .attr("width", colw-5)
@@ -149,14 +149,15 @@ function jsqueue_charts() {
             .attr("height", function(d) { return h; });
 
         bars.append("rect")
-            .attr("class","vbar")
-            .attr("fill", function(d,i) { return "rgba("+data.chart.options.rgb1+","+(i%10)/10+")"; })
+            .attr("class","vbar vbar2")
+            .attr("fill", function(d,i) { return "rgba("+data.chart.options.rgb1+","+(i%dataset.length)/dataset.length+")"; })
             .attr("x", function(d,i) {return (colw*i)+5;})
             .attr("width", colw-5)
             .attr("y", function(d) { return 0; })
             .attr("height", function(d) { return h; })
 
         bars.append("rect")
+            .attr("class","vbarHov")
             .attr("fill", function(d,i) { return "rgba(0,0,0,0)"; })
             .attr("x", function(d,i) {return (colw*i)+5;})
             .attr("width", colw-5)
