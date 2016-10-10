@@ -110,10 +110,11 @@ function jsqueue_charts() {
 
 
 
-        svg.append("g")
+        var side=svg.append("g")
             .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
+            .call(yAxis);
+
+        side.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 6)
             .attr("dy", ".71em")
@@ -199,6 +200,12 @@ function jsqueue_charts() {
             d3.select(this).selectAll(".tt")
                 .remove();
         });
+
+        side.selectAll("line")
+            .attr("class","yline");
+        side.selectAll("text")
+            .attr("class","ytext");
+
 
         bottom.selectAll("line")
             .attr("class","xline");
