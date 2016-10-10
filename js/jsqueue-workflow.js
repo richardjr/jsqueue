@@ -218,9 +218,22 @@
                 console.log(this);
                 return;
             }
+            var el=this;
+
+            $.ajax({
+                url: data.file,
+                success: function (result) {
+                        $(el).html(result);
+                        $(el).contents().unwrap();
+                },
+                async: false
+            });
+
+/*
             $(this).load(data.file, function() {
                 $(this).contents().unwrap();
             });
+*/
 
             forceRedraw(this);
 

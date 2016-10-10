@@ -55,8 +55,6 @@ function jsqueue_charts() {
      * @param chart
      */
     this.render_bar = function(data) {
-        console.log(data.chart);
-
         // Merge in defaults
 
         data.chart.options=$.extend(data.chart.options||{},{
@@ -243,27 +241,30 @@ function jsqueue_charts() {
     this.render_groupbar = function(data) {
         console.log(data.chart);
 
-        // Merge in defaults
-
         data.chart.options=$.extend(data.chart.options||{},{
             "xTitle":"X Scale",
             "yTitle":"Y Scale",
-            "margin":{"top":80,"bottom":80,"left":40,"right":40},
+            "margin":{"top":100,"bottom":100,"left":80,"right":40},
             "rgb1":"90,167,216",
             "rgb2":"82,181,140",
             "rgbaHover":"204,204,204,0.1"
         });
         var dataset=[];
         var max=0;
+        var imax=0;
         for(var i=0;i<data.chart.data.length;i++) {
             dataset.push({"col":data.chart.data[i].rows,"label":data.chart.data[i].title});
-            if(data.chart.data[i].rows>max)
-                max=data.chart.data[i].rows;
+            if(d3.max(data.chart.data[i].rows)>max)
+                max=d3.max(data.chart.data[i].rows);
+            if(data.chart.data[i].rows.length>imax) {
+                imax=data.chart.data[i].rows.length;
+            }
         }
         var w = (data.width||$(data.target).width())-(data.chart.options.margin.right+data.chart.options.margin.left);
         var h = (data.height||$(data.target).height())-(data.chart.options.margin.bottom+data.chart.options.margin.top);
 
         var colw=w/dataset.length;
+        var icolw=colw/imax;
 
         /**
          *  Setup the yscale
@@ -280,27 +281,16 @@ function jsqueue_charts() {
          *
          */
 
-/*
         var x = d3.scaleBand()
             .range([0, w])
             .padding(0.1);
-*/
-
-        var x0 = d3.scale.scaleBand([0, width], .1);
-        var x1 = d3.scale.ordinal();
-
-        x1.domain(dataset.map(function(d) { return i+" "+ d.label.substring(0, 10); }));
-        x0.domain(data.chart.yLegend).rangeRoundBands([0, x0.rangeBand()]);
-        var xAxis = d3.svg.axis()
-            .scale(x0)
-            .orient("bottom");
 
 
-/*
-        x.domain(dataset.map(function(d,i) { return i+" "+ d.label.substring(0, 10); }));
+        x.domain(dataset.map(function(d,i) { console.log(d);return d.label.substring(0, 10); }));
         var xAxis = d3.axisBottom(x);
-*/
 
+        var x1 = d3.scaleBand();
+        //x1.domain(data.chart.data[0].rows).rangeRoundBands([0, x.rangeBand()]);
 
 
         var svg = d3.select(data.target)
@@ -314,7 +304,9 @@ function jsqueue_charts() {
 
         var side=svg.append("g")
             .attr("class", "y axis")
-            .call(yAxis);
+            .call(yAxis)
+            .attr("transform", "translate(-5)");;
+
 
         side.append("text")
             .attr("transform", "rotate(-90)")
@@ -326,7 +318,7 @@ function jsqueue_charts() {
 
         var bottom=svg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + (h) + ")")
+            .attr("transform", "translate(0," + (h+10) + ")")
             .call(xAxis)
 
         bottom.append("text")
@@ -339,95 +331,126 @@ function jsqueue_charts() {
             .data(dataset)
             .enter()
             .append("g")
-            .attr("class","bars");
-
+            .attr("class","bars")
+            .attr("transform", function(d,i) { return "translate(" + (i*colw) + ",0)"; });
 
 
         bars.append("rect")
-            .attr("class","vbar vbar1")
-            .attr("fill", function(d,i) {return "rgb("+data.chart.options.rgb2+")"; })
-            .attr("x", function(d,i) {return (colw*i)+5;})
-            .attr("width", x1.rangeBand())
+            .attr("class","groupHov")
+            .attr("fill", function(d,i) { return "rgba(0,0,0,0)"; })
+            .attr("x",0)
+            .attr("width", colw)
             .attr("y", function(d) { return 0; })
             .attr("height", function(d) { return h; });
 
-        bars.append("rect")
+
+
+
+        bars.selectAll("g")
+            .data(function(d,i) { return d.col; })
+            .enter()
+            .append("rect")
+            .attr("class","vbar vbar1")
+            .attr("fill", function(d,i) {return "rgb("+data.chart.options.rgb2+")"; })
+            .attr("x", function(d,i) {return (icolw*i);})
+            .attr("width", icolw)
+            .attr("y", function(d) { return 0; })
+            .attr("height", function(d) {  return h ; });
+
+        bars.selectAll("g")
+            .data(function(d,i) { console.log(d);return d.col; })
+            .enter()
+            .append("rect")
             .attr("class","vbar vbar2")
-            .attr("fill", function(d,i) { return "rgba("+data.chart.options.rgb1+","+(i%dataset.length)/dataset.length+")"; })
-            .attr("x", function(d,i) {return (colw*i)+5;})
-            .attr("width", colw-5)
+            .attr("fill", function(d,i) { return "rgba("+data.chart.options.rgb1+","+(i%imax)/imax+")"; })
+            .attr("x", function(d,i) {return (icolw*i);})
+            .attr("width", icolw)
             .attr("y", function(d) { return 0; })
             .attr("height", function(d) { return h; })
 
-        bars.append("rect")
+        bars.selectAll("g")
+            .data(function(d,i) { return d.col; })
+            .enter()
+            .append("rect")
             .attr("class","vbarHov")
             .attr("fill", function(d,i) { return "rgba(0,0,0,0)"; })
-            .attr("x", function(d,i) {return (colw*i)+5;})
-            .attr("width", colw-5)
+            .attr("x", function(d,i) {return (icolw*i);})
+            .attr("width", icolw)
             .attr("y", function(d) { return 0; })
             .attr("height", function(d) { return h; })
             .on("mouseover", function(d,i) {
                 d3.select(this).attr("fill", "rgba("+data.chart.options.rgbaHover+")");
+                svg.append("text")
+                    .attr("class","tt ttt2")
+                    .text( d+"/"+max)
+                    .style("text-anchor", "end")
+                    .attr("y", 50-(data.chart.options.margin.top))
+                    .attr("x", w);
+
+                svg.append("text")
+                    .attr("class","tt ttt1")
+                    .text( data.chart.yLegend[i])
+                    .style("text-anchor", "end")
+                    .attr("y", 77-(data.chart.options.margin.top))
+                    .attr("x", w);
+
             })
             .on("mouseout", function(d,i) {
                 d3.select(this).attr("fill", "rgba(0,0,0,0)");
+                svg.selectAll(".tt").remove();
+
             });
 
-        bars.on("mouseover", function(d,i) {
-            d3.select(this).append("rect")
-                .attr("class","tt ttbox")
-                .attr("fill", function(d,i) { return "rgb(255,255,255)"; })
-                .attr("stroke", function(d,i) { return "rgb(0,0,00)"; })
-                .attr("x", w-350)
-                .attr("width", 340)
-                .attr("y", (-data.chart.options.margin.top)+5)
-                .attr("height", 50);
 
-            d3.select(this).append("text")
-                .attr("class","tt ttt1")
-                .text( i+" "+d.label)
-                .attr("y", (-data.chart.options.margin.top)+20)
-                .attr("x", w-340);
-
-            d3.select(this).append("text")
-                .attr("class","tt ttt2")
-
-                .text( d.col)
-                .attr("y", (-data.chart.options.margin.top)+40)
-                .attr("x", w-340);
-
-        });
-
-        bars.on("mouseout", function(d,i) {
-            d3.select(this).selectAll(".tt")
-                .remove();
-        });
 
         side.selectAll("line")
             .attr("class","yline");
+
+        side.selectAll("path")
+            .attr("transform","translate(5,0)");
+
         side.selectAll("text")
             .attr("class","ytext");
 
 
+
         bottom.selectAll("line")
             .attr("class","xline");
+
+        bottom.selectAll("path")
+            .attr("transform","translate(0,-5)");
 
         bottom.selectAll("text")
             .attr("class","xtext")
             .transition()
             .duration(1000)
             .delay(100)
-            .attr("transform","rotate(-65) translate(-30,0)");
+            .attr("transform","translate(-30,40) rotate(-65)");
+
+        bars.on("mouseover", function(d,i) {
+            d3.select(this).select(".groupHov").attr("fill", "rgba("+data.chart.options.rgbaHover+")");
+            svg.append("text")
+                .attr("class","tt ttt3")
+                .text( d.label)
+                .style("text-anchor", "end")
+                .attr("y", 100-(data.chart.options.margin.top))
+                .attr("x", w);
+
+        }).on("mouseout", function(d,i) {
+            d3.select(this).select(".groupHov").attr("fill", "rgba(0,0,0,0)");
+                svg.selectAll(".tt")
+                    .remove();
+            });
 
         bars.selectAll(".vbar")
             .transition()
             .duration(1000)
             .delay(100)
             .attr("y", function(d) {
-                return y(d.col);  //Height minus data value
+                return y(d);  //Height minus data value
             })
             .attr("height", function(d) {
-                return h - y(d.col);
+                return h - y(d);
             })
     }
 
