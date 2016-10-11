@@ -152,6 +152,15 @@
                 debugger;
             }
             var value = core.data.uritodata(data.source);
+
+            if (data.format.match(/SUBSTR/g)) {
+                if(data.length!==undefined) {
+                    value=value.substr(0,data.length);
+                } else {
+                    console.warn("SUBSTR output but no length attr supplied")
+                }
+            }
+
             if (data.format.match(/CONSOLE/g)) {
                 console.log(value);
             } else {
