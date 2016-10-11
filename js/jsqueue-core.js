@@ -46,7 +46,7 @@ core.data = {
 
         return ret_str;
     },
-    uritodata: function (uri) {
+    uritodata: function (uri,concat) {
         // console.log(uri);
         function index(obj, i) {
             var matches = i.match(/^@(.*)/)
@@ -66,12 +66,18 @@ core.data = {
          * Find any [ ] sub uri's
          * @type {RegExp}
          */
+
         var uris = uri.split(',');
-        var ret_uri;
+
+        var ret_uri='';
         for (var i = 0; i < uris.length; i++) {
-            ret_uri = get_uri(uris[i]);
-            if (ret_uri)
-                break;
+            if(concat!==undefined&&concat===true) {
+                ret_uri+= get_uri(uris[i])+' ';
+            } else {
+                ret_uri = get_uri(uris[i]);
+                if (ret_uri)
+                    break;
+            }
 
         }
 

@@ -151,7 +151,12 @@
             if (data.format.match(/DEBUG/g)) {
                 debugger;
             }
-            var value = core.data.uritodata(data.source);
+            var concat=false;
+            if (data.format.match(/CONCAT/g)) {
+                concat=true;
+            }
+
+            var value = core.data.uritodata(data.source,concat);
 
             if (data.format.match(/SUBSTR/g)) {
                 if(data.length!==undefined) {
