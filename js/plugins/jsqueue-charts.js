@@ -77,6 +77,11 @@ function jsqueue_charts() {
 
         var colw=w/dataset.length;
 
+        if(colw>100) {
+            colw = 100;
+            w=colw*dataset.length;
+        }
+
         /**
          *  Setup the yscale
          */
