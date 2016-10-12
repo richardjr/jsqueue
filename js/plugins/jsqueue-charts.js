@@ -77,9 +77,10 @@ function jsqueue_charts() {
 
         var colw=w/dataset.length;
 
+        var sw=w;
         if(colw>100) {
             colw = 100;
-            w=colw*dataset.length;
+            sw=colw*dataset.length;
         }
 
         /**
@@ -98,7 +99,7 @@ function jsqueue_charts() {
          */
 
         var x = d3.scaleBand()
-            .range([0, w])
+            .range([0, sw])
             .padding(0.1);
 
         x.domain(dataset.map(function(d,i) { return i+" "+ String(d.label).substring(0, 10); }));
