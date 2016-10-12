@@ -205,8 +205,10 @@
                 console.log(this);
                 return;
             }
-
-            $(this).append(core.data.htmlinject($(data.template).html()));
+            if(data.target!==undefined)
+                $(data.target).append(core.data.htmlinject($(data.template).html()));
+            else
+                $(this).append(core.data.htmlinject($(data.template).html()));
             $(this).contents().unwrap();
 
             forceRedraw(this);
