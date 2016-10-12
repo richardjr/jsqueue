@@ -44,6 +44,14 @@ core.data = {
             ret_str = ret_str.replace("~" + rep_match, this.uritodata(uri_match));
         }
 
+        var re = /\@([a-zA-Z0-9\_]*\(.*\))/g;
+        html=ret_str;
+        while (match = re.exec(html)) {
+            var js_match = match[1];
+            var eval_res=eval(match[1]);
+            ret_str = ret_str.replace("@" + js_match, eval_res);
+        }
+
         return ret_str;
     },
     uritodata: function (uri,concat) {
