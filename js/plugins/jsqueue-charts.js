@@ -96,7 +96,7 @@ function jsqueue_charts() {
             .range([0, w])
             .padding(0.1);
 
-        x.domain(dataset.map(function(d,i) { return i+" "+ d.label.substring(0, 10); }));
+        x.domain(dataset.map(function(d,i) { return i+" "+ String(d.label).substring(0, 10); }));
         var xAxis = d3.axisBottom(x);
 
 
@@ -286,7 +286,7 @@ function jsqueue_charts() {
             .padding(0.1);
 
 
-        x.domain(dataset.map(function(d,i) { console.log(d);return d.label.substring(0, 10); }));
+        x.domain(dataset.map(function(d,i) { console.log(d);return String(d.label).substring(0, 10); }));
         var xAxis = d3.axisBottom(x);
 
         var x1 = d3.scaleBand();
