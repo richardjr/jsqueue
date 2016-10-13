@@ -205,8 +205,9 @@ core.data = {
                     return obj[i];
                 }
                 var value =undefined;
+
                 if(clean_match!=='')
-                    value = clean_match.split('.').reduce(index, data);
+                    value = clean_match.dotsplit().reduce(index, data);
                 else value=data;
                 if (Object.prototype.toString.call(value) === '[object Array]'||typeof value ==='object') {
                     to[key] = value;
@@ -232,6 +233,16 @@ core.data = {
         return false;
 
     }
+
+};
+
+String.prototype.dotsplit =function() {
+    var pre_string=String(this).replace(/\.\./,'-DOTSTR-');
+    var split_string=pre_string.split('.');
+    for(var i=0;i<split_string.length;i++) {
+        split_string[i]=split_string[i].replace('-DOTSTR-','.');
+    }
+    return split_string;
 };
 
 core.forms = {
