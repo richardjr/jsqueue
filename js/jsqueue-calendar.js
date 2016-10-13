@@ -33,28 +33,38 @@
         INIT_CALENDAR: function(data) {
             var self=this;
             self.cal=data.element;
-            $(data.element).fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                dragRevertDuration: 0,
-                editable: true,
-                droppable: true,
-                'eventDragStop': function(event,jsEvent) {
-                    window[data['delete']](event,jsEvent);
-                },
-                'eventResize': function(event) {
-                    window[data.update](event);
-                },
-                'eventDrop': function(event) {
-                    window[data.update](event);
-                },
-                drop: function(date,jsEvent,ui) {
-                    window[data.drop](date,jsEvent,ui,this);
-                }
-            });
+            if(data.basic) {
+                $(data.element).fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month'
+                    }
+                });
+            } else {
+                $(data.element).fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    dragRevertDuration: 0,
+                    editable: true,
+                    droppable: true,
+                    'eventDragStop': function (event, jsEvent) {
+                        window[data['delete']](event, jsEvent);
+                    },
+                    'eventResize': function (event) {
+                        window[data.update](event);
+                    },
+                    'eventDrop': function (event) {
+                        window[data.update](event);
+                    },
+                    drop: function (date, jsEvent, ui) {
+                        window[data.drop](date, jsEvent, ui, this);
+                    }
+                });
+            }
             jsqueue.finished(data.PID);
         },
 
