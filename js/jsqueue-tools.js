@@ -374,6 +374,7 @@
          * @constructor
          */
         TOOLS_WF_TEMPLATE: function (data) {
+            console.log("TOOLS_WF_TEMPLATE should now be accessed from TEMPLATES/WF_TEMPLATE");
             jsqueue.push_name('TEMPLATE',data);
             if ($(data.template).length > 0) {
                 $(data.target).html(core.data.htmlinject($(data.template).html()));
