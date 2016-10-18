@@ -205,6 +205,7 @@
                 console.log(this);
                 return;
             }
+            jsqueue.push_name('WF-TEMPLATE',data.data);
             if(data.target!==undefined)
                 $(data.target).append(core.data.htmlinject($(data.template).html()));
             else
@@ -279,8 +280,11 @@
             }
 
             var statement = core.data.process_statment(data.statement);
+
             if (data.debug)
                 console.info(statement);
+            jsqueue.push_name('WF-IF',data.data);
+
             if (eval(statement)) {
                 $(this).append(core.data.htmlinject($(data.template).html()));
                 $(this).contents().unwrap();
