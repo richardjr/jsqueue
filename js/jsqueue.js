@@ -365,12 +365,19 @@ function jsqueue_main() {
 
     this.delete_name_element = function(stackname,element) {
         var self=this;
-        function index(obj, i) {
-            return obj[i];
+        function index(obj,is) {
+            if (typeof is == 'string')
+                return index(obj,is.split('.'));
+            else if (is.length==1) {
+                delete obj[is[0]];
+                return;
+            } else
+                return index(obj[is[0]],is.slice(1));
         }
+        index(self.stack[stackname],element);
 
-        var ptr = element.split('.').reduce(index, self.stack[stackname]);
-        delete ptr;
+        //var ptr = element.split('.').reduce(index, self.stack[stackname]);
+       // delete ptr;
     };
 
     this.delete_name_array_element = function(stackname,path,dindex) {
