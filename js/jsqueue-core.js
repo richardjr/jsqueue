@@ -3,12 +3,16 @@ window.core = {
 };
 
 core.data = {
-    process_statment: function (str) {
+    process_statment: function (str,mode) {
         var match, ret_str = str;
+        mode=mode||'string'
         //var re = /([a-zA-Z]*:\/\/[a-zA-Z_\/\.0-9\@\s\#\*]*)/g;
         var re= /([a-zA-Z\.]*:\/\/[a-zA-Z_\/\.0-9@\s\#\*\-]*(\[.*?\])*[a-zA-Za.\_]*[\:]{0,1})/g;
         while (match = re.exec(str)) {
-            ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
+            if(mode=='string')
+                ret_str = ret_str.replace(match[1], '"' + core.data.uritodata(match[1]) + '"');
+            else
+                ret_str = ret_str.replace(match[1],  core.data.uritodata(match[1]));
         }
         return ret_str;
     },

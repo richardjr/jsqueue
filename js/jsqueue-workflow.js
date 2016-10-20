@@ -278,14 +278,18 @@
                 console.log(this);
                 return;
             }
+            var mode=data.mode||'string';
 
-            var statement = core.data.process_statment(data.statement);
+            var statement = core.data.process_statment(data.statement,data.mode);
 
-            if (data.debug)
-                console.info(statement);
+
             jsqueue.push_name('WF-IF',data.data);
-
-            if (eval(statement)) {
+            var evalResult=eval(statement);
+            if (data.debug) {
+                console.info(statement);
+                console.log(evalResult);
+            }
+            if (evalResult) {
                 $(this).append(core.data.htmlinject($(data.template).html()));
                 $(this).contents().unwrap();
             } else {
