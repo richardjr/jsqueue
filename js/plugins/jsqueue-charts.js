@@ -74,6 +74,7 @@ function jsqueue_charts() {
         }
         var w = (data.width||$(data.target).width())-(data.chart.options.margin.right+data.chart.options.margin.left);
         var h = (data.height||$(data.target).height())-(data.chart.options.margin.bottom+data.chart.options.margin.top);
+        var customColors=data.chart.color||{};
 
         var colw=w/dataset.length;
 
@@ -151,7 +152,7 @@ function jsqueue_charts() {
 
         bars.append("rect")
             .attr("class","vbar vbar1")
-            .attr("fill", function(d,i) {return "rgb("+data.chart.options.rgb2+")"; })
+            .attr("fill", function(d,i) {if(customColors[i]) return "rgba(0,0,0,0)";return "rgb("+data.chart.options.rgb2+")"; })
             .attr("x", function(d,i) {return (colw*i)+5;})
             .attr("width", colw-5)
             .attr("y", function(d) { return 0; })
@@ -159,7 +160,7 @@ function jsqueue_charts() {
 
         bars.append("rect")
             .attr("class","vbar vbar2")
-            .attr("fill", function(d,i) { return "rgba("+data.chart.options.rgb1+","+(i%dataset.length)/dataset.length+")"; })
+            .attr("fill", function(d,i) {if(customColors[i]) return customColors[i]; return "rgba("+data.chart.options.rgb1+","+(i%dataset.length)/dataset.length+")"; })
             .attr("x", function(d,i) {return (colw*i)+5;})
             .attr("width", colw-5)
             .attr("y", function(d) { return 0; })
@@ -258,6 +259,8 @@ function jsqueue_charts() {
         var dataset=[];
         var max=0;
         var imax=0;
+        var customColors=data.chart.color||{};
+
         for(var i=0;i<data.chart.data.length;i++) {
             dataset.push({"col":data.chart.data[i].rows,"label":data.chart.data[i].title});
             if(d3.max(data.chart.data[i].rows)>max)
@@ -357,7 +360,7 @@ function jsqueue_charts() {
             .enter()
             .append("rect")
             .attr("class","vbar vbar1")
-            .attr("fill", function(d,i) {return "rgb("+data.chart.options.rgb2+")"; })
+            .attr("fill", function(d,i) {if(customColors[i]) return "rgba(0,0,0,0)"; return "rgb("+data.chart.options.rgb2+")"; })
             .attr("x", function(d,i) {return (icolw*i);})
             .attr("width", icolw)
             .attr("y", function(d) { return 0; })
@@ -368,7 +371,7 @@ function jsqueue_charts() {
             .enter()
             .append("rect")
             .attr("class","vbar vbar2")
-            .attr("fill", function(d,i) { return "rgba("+data.chart.options.rgb1+","+(i%imax)/imax+")"; })
+            .attr("fill", function(d,i) { if(customColors[i]) return customColors[i]; return "rgba("+data.chart.options.rgb1+","+(i%imax)/imax+")"; })
             .attr("x", function(d,i) {return (icolw*i);})
             .attr("width", icolw)
             .attr("y", function(d) { return 0; })
