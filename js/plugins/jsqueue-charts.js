@@ -103,7 +103,7 @@ function jsqueue_charts() {
             .range([0, sw])
             .padding(0.1);
 
-        x.domain(dataset.map(function(d,i) { return i+" "+ String(d.label).substring(0, 10); }));
+        x.domain(dataset.map(function(d,i) { return String(d.label).substring(0, 10); }));
         var xAxis = d3.axisBottom(x);
 
 
@@ -193,7 +193,7 @@ function jsqueue_charts() {
 
             d3.select(this).append("text")
                 .attr("class","tt ttt1")
-                .text( i+" "+d.label)
+                .text(d.label)
                 .style("text-anchor", "end")
                 .attr("y", 77-(data.chart.options.margin.top))
                 .attr("x", w);
@@ -295,7 +295,7 @@ function jsqueue_charts() {
             .padding(0.1);
 
 
-        x.domain(dataset.map(function(d,i) { console.log(d);return String(d.label).substring(0, 10); }));
+        x.domain(dataset.map(function(d,i) { return String(d.label).substring(0, 10); }));
         var xAxis = d3.axisBottom(x);
 
         var x1 = d3.scaleBand();
