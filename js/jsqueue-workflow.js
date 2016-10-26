@@ -390,7 +390,7 @@
                     forceRedraw(target);
 
                 }
-            } else {
+            } else if(typeof  loop_data==='object') {
                 for (var i in loop_data) {
                     jsqueue.loops[index_var] = i;
                     if (data.stackname)
