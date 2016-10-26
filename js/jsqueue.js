@@ -286,7 +286,7 @@ function jsqueue_main() {
                             console.info('PID(' + myqueue.data.PID + ') Ran chain ' + myqueue.command + ':' + timeout);
 
                     } else {
-                        myqueue.state = 'finished';
+                        //myqueue.state = 'finished';
                         if (self.debug)
                             console.info('PID(' + myqueue.data.PID + ') Ran command ' + myqueue.command + ':' + timeout);
                     }
@@ -338,7 +338,7 @@ function jsqueue_main() {
     this.push = function (pid, data) {
         var self = this;
         for (var i = 0; i < self.queue.length; i++) {
-            if (self.queue[i].data.PID == pid && self.queue[i].state == 'triggered') {
+            if (self.queue[i].data.PID == pid) {
                 if(self.queue[i].stackname) {
                     self.stack[self.queue[i].stackname]=data;
                     if (self.debug)
@@ -347,8 +347,11 @@ function jsqueue_main() {
                 self.queue[i].stack.push(data);
                 if (self.debug)
                     console.warn('PID(' + pid + ') updated the stack');
+                return;
             }
         }
+        console.log(pid+" attempeted to update stack for missing queue");
+        console.log(self.queue);
     };
 
     this.push_name = function(stackname,data) {
@@ -450,41 +453,48 @@ function jsqueue_main() {
         var self = this;
 
         for (var i = 0; i < self.queue.length; i++) {
-            if (self.queue[i].data.PID == pid && self.queue[i].state == 'triggered') {
-                /**
-                 *  The only reason we would find the PID in the queue is that it has a chain left so we requeue the next item
-                 *  in the chain
-                 * @type {*}
-                 */
+            if (self.queue[i].data.PID == pid) {
 
 
-                //console.log(self.queue[i]);
-                if (self.queue[i].logic) {
-                    var newqueue = self.queue[i].chain[0];
-                    newqueue.stack = self.queue[i].stack;
-                    self.queue[i].chain.splice(0, 1);
-                    if (self.queue[i].chain.length > 0) {
-                        newqueue.chain = self.queue[i].chain;
-                    }
-                    if (self.queue[i].fail_chain && self.queue[i].fail_chain.length > 0) {
-                        newqueue.fail_chain = self.queue[i].fail_chain;
-                    }
+                if(self.queue[i].state == 'running') {
                     self.queue[i].state = 'finished';
-                    self.add(newqueue);
                     return;
-                } else {
-                    if (self.queue[i].fail_chain) {
-                        var newqueue = self.queue[i].fail_chain[0];
+                } else if (self.queue[i].state == 'triggered'){
+                    /**
+                     *  The only reason we would find the PID in the queue is that it has a chain left so we requeue the next item
+                     *  in the chain
+                     * @type {*}
+                     */
+
+
+                    //console.log(self.queue[i]);
+                    if (self.queue[i].logic) {
+                        var newqueue = self.queue[i].chain[0];
                         newqueue.stack = self.queue[i].stack;
-                        self.queue[i].fail_chain.splice(0, 1);
-                        if (self.queue[i].fail_chain.length > 0) {
-                            newqueue.chain = self.queue[i].fail_chain;
+                        self.queue[i].chain.splice(0, 1);
+                        if (self.queue[i].chain.length > 0) {
+                            newqueue.chain = self.queue[i].chain;
                         }
+                        if (self.queue[i].fail_chain && self.queue[i].fail_chain.length > 0) {
+                            newqueue.fail_chain = self.queue[i].fail_chain;
+                        }
+                        self.queue[i].state = 'finished';
                         self.add(newqueue);
+                        return;
+                    } else {
+                        if (self.queue[i].fail_chain) {
+                            var newqueue = self.queue[i].fail_chain[0];
+                            newqueue.stack = self.queue[i].stack;
+                            self.queue[i].fail_chain.splice(0, 1);
+                            if (self.queue[i].fail_chain.length > 0) {
+                                newqueue.chain = self.queue[i].fail_chain;
+                            }
+                            self.add(newqueue);
 
+                        }
+                        self.queue[i].state = 'finished';
+                        return;
                     }
-                    self.queue[i].state = 'finished';
-                    return;
                 }
             }
         }
