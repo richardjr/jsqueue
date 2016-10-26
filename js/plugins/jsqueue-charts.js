@@ -40,7 +40,33 @@ function jsqueue_charts() {
             console.error('jsqueue charts cant find the chart structure');
         }
         jsqueue.finished(data.PID);
-    }
+    },
+
+     this.wrap=function(text, width) {
+         if(width<80)
+             width=80;
+             text.each(function () {
+                 var text = d3.select(this),
+                     words = text.text().split(/\s+/).reverse(),
+                     word,
+                     line = [],
+                     lineNumber = 0,
+                     lineHeight = 1.1, // ems
+                     y = text.attr("y"),
+                     dy = parseFloat(text.attr("dy")),
+                     tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                 while (word = words.pop()) {
+                     line.push(word);
+                     tspan.text(line.join(" "));
+                     if (tspan.node().getComputedTextLength() > width) {
+                         line.pop();
+                         tspan.text(line.join(" "));
+                         line = [word];
+                         tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                     }
+                 }
+             });
+        }
 
     /**
      *  Make a table using a template
@@ -56,14 +82,16 @@ function jsqueue_charts() {
      */
     this.render_bar = function(data) {
         // Merge in defaults
+        var self=this;
 
         data.chart.options=$.extend(data.chart.options||{},{
            "xTitle":"X Scale",
             "yTitle":"Y Scale",
-            "margin":{"top":100,"bottom":100,"left":80,"right":40},
+            "margin":{"top":100,"bottom":120,"left":80,"right":40},
             "rgb1":"90,167,216",
             "rgb2":"82,181,140",
-            "rgbaHover":"204,204,204,0.1"
+            "rgbaHover":"204,204,204,0.1",
+            "substr":30
         });
         var dataset=[];
         var max=0;
@@ -103,7 +131,7 @@ function jsqueue_charts() {
             .range([0, sw])
             .padding(0.1);
 
-        x.domain(dataset.map(function(d,i) { return String(d.label).substring(0, 10); }));
+        x.domain(dataset.map(function(d,i) { return String(d.label).substring(0, data.chart.options.substr); }));
         var xAxis = d3.axisBottom(x);
 
 
@@ -135,6 +163,9 @@ function jsqueue_charts() {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + (h+10) + ")")
             .call(xAxis)
+
+        bottom.selectAll("text")
+            .call(self.wrap, x.bandwidth());
 
         bottom.append("text")
             .attr("y", 6)
@@ -227,7 +258,7 @@ function jsqueue_charts() {
             .transition()
             .duration(1000)
             .delay(100)
-            .attr("transform","translate(-30,40) rotate(-65)");
+            .attr("transform","translate(-30,60) rotate(-65)");
 
         bars.selectAll(".vbar")
             .transition()
@@ -246,15 +277,16 @@ function jsqueue_charts() {
      * @param chart
      */
     this.render_groupbar = function(data) {
-        console.log(data.chart);
-
+        var self=this;
         data.chart.options=$.extend(data.chart.options||{},{
             "xTitle":"X Scale",
             "yTitle":"Y Scale",
             "margin":{"top":100,"bottom":100,"left":80,"right":40},
             "rgb1":"90,167,216",
             "rgb2":"82,181,140",
-            "rgbaHover":"204,204,204,0.1"
+            "rgbaHover":"204,204,204,0.1",
+            "substr":30
+
         });
         var dataset=[];
         var max=0;
@@ -295,7 +327,7 @@ function jsqueue_charts() {
             .padding(0.1);
 
 
-        x.domain(dataset.map(function(d,i) { return String(d.label).substring(0, 10); }));
+        x.domain(dataset.map(function(d,i) { return String(d.label).substring(0, data.chart.options.substr); }));
         var xAxis = d3.axisBottom(x);
 
         var x1 = d3.scaleBand();
@@ -329,6 +361,9 @@ function jsqueue_charts() {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + (h+10) + ")")
             .call(xAxis)
+
+        bottom.selectAll("text")
+            .call(self.wrap, x.bandwidth());
 
         bottom.append("text")
             .attr("y", 6)
