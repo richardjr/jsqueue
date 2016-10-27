@@ -444,6 +444,8 @@ function jsqueue_main() {
         for (var i = 0; i < self.queue.length; i++) {
             if (self.queue[i].data.PID == pid) {
                 self.queue[i].logic = false;
+                if(self.debug)
+                    console.log(self.queue[i].data.PID+' reported logic fail');
                 return;
             }
         }
@@ -457,6 +459,8 @@ function jsqueue_main() {
 
 
                 if(self.queue[i].state == 'running') {
+                    if(self.debug)
+                        console.log(self.queue[i].data.PID+' Running process reports finished');
                     self.queue[i].state = 'finished';
                     return;
                 } else if (self.queue[i].state == 'triggered'){
@@ -479,7 +483,10 @@ function jsqueue_main() {
                             newqueue.fail_chain = self.queue[i].fail_chain;
                         }
                         self.queue[i].state = 'finished';
+                        if(self.debug)
+                            console.log(self.queue[i].data.PID+' triggered process with logic true reports finished');
                         self.add(newqueue);
+
                         return;
                     } else {
                         if (self.queue[i].fail_chain) {
@@ -489,10 +496,13 @@ function jsqueue_main() {
                             if (self.queue[i].fail_chain.length > 0) {
                                 newqueue.chain = self.queue[i].fail_chain;
                             }
+                            if(self.debug)
+                                console.log(self.queue[i].data.PID+' triggered process with logic false reports finished');
                             self.add(newqueue);
 
                         }
                         self.queue[i].state = 'finished';
+
                         return;
                     }
                 }
