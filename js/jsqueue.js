@@ -280,7 +280,7 @@ function jsqueue_main() {
                             break;
                     }
                     self.launch_queue_item(myqueue.component, myqueue.command, myqueue.data, timeout);
-                    if (myqueue.hasOwnProperty('chain')) {
+                    if (myqueue.hasOwnProperty('chain')||myqueue.hasOwnProperty('fail_chain')) {
                         myqueue.state = 'triggered';
                         if (self.debug)
                             console.info('PID(' + myqueue.data.PID + ') Ran chain ' + myqueue.command + ':' + timeout);
