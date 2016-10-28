@@ -37,9 +37,10 @@
              console.log(this);
              return;
              }*/
-
             self.ng_workflow_build(this);
             $(this).remove();
+            forceRedraw(this);
+
         };
 
         var wfl = document.registerElement('wf-load', {
@@ -210,9 +211,9 @@
                 $(data.target).append(core.data.htmlinject($(data.template).html()));
             else
                 $(this).append(core.data.htmlinject($(data.template).html()));
+            forceRedraw(this);
             $(this).contents().unwrap();
 
-            forceRedraw(this);
 
         };
 
@@ -291,16 +292,17 @@
             }
             if (evalResult) {
                 $(this).append(core.data.htmlinject($(data.template).html()));
+                forceRedraw(this);
                 $(this).contents().unwrap();
             } else {
                 if(data.elsetemplate) {
                     $(this).append(core.data.htmlinject($(data.elsetemplate).html()));
+                    forceRedraw(this);
                     $(this).contents().unwrap();
                 } else {
                     $(this).remove();
                 }
             }
-            forceRedraw(this);
 
 
            
@@ -343,9 +345,9 @@
                 $(switch_obj).html(core.data.htmlinject($(default_data.template).html()));
                 sdefault.remove();
             }
+            forceRedraw(this);
 
             $(switch_obj).contents().unwrap();
-            forceRedraw(this);
 
 
         };
