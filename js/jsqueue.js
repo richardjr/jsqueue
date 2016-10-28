@@ -489,6 +489,7 @@ function jsqueue_main() {
 
                         return;
                     } else {
+                        self.queue[i].state = 'finished';
                         if (self.queue[i].fail_chain) {
                             var newqueue = self.queue[i].fail_chain[0];
                             newqueue.stack = self.queue[i].stack;
@@ -501,8 +502,6 @@ function jsqueue_main() {
                             self.add(newqueue);
 
                         }
-                        self.queue[i].state = 'finished';
-
                         return;
                     }
                 }
