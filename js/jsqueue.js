@@ -473,21 +473,23 @@ function jsqueue_main() {
 
                     //console.log(self.queue[i]);
                     if (self.queue[i].logic) {
-                        var newqueue = self.queue[i].chain[0];
-                        newqueue.stack = self.queue[i].stack;
-                        self.queue[i].chain.splice(0, 1);
-                        if (self.queue[i].chain.length > 0) {
-                            newqueue.chain = self.queue[i].chain;
-                        }
-                        if (self.queue[i].fail_chain && self.queue[i].fail_chain.length > 0) {
-                            newqueue.fail_chain = self.queue[i].fail_chain;
-                        }
                         self.queue[i].state = 'finished';
-                        if(self.debug)
-                            console.log(self.queue[i].data.PID+' triggered process with logic true reports finished');
-                        self.add(newqueue);
-
+                        if(self.queue[i].chain) {
+                            var newqueue = self.queue[i].chain[0];
+                            newqueue.stack = self.queue[i].stack;
+                            self.queue[i].chain.splice(0, 1);
+                            if (self.queue[i].chain.length > 0) {
+                                newqueue.chain = self.queue[i].chain;
+                            }
+                            if (self.queue[i].fail_chain && self.queue[i].fail_chain.length > 0) {
+                                newqueue.fail_chain = self.queue[i].fail_chain;
+                            }
+                            if (self.debug)
+                                console.log(self.queue[i].data.PID + ' triggered process with logic true reports finished');
+                            self.add(newqueue);
+                        }
                         return;
+
                     } else {
                         self.queue[i].state = 'finished';
                         if (self.queue[i].fail_chain) {
