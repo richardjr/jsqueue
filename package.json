@@ -23,7 +23,8 @@
     "bootstrap":"*",
     "d3":"*",
     "d3-axis":"*",
-    "jquery-ui-dist":"*"
+    "jquery-ui-dist":"*",
+    "cesium":"*"
   },
   "repository": {
     "type": "git",

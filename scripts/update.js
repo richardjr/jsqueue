@@ -126,3 +126,10 @@ exec('/bin/cp node_modules/d3-axis/build/d3-axis.min.js js/libs/d3', function(er
     }
 });
 
+exec('/bin/cp node_modules/cesium/Source/Cesium.js js/libs/cesium', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
+
