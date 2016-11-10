@@ -9,6 +9,11 @@
     function jsTools(element, options) {
         var self = this;
         self.options = options;
+
+        if (self.options.uri) {
+            self.options.uri = core.data.htmlinject(self.options.uri);
+        }
+
         self.$element = $(element);
 
         // Commands
