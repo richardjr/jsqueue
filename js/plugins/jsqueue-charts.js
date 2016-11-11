@@ -85,8 +85,8 @@ function jsqueue_charts() {
         var self=this;
 
         data.chart.options=$.extend(data.chart.options||{},{
-           "xTitle":"X Scale",
-            "yTitle":"Y Scale",
+           "xTitle":"",
+            "yTitle":"",
             "margin":{"top":100,"bottom":120,"left":80,"right":40},
             "rgb1":"90,167,216",
             "rgb2":"82,181,140",
@@ -279,8 +279,8 @@ function jsqueue_charts() {
     this.render_groupbar = function(data) {
         var self=this;
         data.chart.options=$.extend(data.chart.options||{},{
-            "xTitle":"X Scale",
-            "yTitle":"Y Scale",
+            "xTitle":"",
+            "yTitle":"",
             "margin":{"top":100,"bottom":100,"left":80,"right":40},
             "rgb1":"90,167,216",
             "rgb2":"82,181,140",
