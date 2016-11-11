@@ -20,10 +20,12 @@
     "three": "*",
     "openlayers": "*",
     "ckeditor": "*",
-    "bootstrap":"*",
-    "d3":"*",
-    "d3-axis":"*",
-    "jquery-ui-dist":"*"
+    "bootstrap": "*",
+    "d3": "*",
+    "d3-axis": "*",
+    "jquery-ui-dist": "*",
+    "toastr": "*",
+    "lodash": "*"
   },
   "repository": {
     "type": "git",
