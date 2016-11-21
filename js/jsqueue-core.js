@@ -16,8 +16,10 @@ core.data = {
         }
         return ret_str;
     },
-    htmlinject: function (html) {
+    htmlinject: function (html,safe) {
         var match, ret_str = html;
+        if(safe===undefined)
+            safe=true;
 
         /**
          * Match in indexs
@@ -55,7 +57,14 @@ core.data = {
             var eval_res=eval(match[1]);
             ret_str = ret_str.replace("@" + js_match, eval_res);
         }
-
+        if(safe) {
+            ret_str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
         return ret_str;
     },
     uritodata: function (uri,concat) {
@@ -138,7 +147,7 @@ core.data = {
     check_params: function (format, data) {
         var result = true;
         for (var i in format) {
-            if (!data[i]) {
+            if (data[i]===undefined) {
                 console.error(format[i].message);
                 result = false;
             }
