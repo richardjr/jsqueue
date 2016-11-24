@@ -25,7 +25,8 @@
     "d3-axis": "*",
     "jquery-ui-dist": "*",
     "toastr": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "cesium":"*"
   },
   "repository": {
     "type": "git",

@@ -135,3 +135,11 @@ exec('/bin/cp node_modules/lodash/lodash.min.js js/libs/lodash', function(error,
         console.error(error);
     }
 });
+
+exec('/bin/cp node_modules/cesium/Source/Cesium.js js/libs/cesium', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
+
