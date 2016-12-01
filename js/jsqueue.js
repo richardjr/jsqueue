@@ -528,6 +528,8 @@ function jsqueue_main() {
         if (self.debug)
             console.warn('Component ' + component + ' Reports Active');
 
+        self.process();
+
     };
 
     this.construct();
