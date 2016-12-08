@@ -41,6 +41,8 @@
                         right: 'month'
                     }
                 });
+                if(data.show_date)
+                    $(data.element).fullCalendar('gotoDate',data.show_date);
             } else {
                 $(data.element).fullCalendar({
                     header: {
