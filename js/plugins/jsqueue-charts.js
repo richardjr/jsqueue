@@ -60,7 +60,7 @@ function jsqueue_charts() {
                 line.push(word);
 
                 tspan.text(line.join(" "));
-                
+
                 if (tspan.node().getComputedTextLength() > width) {
                     line.pop();
                     tspan.text(line.join(" "));
@@ -220,7 +220,7 @@ function jsqueue_charts() {
             d3.select(this).append("text")
                 .attr("class","tt ttt2")
 
-                .text( d.col+"/"+max)
+                .text(d.col + (data.chart.options.displayMax ? "/" + max : ""))
                 .style("text-anchor", "end")
                 .attr("y", 50-(data.chart.options.margin.top))
                 .attr("x", w);
@@ -429,7 +429,7 @@ function jsqueue_charts() {
                 d3.select(this).attr("fill", "rgba("+data.chart.options.rgbaHover+")");
                 svg.append("text")
                     .attr("class","tt ttt2")
-                    .text( d+"/"+max)
+                    .text(d + (data.chart.options.displayMax ? "/" + max : ""))
                     .style("text-anchor", "end")
                     .attr("y", 50-(data.chart.options.margin.top))
                     .attr("x", w);
