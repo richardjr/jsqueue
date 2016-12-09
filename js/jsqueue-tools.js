@@ -881,12 +881,17 @@
 
                     },
                     error: function (rdata) {
+                        if (rdata['readyState'] == 0) {
+                            jsqueue.namedToQueue('WF_NET_ERROR');
+                            return;
+                        }
+
                         jsqueue.namedToQueue('WF_API_ERROR');
+
                         if (self.debug) {
                             console.warn('jsTools->call_api');
                             console.warn(rdata);
                         }
-
                     }
                 });
             }
