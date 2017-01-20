@@ -192,7 +192,7 @@
                     $(this).text('');
             }
 
-            if (data.format.match(/TXT_ONLY/g))
+            //if (data.format.match(/TXT_ONLY/g))
                 $(this).contents().unwrap();
 
         };
