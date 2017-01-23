@@ -407,9 +407,15 @@
          *
          * @param {Object[]} data - The data that you want to send.
          * @param {string} data[].afunction - The function that you want to run.
+         * @param {Object} data[].parameters - Optional parameters for the function.
+         * @param {boolean} data[].debug - Log out data for debugging.
          * @constructor
          */
         TOOLS_RUN_FUNCTION: function(data) {
+            if (data.debug) {
+                console.log(data);
+            }
+
             if (data.parameters) {
                 window[data.afunction](data.parameters);
             }

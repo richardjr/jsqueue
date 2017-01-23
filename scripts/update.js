@@ -142,4 +142,8 @@ exec('/bin/cp node_modules/cesium/Source/Cesium.js js/libs/cesium', function(err
     }
 });
 
-
+exec('/bin/cp node_modules/xbbcode-parser/{xbbcode.js,xbbcode.css} js/libs/xbbcode-parser', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});

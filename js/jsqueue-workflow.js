@@ -173,11 +173,20 @@
                 if (typeof value === 'object')
                     value = JSON.stringify(value);
                 //value=JSON.stringify(value, core.data.serializer);
-                if (value!==undefined) {
-                    if (data.format.match(/HTML/g))
+                if (value !== undefined) {
+                    if (data.format.match(/HTML/g)) {
                         $(this).html(value);
-                    else
+                    }
+                    else if (data.format.match(/BBCode/g)) {
+                        $(this).html(XBBCODE.process({
+                            text: value,
+                            removeMisalignedTags: false,
+                            addInLineBreaks: false
+                        })['html']);
+                    }
+                    else {
                         $(this).text(value);
+                    }
                 }
                 else
                     $(this).text('');
@@ -305,7 +314,7 @@
             }
 
 
-           
+
 
         };
 
