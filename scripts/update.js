@@ -136,6 +136,19 @@ exec('/bin/cp node_modules/d3-axis/build/d3-axis.min.js js/libs/d3', function(er
     }
 });
 
+exec('/bin/cp node_modules/d3-shape/build/d3-shape.js js/libs/d3', function(error, stdout, stderr) {
+    if (error) {
+        console.error(error);
+    }
+});
+
+exec('/bin/cp node_modules/d3-shape/build/d3-shape.min.js js/libs/d3', function(error, stdout, stderr) {
+    if (error) {
+        console.error(error);
+    }
+});
+
+exec('/bin/cp node_modules/toastr/build/{toastr.min.js,toastr.min.css} js/libs/toastr', function(error, stdout, stderr) {
 exec('/bin/cp node_modules/toastr/build/toastr.min.js js/libs/toastr', function(error, stdout, stderr) {
     if (error) {
         console.error(error);
