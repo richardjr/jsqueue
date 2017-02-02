@@ -35,6 +35,11 @@ function jsqueue_charts() {
                     break;
                 }
 
+                case 'line': {
+                    this.render_line(data);
+                    break;
+                }
+
                 case 'table': {
                     this.render_table(data);
                     break;
@@ -738,6 +743,116 @@ function jsqueue_charts() {
                 return h - y(d);
             })
     };
+
+    /**
+     * Make a D3 groupbar chart
+     * @param chart
+     */
+    this.render_line = function(data) {
+        var self=this;
+        data.chart.options=$.extend({
+            "xTitle":"",
+            "yTitle":"",
+            "margin":{"top":100,"bottom":100,"left":80,"right":40},
+            "rgbaHover":"204,204,204,0.1",
+            "substr":30
+
+        },data.chart.options||{});
+        var dataset=[];
+        var max=0;
+        var imax=0;
+        var customColors=data.chart.color||{};
+        var parseTime = d3.timeParse("%d-%b-%y");
+
+        for(var i=0;i<data.chart.data.length;i++) {
+            dataset.push({"col":data.chart.data[i].rows,"label": data.chart.data[i].title,"rgb": data.chart.data[i].rgb});
+            if(d3.max(data.chart.data[i].rows)>max)
+                max=d3.max(data.chart.data[i].rows);
+            if(data.chart.data[i].rows.length>imax) {
+                imax = data.chart.data[i].rows.length;
+            }
+
+        }
+        var w = (data.width||$(data.target).width())-(data.chart.options.margin.right+data.chart.options.margin.left);
+        var h = (data.height||$(data.target).height())-(data.chart.options.margin.bottom+data.chart.options.margin.top);
+
+
+// set the ranges
+        var x = d3.scaleLinear().range([0, w]);
+        var y = d3.scaleLinear().range([h,0]);
+
+
+        x.domain([0,imax-1]);
+        y.domain([0,max]);
+        //x.domain(data.chart.xLegend.map(function(d,i) { return String(d); }));
+
+
+        var colw=w/dataset.length;
+        var icolw=colw/imax;
+// define the line
+
+        var lineGen = d3.line()
+            .curve(d3.curveBasis)
+            .x(function(d,i) {
+                return x(i);
+            })
+            .y(function(d,i) {
+                return y(d);
+            });
+
+        var lineGenA = d3.line()
+            .curve(d3.curveStepAfter)
+            .x(function(d,i) {
+                return x(i);
+            })
+            .y(function(d,i) {
+                return y(d);
+            });
+
+        var svg = d3.select(data.target)
+            .append("svg")
+            .attr("width", w+(data.chart.options.margin.right+data.chart.options.margin.left))
+            .attr("height", h+(data.chart.options.margin.bottom+data.chart.options.margin.top))
+            .append("g")
+            .attr("transform", "translate(" + data.chart.options.margin.left + "," + data.chart.options.margin.top + ")");
+
+        var lines=svg.selectAll(".g")
+            .data(dataset)
+            .enter()
+            .append("g")
+            .attr("class", "line");
+
+        lines.append("path")
+            .attr("d", function(d) {return lineGen(d.col)})
+            .attr('stroke', function(d) {return "rgba("+d.rgb+",1)"})
+            .attr('stroke-width', 4)
+            .attr('fill', 'none');
+
+        lines.append("path")
+            .attr("d", function(d) {return lineGenA(d.col)})
+            .attr('stroke', function(d) {return "rgba("+d.rgb+",0.1)"})
+            .attr('stroke-width', 2)
+            .attr('fill', 'none');
+
+        lines.append('text')
+            .attr("class","text")
+            .text(function(d) {return String(d.label);})
+            .style("text-anchor", "end")
+            .attr('stroke', function(d) {return "rgba("+d.rgb+",1)"})
+            .attr("x", w-(data.chart.options.margin.right))
+            .attr("y", function(d,i) {return (i*20)});
+
+
+        svg.append("g")
+            .attr("transform", "translate(0," + h + ")")
+            .call(d3.axisBottom(x));
+
+        // Add the Y Axis
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+    };
+
 
     this.construct();
 }
