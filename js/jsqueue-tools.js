@@ -913,6 +913,9 @@
                             jsqueue.push_name('API_ERROR_RECV_DATA',rdata);
                             jsqueue.push_name('API_ERROR_SEND_DATA',ldata);
                             jsqueue.namedToQueue('WF_API_ERROR');
+                        } else {
+                            jsqueue.namedToQueue('WF_API_OK');
+                            jsqueue.namedToQueue('WF_NET_OK');
                         }
                         jsqueue.finished(ldata.PID);
 
