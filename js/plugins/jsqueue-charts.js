@@ -778,13 +778,18 @@ function jsqueue_charts() {
 
 
 // set the ranges
+        var xd = d3.scaleBand().range([0, w]);
         var x = d3.scaleLinear().range([0, w]);
         var y = d3.scaleLinear().range([h,0]);
 
 
         x.domain([0,imax-1]);
         y.domain([0,max]);
-        //x.domain(data.chart.xLegend.map(function(d,i) { return String(d); }));
+        xd.domain(data.chart.xLegend.map(function(d,i) { return String(d); }));
+
+        console.log(x.domain());
+        //debugger;
+        console.log(x(1));
 
 
         var colw=w/dataset.length;
@@ -840,12 +845,12 @@ function jsqueue_charts() {
             .style("text-anchor", "end")
             .attr('stroke', function(d) {return "rgba("+d.rgb+",1)"})
             .attr("x", w-(data.chart.options.margin.right))
-            .attr("y", function(d,i) {return (i*20)});
+            .attr("y", function(d,i) {return ((i+1)*20)-data.chart.options.margin.top});
 
 
         svg.append("g")
             .attr("transform", "translate(0," + h + ")")
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(xd));
 
         // Add the Y Axis
         svg.append("g")
