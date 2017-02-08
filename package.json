@@ -23,6 +23,7 @@
     "bootstrap": "*",
     "d3": "*",
     "d3-axis": "*",
+    "d3-shape": "*",
     "jquery-ui-dist": "*",
     "toastr": "*",
     "lodash": "*",
