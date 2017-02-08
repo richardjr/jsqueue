@@ -793,7 +793,3 @@ var XBBCODE = (function() {
     return me;
 })();
 
-// for node
-if (module) {
-    module.exports = XBBCODE;
-}
