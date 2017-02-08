@@ -14,7 +14,7 @@ exec('/bin/cp node_modules/jquery/dist/jquery.min.js js/libs/jquery', function(e
     }
 });
 
-exec('/bin/cp node_modules/jquery-ui-dist/{jquery-ui.js, jquery-ui.css} js/libs/jquery-ui/', function(error, stdout, stderr) {
+exec('/bin/cp node_modules/jquery-ui-dist/{jquery-ui.js, jquery-ui.css, images} -R js/libs/jquery-ui/', function(error, stdout, stderr) {
     if (error) {
         console.error(error);
     }

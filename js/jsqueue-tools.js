@@ -705,14 +705,45 @@
         },
 
         TOOLS_ANIMSCROLL: function(data) {
-            $(data.element).animate({
-                scrollLeft: data.offset
-            },data.duration||400);
+            switch (data.direction) {
+                default:
+                case "left": {
+                    $(data.element).animate({
+                        scrollLeft: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+
+                case "right": {
+                    $(data.element).animate({
+                        scrollRight: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+
+                case "top": {
+                    $(data.element).animate({
+                        scrollTop: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+
+                case "bottom": {
+                    $(data.element).animate({
+                        scrollRight: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+            }
+
             jsqueue.finished(data.PID);
         },
 
         TOOLS_JS_SCROLL: function(data) {
-            var self=this;
             $(data.element).each(function(){
                 $(this).height($(window).height());
             });
