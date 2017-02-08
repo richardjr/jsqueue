@@ -148,7 +148,6 @@ exec('/bin/cp node_modules/d3-shape/build/d3-shape.min.js js/libs/d3', function(
     }
 });
 
-exec('/bin/cp node_modules/toastr/build/{toastr.min.js,toastr.min.css} js/libs/toastr', function(error, stdout, stderr) {
 exec('/bin/cp node_modules/toastr/build/toastr.min.js js/libs/toastr', function(error, stdout, stderr) {
     if (error) {
         console.error(error);
