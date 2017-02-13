@@ -27,7 +27,7 @@
     "jquery-ui-dist": "*",
     "toastr": "*",
     "lodash": "*",
-    "cesium":"*",
+    "ol3-cesium":"*",
     "xbbcode-parser": "*"
   },
   "repository": {

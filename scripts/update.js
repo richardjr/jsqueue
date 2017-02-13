@@ -166,7 +166,13 @@ exec('/bin/cp node_modules/lodash/lodash.min.js js/libs/lodash', function(error,
     }
 });
 
-exec('/bin/cp node_modules/cesium/Source/Cesium.js js/libs/cesium', function(error, stdout, stderr) {
+exec('/bin/cp -r node_modules/ol3-cesium/dist/Cesium/* js/libs/cesium', function(error, stdout, stderr) {
+    if(error) {
+        console.error(error);
+    }
+});
+
+exec('/bin/cp node_modules/ol3-cesium/dist/ol3cesium.js js/libs/cesium', function(error, stdout, stderr) {
     if(error) {
         console.error(error);
     }
