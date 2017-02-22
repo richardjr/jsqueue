@@ -23,7 +23,10 @@ function jsqueue_templates() {
         if ($(data.template).length > 0) {
             if(data.target==='self')
                 return core.data.htmlinject($(data.template).html());
-            $(data.target).html(core.data.htmlinject($(data.template).html()));
+            if(data.mode=='append')
+                $(data.target).append(core.data.htmlinject($(data.template).html()));
+            else
+                $(data.target).html(core.data.htmlinject($(data.template).html()));
             if(data['class']) {
                 $(data.target).addClass(data['class'])
             }

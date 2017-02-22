@@ -23,10 +23,12 @@
     "bootstrap": "*",
     "d3": "*",
     "d3-axis": "*",
+    "d3-shape": "*",
     "jquery-ui-dist": "*",
     "toastr": "*",
     "lodash": "*",
-    "cesium":"*"
+    "ol3-cesium":"*",
+    "xbbcode-parser": "*"
   },
   "repository": {
     "type": "git",

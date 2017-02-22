@@ -407,9 +407,15 @@
          *
          * @param {Object[]} data - The data that you want to send.
          * @param {string} data[].afunction - The function that you want to run.
+         * @param {Object} data[].parameters - Optional parameters for the function.
+         * @param {boolean} data[].debug - Log out data for debugging.
          * @constructor
          */
         TOOLS_RUN_FUNCTION: function(data) {
+            if (data.debug) {
+                console.log(data);
+            }
+
             if (data.parameters) {
                 window[data.afunction](data.parameters);
             }
@@ -699,14 +705,45 @@
         },
 
         TOOLS_ANIMSCROLL: function(data) {
-            $(data.element).animate({
-                scrollLeft: data.offset
-            },data.duration||400);
+            switch (data.direction) {
+                default:
+                case "left": {
+                    $(data.element).animate({
+                        scrollLeft: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+
+                case "right": {
+                    $(data.element).animate({
+                        scrollRight: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+
+                case "top": {
+                    $(data.element).animate({
+                        scrollTop: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+
+                case "bottom": {
+                    $(data.element).animate({
+                        scrollRight: data.offset
+                    }, data.duration || 400);
+
+                    break;
+                }
+            }
+
             jsqueue.finished(data.PID);
         },
 
         TOOLS_JS_SCROLL: function(data) {
-            var self=this;
             $(data.element).each(function(){
                 $(this).height($(window).height());
             });
@@ -881,17 +918,25 @@
                             jsqueue.push_name('API_ERROR_RECV_DATA',rdata);
                             jsqueue.push_name('API_ERROR_SEND_DATA',ldata);
                             jsqueue.namedToQueue('WF_API_ERROR');
+                        } else {
+                            jsqueue.namedToQueue('WF_API_OK');
+                            jsqueue.namedToQueue('WF_NET_OK');
                         }
                         jsqueue.finished(ldata.PID);
 
                     },
                     error: function (rdata) {
+                        if (rdata['readyState'] == 0) {
+                            jsqueue.namedToQueue('WF_NET_ERROR');
+                            return;
+                        }
+
                         jsqueue.namedToQueue('WF_API_ERROR');
+
                         if (self.debug) {
                             console.warn('jsTools->call_api');
                             console.warn(rdata);
                         }
-
                     }
                 });
             }

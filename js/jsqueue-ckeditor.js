@@ -17,9 +17,9 @@
                 self[cmd](data);
             }
         });
+
         jsqueue.activate('CKEDITOR');
     }
-
 
     jsCKeditor.prototype = {
         constructor: jsCKeditor,
@@ -30,21 +30,27 @@
          * @constructor
          */
         INIT_EDITOR: function(data) {
-            var self=this;
             CKEDITOR.disableAutoInline = true;
-            CKEDITOR.inline(data.target,data.config||{});
+
+            if (data.replace) {
+                CKEDITOR.replace(data.target, data.config || {});
+            }
+            else {
+                CKEDITOR.inline(data.target, data.config || {});
+            }
+
             jsqueue.finished(data.PID);
         },
-        
+
         CLEANUP_EDITOR: function(data) {
-            var self=this;
-            for(name in CKEDITOR.instances) {
-                CKEDITOR.instances[name].destroy(true);
+            for (name in CKEDITOR.instances) {
+                if (CKEDITOR.instances.hasOwnProperty(name)) {
+                    CKEDITOR.instances[name].destroy(true);
+                }
             }
+
             jsqueue.finished(data.PID);
-
         }
-
     };
 
 
@@ -52,18 +58,20 @@
      * =========================== */
     $.fn.jsCKeditor = function (option) {
         return this.each(function () {
-            var $this = $(this), data = $this.data('jsQueueDebug'), options = typeof option == 'object' && option;
+            var $this = $(this),
+                data = $this.data('jsQueueDebug'),
+                options = typeof option == 'object' && option;
 
-            if (!data)
+            if (!data) {
                 $this.data('jsCKeditor', (data = new jsCKeditor(this, options)));
+            }
 
-            if (typeof option == 'string')
+            if (typeof option == 'string') {
                 data[option]();
+            }
         })
-    }
+    };
 
     $.fn.jsCKeditor.Constructor = jsCKeditor;
-
-
 }(window.jQuery));
 
