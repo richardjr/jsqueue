@@ -779,6 +779,11 @@
 
         },
 
+        TOOLS_CALL_GA: function(data) {
+            ga(data.action,data.name);
+            jsqueue.finished(data.PID);
+
+        },
 
         TOOLS_REST_API: function (data) {
             var self = this;
