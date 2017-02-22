@@ -817,7 +817,8 @@
         },
 
         TOOLS_CALL_GA: function(data) {
-            ga(data.action,data.name);
+            ga(data.action,data.name,data.url);
+            ga('send','pageview');
             jsqueue.finished(data.PID);
 
         },
