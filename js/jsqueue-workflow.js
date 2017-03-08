@@ -193,6 +193,9 @@
             }
 
             //if (data.format.match(/TXT_ONLY/g))
+            if(value.length==0)
+                $(this).remove();
+            else
                 $(this).contents().unwrap();
 
         };
