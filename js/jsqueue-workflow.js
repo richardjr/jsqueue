@@ -224,7 +224,8 @@
             else
                 $(this).append(core.data.htmlinject($(data.template).html()));
             forceRedraw(this);
-            $(this).contents().unwrap();
+            //$(this).contents().unwrap();
+            $(this).remove();
 
 
         };
